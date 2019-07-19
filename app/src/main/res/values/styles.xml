@@ -17,6 +17,27 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Profile_TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp </item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">5dp    </item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="Profile_Contact_Buttons">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp </item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_weight">1</item>
+
+
+
+    </style>
+
     <style name="Login_Fragment_Textview">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
