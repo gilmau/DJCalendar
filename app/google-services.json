@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "472013610495",
+    "firebase_url": "https://djcalendar-f6230.firebaseio.com",
+    "project_id": "djcalendar-f6230",
+    "storage_bucket": "djcalendar-f6230.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472013610495:android:635ddfbfe4aa8c8b",
+        "android_client_info": {
+          "package_name": "com.gilortal.djcalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472013610495-5sbi7boocja2h72btsn0eigb3fng10jq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gilortal.djcalendar",
+            "certificate_hash": "172fc25e820106713dfed30ed0b34128db458d31"
+          }
+        },
+        {
+          "client_id": "472013610495-0p75rg32pfjrh4gs8ljifjf5oc09q41c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMjJa22vJvyyBMFgi4hD9gHan6me7XMzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472013610495-0p75rg32pfjrh4gs8ljifjf5oc09q41c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
