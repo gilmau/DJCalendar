@@ -1,14 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.EventFragment">
+    tools:context=".Fragments.EventFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="160dp"
+android:src="@drawable/event_background_cover"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lines="3"
+            style="@style/Profile_TextView"
+            android:text="Event Name"
+            android:id="@+id/name_event_frag"
+            />
+        <TextView
+            android:id="@+id/date_event_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Jul\n24"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_weight="1"/>
 
-</FrameLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/location_lin_event_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/pin"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            />
+        <TextView
+            android:id="@+id/location_event_frag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
+            android:textSize="24sp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:text="Location of event"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Profile_TextView"
+            android:text="People attending : "/>
+        <TextView
+            android:id="@+id/num_attending_event_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Profile_TextView"
+            android:text="10097"
+            android:maxLength="5"/>
+
+        <ImageView
+            android:id="@+id/show_attenders_iv_btn_event_frag"
+            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/forward"
+            android:scaleType="fitCenter"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/about_tv_event_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="4"
+        style="@style/Profile_TextView"
+        android:hint="About the event\ndescribe the karahana
+\ntease the attenders\ntell'em how fun its gonna be!"
+        />
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:padding="5dp"
+        android:id="@+id/lineup_grid_view_event_frag"
+        android:numColumns="4"
+        android:columnWidth="20dp"
+        />
+
+    <Button
+        android:layout_margin="10dp"
+        android:id="@+id/song_request_btn_event_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="song Request"/>
+
+
+</LinearLayout>
