@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.R;
 
 /**
@@ -14,6 +16,8 @@ import com.gilortal.djcalendar.R;
  */
 public class EventFragment extends Fragment {
 
+    public MoveToFrag fragChanger;
+    public UpdateToServer dbUpdater;
 
     public EventFragment() {
         // Required empty public constructor

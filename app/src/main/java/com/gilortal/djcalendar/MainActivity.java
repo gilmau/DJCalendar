@@ -42,10 +42,16 @@ public class MainActivity extends AppCompatActivity
             ((DjProfileFragment)fragment).dbUpdater = this;
 
         }else if (fragment instanceof UserProfileFragment){
+            ((UserProfileFragment)fragment).fragChanger = this;
+            ((UserProfileFragment)fragment).dbUpdater = this;
 
         }else if (fragment instanceof EventFragment){
+            ((EventFragment)fragment).fragChanger = this;
+            ((EventFragment)fragment).dbUpdater = this;
 
         }else if (fragment instanceof LoginFragment){
+            ((LoginFragment)fragment).fragChanger = this;
+            ((LoginFragment)fragment).dbUpdater = this;
 
         }
 
