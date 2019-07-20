@@ -2,11 +2,8 @@ package com.gilortal.djcalendar;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag {
     FirebaseFirestore db ;
     public SendServerResponeToFrags serverToFragsListener;
-
+    Bundle savedInstanceState;
 
     @Override
     public void onAttachFragment (Fragment fragment) {
@@ -66,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
-
+        this.savedInstanceState = savedInstanceState;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,16 +74,29 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(findViewById(R.id.fragment_container) != null) {
+        changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
 
+    }
+
+    private void changeFragmentDisplay(int displayFragment) {
+        if(findViewById(R.id.fragment_container) != null) {
             if(savedInstanceState!=null) {
                 return;
             }
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            switch(displayFragment){
+                case Consts.DJ_PROFILE_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new DjProfileFragment(), null); break;
+                case Consts.EVENT_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new EventFragment(), null); break;
+                case Consts.SIGNUP_FORM_FRAG:
+//                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                case Consts.LOGIN_SCREEN_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                case Consts.USER_PROFILE_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new UserProfileFragment(), null); break;
 
-            LoginFragment loginFragment = new LoginFragment();
-
-
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, loginFragment, null);
+            }
             fragmentTransaction.commit();
         }
     }
@@ -162,6 +172,7 @@ public class MainActivity extends AppCompatActivity
             case Consts.DJ_PROFILE_FRAG:
                 getSnapshotFromServer(docId,collectionName);
 
+
         }
     }
 
@@ -170,9 +181,9 @@ public class MainActivity extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()&&task.getResult().exists()){
                             serverToFragsListener.BroadcastSnapShot(task.getResult());
-                            //TODO: here
+
                         }
                     }
                 });
