@@ -12,60 +12,111 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/lists_background">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/lists_background">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/email_layout"
+                android:id="@+id/name_sign_up_form_ID"
                 app:errorEnabled="true"
                 style="@style/Login_Dialog_TextLayout">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Email"
+                    android:hint="@string/Name"
                     android:inputType="textEmailAddress" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_sign_up_form_ID"
+            app:errorEnabled="true"
+            style="@style/Login_Dialog_TextLayout">
+
+            <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
-                app:errorEnabled="true"
-                android:id="@+id/password_layout"
-                style="@style/Login_Dialog_TextLayout">
+                android:hint="@string/Email"
+                android:inputType="textEmailAddress" />
 
-                <android.support.design.widget.TextInputEditText
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:errorEnabled="true"
+            android:id="@+id/password_sign_up_form_ID"
+            style="@style/Login_Dialog_TextLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_confirm_sign_up_form_ID"
+            app:errorEnabled="true"
+            style="@style/Login_Dialog_TextLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                >
+
+                <CheckBox
+                    android:id="@+id/dj_or_not_button_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="I'M A DJ" />
+
+                <EditText
+                    android:id="@+id/editText2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:inputType="textPassword" />
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:hint="About"
+                    android:inputType="textPersonName"
+                     />
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-        </LinearLayout>
-        <ImageButton
-            style="@style/Signin_Dialog_Buttons"
-            android:id="@+id/sign_in_btn_logdia"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_menu_send"
-            android:scaleType="fitCenter"
-            />
-        <ImageButton
-            style="@style/Signin_Dialog_Buttons"
-            android:id="@+id/sign_up_btn_logdia"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_menu_gallery"
-            android:scaleType="fitCenter"
-            />
+
+
+
+
+
+
+    </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
 
         }else if (fragment instanceof LoginFragment){
             ((LoginFragment)fragment).loginAuth = this;
-      //      ((LoginFragment)fragment).dbUpdater = this;
+       //     ((LoginFragment)fragment).loginAuth = this;
 
         }
 
@@ -271,6 +271,11 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+    @Override
+    public void signUpForm() {
+
     }
 }
 
