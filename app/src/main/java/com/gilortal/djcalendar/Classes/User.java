@@ -43,6 +43,7 @@ public class User {
     }
 
     public User(DocumentSnapshot user){
+
         //TODO: build constructor from snapshot
 
     }
