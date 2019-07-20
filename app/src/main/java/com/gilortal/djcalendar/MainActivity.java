@@ -2,11 +2,8 @@ package com.gilortal.djcalendar;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,26 +12,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
+import com.gilortal.djcalendar.Interfaces.LoginAuth;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.gilortal.djcalendar.Fragments.UserProfileFragment;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag {
+        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth {
     FirebaseFirestore db ;
     public SendServerResponeToFrags serverToFragsListener;
-
+    CustomSharePrefAdapter sharedPref;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseAuth.AuthStateListener authStateListener;
+    String email;
+    String password;
+    Bundle savedInstanceState;
 
     @Override
     public void onAttachFragment (Fragment fragment) {
@@ -52,12 +61,13 @@ public class MainActivity extends AppCompatActivity
             ((EventFragment)fragment).dbUpdater = this;
 
         }else if (fragment instanceof LoginFragment){
-            ((LoginFragment)fragment).fragChanger = this;
-            ((LoginFragment)fragment).dbUpdater = this;
+            ((LoginFragment)fragment).loginAuth = this;
+      //      ((LoginFragment)fragment).dbUpdater = this;
 
         }
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
-
+        this.savedInstanceState = savedInstanceState;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,19 +84,85 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(findViewById(R.id.fragment_container) != null) {
 
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                View headerView = navigationView.getHeaderView(0); //title of drawer
+//                TextView userNameDrawerTV = headerView.findViewById(R.id.);
+//                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
+                final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+                if (currentUser != null){ //user is logged in
+                    sharedPref.setSignedInStatus(true);
+               //     userNameDrawerTV.setText(currentUser.getDisplayName());
+                    sharedPref.setMyUserId(currentUser.getUid());
+//                    userTypeDrawerTV.setText("");
+                    db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().exists()) {
+                                    sharedPref.setIsDj(true);
+                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
+                                } else {
+                                    sharedPref.setIsDj(false);
+                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
+                                }
+                            }
+                        }
+                    });
+
+
+//                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(false);
+//                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(false);
+//                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(false);
+//                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(true);
+
+                }
+                else { //signed out
+                    sharedPref.setSignedInStatus(false);
+                    sharedPref.setMyUserId("");
+//                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
+//                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
+//                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(false);
+                }
+
+            }
+        };
+
+
+
+
+        changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
+
+    }
+
+    private void changeFragmentDisplay(int displayFragment) {
+        if(findViewById(R.id.fragment_container) != null) {
             if(savedInstanceState!=null) {
                 return;
             }
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            switch(displayFragment){
+                case Consts.DJ_PROFILE_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new DjProfileFragment(), null); break;
+                case Consts.EVENT_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new EventFragment(), null); break;
+                case Consts.SIGNUP_FORM_FRAG:
+//                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                case Consts.LOGIN_SCREEN_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                case Consts.USER_PROFILE_FRAG:
+                    fragmentTransaction.add(R.id.fragment_container, new UserProfileFragment(), null); break;
 
-            LoginFragment loginFragment = new LoginFragment();
-
-
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, loginFragment, null);
+            }
             fragmentTransaction.commit();
         }
     }
@@ -162,6 +238,7 @@ public class MainActivity extends AppCompatActivity
             case Consts.DJ_PROFILE_FRAG:
                 getSnapshotFromServer(docId,collectionName);
 
+
         }
     }
 
@@ -170,11 +247,29 @@ public class MainActivity extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()&&task.getResult().exists()){
                             serverToFragsListener.BroadcastSnapShot(task.getResult());
-                            //TODO: here
+
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void singInUser(String email, String password) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+
+                        }
+                        else {
+
                         }
                     }
                 });
     }
 }
+
+//    }
