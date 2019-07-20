@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.gilortal.djcalendar.R;
 
@@ -14,7 +16,8 @@ import com.gilortal.djcalendar.R;
  */
 public class EventFragment extends Fragment {
 
-
+    TextView nameEvent,dateEvent,locationEvent,attendingNumEvent,aboutEvent;
+    Button songRequestBtn;
     public EventFragment() {
         // Required empty public constructor
     }
@@ -24,9 +27,13 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_event, container, false);
+        View v =  inflater.inflate(R.layout.fragment_dj_profile, container, false);
+        nameEvent = v.findViewById(R.id.name_tv_dj_frag);
+        dateEvent = v.findViewById(R.id.date_next_event_tv_dj_frag);
+        locationEvent = v.findViewById( R.id.location_next_event_tv_dj_frag);
+//        attendingNumEvent;
 
-        return view;
+        return v;
     }
 
 }

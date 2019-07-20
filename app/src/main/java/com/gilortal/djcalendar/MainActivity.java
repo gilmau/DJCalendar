@@ -33,7 +33,9 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag {
     FirebaseFirestore db ;
-    SendServerResponeToFrags sendToFrag;
+    public SendServerResponeToFrags serverToFragsListener;
+
+
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -59,14 +61,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -171,7 +165,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()){
-                            sendToFrag.BroadcastSnapShot(task.getResult());
+                            serverToFragsListener.BroadcastSnapShot(task.getResult());
+                            //TODO: here
                         }
                     }
                 });
