@@ -90,10 +90,6 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
 
 
-    @Override
-    public void broadcastSnapShot(DocumentSnapshot document) {
-
-    }
 
 
 
@@ -108,7 +104,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         //create event display method from server
         nameUserProf_TV.setText(userProf.getName());
         followNumUserProf_TV.setText(userProf.getFollowing().size());
-        for (String genre:userProf.getGenres()) {
+        for (String genre : userProf.getGenres()) {
             TextView genreTV = new TextView(getContext());
             genreTV.setText(genre);
             genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -116,10 +112,11 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
             genreTV.setGravity(Gravity.CENTER);
             genresUserProf_GV.addView(genreTV);
         }
-        facebookContactUser_Btn.setTag(0,userProf.getFacebook());
-        instagramContactUser_btn.setTag(0,userProf.getInstagram());
-        twitterContactUser_btn.setTag(0,userProf.getTwitter());
-        spotifyContactUser_btn.setTag(0,userProf.getSpotify());
+        facebookContactUser_Btn.setTag(0, userProf.getFacebook());
+        instagramContactUser_btn.setTag(0, userProf.getInstagram());
+        twitterContactUser_btn.setTag(0, userProf.getTwitter());
+        spotifyContactUser_btn.setTag(0, userProf.getSpotify());
+    }
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
 
 

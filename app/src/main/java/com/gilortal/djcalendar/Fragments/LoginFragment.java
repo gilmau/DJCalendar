@@ -76,20 +76,6 @@ public class LoginFragment extends Fragment  {
         return view;
     }
 
-    @Override
-    public void broadcastSnapShot(DocumentSnapshot document) {
-        LoginFragment login = new LoginFragment();
-        displayLoginProf(login);
-    }
-
-    @Override
-    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
-
-    }
-
-    private void displayLoginProf(LoginFragment login) {
-
-    }
 }
 
 
