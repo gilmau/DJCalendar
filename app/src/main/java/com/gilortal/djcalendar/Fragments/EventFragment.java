@@ -36,8 +36,9 @@ public class EventFragment extends Fragment {
         nameEvent = v.findViewById(R.id.name_tv_dj_frag);
         dateEvent = v.findViewById(R.id.date_next_event_tv_dj_frag);
         locationEvent = v.findViewById( R.id.location_next_event_tv_dj_frag);
-//        attendingNumEvent;
-
+        attendingNumEvent = v.findViewById(R.id.num_attending_event_frag);
+        aboutEvent = v.findViewById(R.id.about_tv_event_frag);
+        songRequestBtn = v.findViewById(R.id.song_request_btn_event_frag);
         return v;
     }
 
