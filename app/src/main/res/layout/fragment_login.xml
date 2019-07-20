@@ -21,7 +21,6 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/email_layout"
             app:errorEnabled="true"
             style="@style/Login_Dialog_TextLayout">
 
@@ -29,7 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/Email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:id="@+id/email_layout"
+                />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -38,14 +39,15 @@
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true"
-            android:id="@+id/password_layout"
             style="@style/Login_Dialog_TextLayout">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:id="@+id/password_layout"
+                />
 
         </android.support.design.widget.TextInputLayout>
 

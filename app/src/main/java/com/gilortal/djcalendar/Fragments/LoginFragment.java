@@ -52,9 +52,9 @@ public class LoginFragment extends Fragment  {
 
 
         emailText = view.findViewById(R.id.email_layout);
-        email = emailText.getText().toString();
+
         passwordText = view.findViewById(R.id.password_layout);
-        password = passwordText.getText().toString();
+
 
         signInButton = view.findViewById(R.id.sign_in_btn);
         signUpButton = view.findViewById(R.id.sign_up_btn);
@@ -62,6 +62,8 @@ public class LoginFragment extends Fragment  {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                email = emailText.getText().toString();
+                password = passwordText.getText().toString();
                 loginAuth.signInUser(email, password);
             }
         });
