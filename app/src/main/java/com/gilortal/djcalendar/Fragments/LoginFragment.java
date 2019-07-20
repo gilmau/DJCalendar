@@ -1,6 +1,7 @@
 package com.gilortal.djcalendar.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
@@ -26,6 +28,8 @@ public class LoginFragment extends Fragment {
     String password = null;
     TextInputEditText emailText;
     TextInputEditText passwordText;
+    ImageButton signInButton;
+    ImageButton signupButton;
     public LoginAuth loginAuth;
 
  //   private OnFragmentInteractionListener mListener;
@@ -54,7 +58,24 @@ public class LoginFragment extends Fragment {
         passwordText = view.findViewById(R.id.password_layout);
         password = passwordText.getText().toString();
 
-        loginAuth.singInUser(email, password);
+        signInButton = view.findViewById(R.id.sign_in_btn);
+        signupButton = view.findViewById(R.id.sign_up_btn);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginAuth.signInUser(email, password);
+            }
+        });
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
 
 
 

@@ -52,14 +52,14 @@
     </LinearLayout>
     <ImageButton
         style="@style/Signin_Dialog_Buttons"
-        android:id="@+id/sign_in_btn_logdia"
+        android:id="@+id/sign_in_btn"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_menu_send"
         android:scaleType="fitCenter"
         />
     <ImageButton
         style="@style/Signin_Dialog_Buttons"
-        android:id="@+id/sign_up_btn_logdia"
+        android:id="@+id/sign_up_btn"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_menu_gallery"
         android:scaleType="fitCenter"
