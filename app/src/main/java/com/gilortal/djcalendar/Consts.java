@@ -32,7 +32,9 @@ public class Consts {
     public static final String COLUMN_LINEUP_IDS = "DJ Lineup";
     public static final String COLUMN_EVENS_ID = "Events_id";
     public static final String COLUMN_FOLLOWING = "Following";
-    public public static final String COLUMN_EMAIL = "Email";
+    public static final String COLUMN_EMAIL = "Email";
+    public static final String COLUMN_PASSWORD = "Password";
+
 
 //    /********Tag integers**********/
 //    public static final int TAG_FACEBOOK = 0;
