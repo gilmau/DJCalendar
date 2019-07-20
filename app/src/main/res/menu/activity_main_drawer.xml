@@ -21,9 +21,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Next Event" />
         <item
-            android:id="@+id/nav_create_next_event"
+            android:id="@+id/nav_create_new_event"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Create Next Event " />
+            android:title="Create New Event " />
     </group>
 
     <item android:title="Communicate">
