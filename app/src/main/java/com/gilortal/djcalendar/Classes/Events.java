@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Events {
 
-    private String name,id,location,date,about,picture;
-    private ArrayList<String> attending_ids,lineup_ids;
+    private String name, id, location, date, about, picture;
+    private ArrayList<String> attending_ids, lineup_ids;
 
     //region functions
     //TODO: toHash
@@ -30,17 +30,57 @@ public class Events {
         this.lineup_ids = lineup_ids;
     }
 
-    public Events(DocumentSnapshot event){
+    public Events(DocumentSnapshot event) {
 //        name,id,location,date,about,picture; //strings
 //        attending_ids,lineup_ids; //array lists
-        try{id = event.getId();} catch (Exception e){e.printStackTrace();}
-        try{name = event.getString(Consts.COLUMN_NAME);} catch (Exception e){ e. printStackTrace();name="No Name";}
-        try{location = event.getString(Consts.COLUMN_LOCATION);}catch (Exception e){ e. printStackTrace();}
-        try{date = event.getString(Consts.COLUMN_DATE);}catch (Exception e){ e. printStackTrace();}
-        try{about = event.getString(Consts.COLUMN_ABOUT);}catch (Exception e){ e. printStackTrace();}
-        try{picture = event.getString(Consts.COLUMN_PIC_URL);}catch (Exception e){ e. printStackTrace();}
-        try{attending_ids =(ArrayList<String>) event.get(Consts.COLUMN_ATTENDING_IDS);}catch (Exception e){ e. printStackTrace();}
-        try{lineup_ids =(ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);}catch (Exception e){ e. printStackTrace();}
+        try {
+            id = event.getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            name = event.getString(Consts.COLUMN_NAME);
+        } catch (Exception e) {
+            e.printStackTrace();
+            name = "No Name";
+        }
+        try {
+            location = event.getString(Consts.COLUMN_LOCATION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            location = "No Location";
+        }
+        try {
+            date = event.getString(Consts.COLUMN_DATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            date = "No Date";
+        }
+        try {
+            about = event.getString(Consts.COLUMN_ABOUT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            about = "No About";
+        }
+        try {
+            picture = event.getString(Consts.COLUMN_PIC_URL);
+        } catch (Exception e) {
+            e.printStackTrace();
+            picture = "No Picture";
+        }
+        try {
+            attending_ids = (ArrayList<String>) event.get(Consts.COLUMN_ATTENDING_IDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            attending_ids = new ArrayList<>();
+
+        }
+        try {
+            lineup_ids = (ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            lineup_ids = new ArrayList<>();
+        }
 
 
 //        TODO: construct from snapshot
@@ -112,6 +152,7 @@ public class Events {
     public void setLineup_ids(ArrayList<String> lineup_ids) {
         this.lineup_ids = lineup_ids;
     }
-    //endregion
+
+        //endregion
 
 }
