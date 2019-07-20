@@ -20,7 +20,6 @@ import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
 import com.gilortal.djcalendar.Fragments.UserProfileFragment;
-import com.gilortal.djcalendar.Interfaces.AccessDjDB;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
@@ -158,8 +157,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void showFrag(int fragment, String docId, String collectionName) {
-        switch (fragment){
+    public void gotToFrag(int moveToFragment, String docId, String collectionName) {
+        switch (moveToFragment){
+            case Consts.DJ_PROFILE_FRAG:
+                getSnapshotFromServer(docId,collectionName);
 
         }
     }

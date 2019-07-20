@@ -17,8 +17,8 @@ public class Consts {
 
     /*****COLUMNS NAMES****/
     public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_FOLLOWERS = "Followers";
-    public static final String COLUMN_FOLLOWING = "Following";
+    public static final String COLUMN_FOLLOWERS_IDS = "Followers";
+    public static final String COLUMN_FOLLOWING_IDS = "Following";
     public static final String COLUMN_ABOUT = "About";
     public static final String COLUMN_PIC_URL = "Picture Url";
     public static final String COLUMN_FACEBOOK = "Facebook";
@@ -26,6 +26,12 @@ public class Consts {
     public static final String COLUMN_INSTAGRAM = "Instagram";
     public static final String COLUMN_TWITTER = "Twitter";
     public static final String COLUMN_GENRES = "Genres";
+    public static final String COLUMN_LOCATION = "Location";
+    public static final String COLUMN_DATE = "Date";
+    public static final String COLUMN_ATTENDING_IDS = "Attending";
+    public static final String COLUMN_LINEUP_IDS = "Attending";
+
+
 
 
     /********GENRES**********/

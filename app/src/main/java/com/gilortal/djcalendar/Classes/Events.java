@@ -2,6 +2,7 @@ package com.gilortal.djcalendar.Classes;
 
 import android.util.EventLog;
 
+import com.gilortal.djcalendar.Consts;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -30,6 +31,17 @@ public class Events {
     }
 
     public Events(DocumentSnapshot event){
+//        name,id,location,date,about,picture; //strings
+//        attending_ids,lineup_ids; //array lists
+        try{id = event.getId();} catch (Exception e){e.printStackTrace();}
+        try{name = event.getString(Consts.COLUMN_NAME);} catch (Exception e){ e. printStackTrace();name="No Name";}
+        try{location = event.getString(Consts.COLUMN_LOCATION);}catch (Exception e){ e. printStackTrace();}
+        try{date = event.getString(Consts.COLUMN_DATE);}catch (Exception e){ e. printStackTrace();}
+        try{about = event.getString(Consts.COLUMN_ABOUT);}catch (Exception e){ e. printStackTrace();}
+        try{picture = event.getString(Consts.COLUMN_PIC_URL);}catch (Exception e){ e. printStackTrace();}
+        try{attending_ids =(ArrayList<String>) event.get(Consts.COLUMN_ATTENDING_IDS);}catch (Exception e){ e. printStackTrace();}
+        try{lineup_ids =(ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);}catch (Exception e){ e. printStackTrace();}
+
 
 //        TODO: construct from snapshot
     }
