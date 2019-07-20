@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class EventFragment extends Fragment {
+
+    public MoveToFrag fragChanger;
+    public UpdateToServer dbUpdater;
 
     TextView nameEvent,dateEvent,locationEvent,attendingNumEvent,aboutEvent;
     Button songRequestBtn;

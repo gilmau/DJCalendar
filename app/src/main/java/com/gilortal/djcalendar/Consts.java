@@ -30,6 +30,10 @@ public class Consts {
     public static final String COLUMN_DATE = "Date";
     public static final String COLUMN_ATTENDING_IDS = "Attending";
     public static final String COLUMN_LINEUP_IDS = "Attending";
+    public static final String COLUMN_EVENS_ID = "events_id";
+    public static final String COLUMN_FOLLOWING = "following";
+
+
 
 
 

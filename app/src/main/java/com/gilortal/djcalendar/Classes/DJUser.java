@@ -1,5 +1,6 @@
 package com.gilortal.djcalendar.Classes;
 
+import com.gilortal.djcalendar.Consts;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -30,7 +31,11 @@ public class DJUser extends User {
 
     public DJUser(DocumentSnapshot user) {
         super(user);
+        try {
+            about = user.getString(Consts.COLUMN_ABOUT); }
+         catch (Exception e) { e.printStackTrace();about = "No About"; }
     }
+
 //endregion
 
     //region getters and setters

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.R;
 
 import org.w3c.dom.Text;
@@ -25,6 +27,8 @@ import org.w3c.dom.Text;
 public class LoginFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public MoveToFrag fragChanger;
+    public UpdateToServer dbUpdater;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
