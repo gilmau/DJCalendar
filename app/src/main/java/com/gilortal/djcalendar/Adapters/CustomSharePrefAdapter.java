@@ -3,6 +3,8 @@ package com.gilortal.djcalendar.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class CustomSharePrefAdapter {
 
     private SharedPreferences sharedPref;
@@ -67,6 +69,12 @@ public class CustomSharePrefAdapter {
 
     public  void setFirstInitialize(boolean firstInitialize) {
         sharedPref.edit().putBoolean( FIRST_INITIALIZE , firstInitialize).apply();
+    }
+    public void clearDisplayProfile(){
+        sharedPref.edit()
+                .remove(DISPLAY_USER_ID).remove(PREFS_NAME).remove(NEXT_EVENT_ID)
+                .remove(MY_USER_ID).putBoolean(IS_SIGNED_IN,false)
+                .apply();
     }
 
     //endregion

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,8 +151,21 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
     }
     private void displayUserProf(User userProf) {
+        //create event display method from server
         nameUserProf_TV.setText(userProf.getName());
-        followNumUserProf_TV.setText( userProf.getFollowing().size());
+        followNumUserProf_TV.setText(userProf.getFollowing().size());
+        for (String genre:userProf.getGenres()) {
+            TextView genreTV = new TextView(getContext());
+            genreTV.setText(genre);
+            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setGravity(Gravity.CENTER);
+            genresUserProf_GV.addView(genreTV);
+        }
+        facebookContactUser_Btn.setTag(0,userProf.getFacebook());
+        instagramContactUser_btn.setTag(0,userProf.getInstagram());
+        twitterContactUser_btn.setTag(0,userProf.getTwitter());
+        spotifyContactUser_btn.setTag(0,userProf.getSpotify());
 
 
         //lineup_Event TODO: Grid view lineup_Event
@@ -160,6 +174,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
      //       nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     //ListView suggestedEventListViewUserProf_LV;
    // GridView genresUserProf_GV;
+    //Button facebookContactUser_Btn,instagramContactUser_btn,twitterContactUser_btn,spotifyContactUser_btn;
 
 
     /**

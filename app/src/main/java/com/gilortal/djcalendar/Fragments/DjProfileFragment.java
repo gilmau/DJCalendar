@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
@@ -28,6 +29,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
     private CustomSharePrefAdapter sharedPref;
+    ImageView imageDjProf;
     TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV, dateNextEventDjProf_TV, locationNextEventDjProf_TV, followerNumDjProf_TV, aboutDjProf_TV;
     GridView genresDjProf_GV;
     Button facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
@@ -67,6 +69,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
         spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
+        imageDjProf = v.findViewById(R.id.thumbnail_iv_dj_frag);
         return v;
     }
 
