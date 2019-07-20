@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void queryFromServer(int requestCode, int fromFragment, HashMap args) {
+    public void queryFromServer(final int requestCode, int fromFragment, HashMap args) {
         switch(requestCode){
             case Consts.REQ_FOLLOWERS_INFO:
                 //get name, id, picture  | args : followers []
@@ -344,10 +344,19 @@ public class MainActivity extends AppCompatActivity
                 break;
             case Consts.REQ_EVENTS_LIST_QUERY:
                 //get Events[] | args :  events id
+                final ArrayList<Events> eventsList = new ArrayList<>();
+                String fromColumn = "";
+                String fromHash= "";
                 if (fromFragment == Consts.DJ_PROFILE_FRAG) { //requsting events that dj is in their lineup:
-                    final ArrayList<Events> eventsList = new ArrayList<>();
+                    fromHash = Consts.ARG_DJ_ID;
+                    fromColumn = Consts.COLUMN_LINEUP_IDS;
+                }else if (fromFragment == Consts.USER_PROFILE_FRAG){ //find events userId is in attending column
+                    fromHash = Consts.ARG_USER_ID;
+                    fromColumn = Consts.COLUMN_ATTENDING_IDS;
+                }
+                if (!(fromColumn.isEmpty() || fromHash.isEmpty()))
                     db.collection(Consts.DB_EVENTS)
-                            .whereEqualTo(Consts.COLUMN_EVENTS_ID, args.get(Consts.ARG_DJ_ID))//all events where dj id in lineupIDs
+                            .whereArrayContains(fromColumn, args.get(fromHash))
                             .orderBy(Consts.COLUMN_DATE) //order by date milliseconds
                             .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -357,12 +366,10 @@ public class MainActivity extends AppCompatActivity
                                     Log.d("EVENT QUERY", doc.getId() + " == >" + doc.getData());
                                     eventsList.add(new Events(doc));
                                 }
-                                serverToFragsListener.broadcastQueryResult(eventsList, Consts.REQ_EVENTS_LIST_QUERY);
-
+                                serverToFragsListener.broadcastQueryResult(eventsList, requestCode);
                             }
                         }
                     });
-                }
 
 
 

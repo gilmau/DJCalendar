@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.gilortal.djcalendar.Classes.Events;
 import com.gilortal.djcalendar.Classes.User;
+import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -25,6 +26,7 @@ import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserProfileFragment extends Fragment implements SendServerResponeToFrags {
     // TODO: Rename parameter arguments, choose names that match
@@ -101,7 +103,11 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
     }
     private void displayUserProf(User userProf) {
-        //create event display method from server
+        //region fetch next events from DB and display first one
+        HashMap args = new HashMap();
+        args.put(Consts.ARG_USER_ID,userProf.getId());
+        requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.USER_PROFILE_FRAG,args);
+        //endregion
         nameUserProf_TV.setText(userProf.getName());
         followNumUserProf_TV.setText(userProf.getFollowing().size());
         for (String genre : userProf.getGenres()) {
@@ -119,14 +125,6 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     }
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
 
-
-        //lineup_Event TODO: Grid view lineup_Event
     }
-    //TextView nameUserProf_TV,followNumUserProf_TV,
-     //       nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
-    //ListView suggestedEventListViewUserProf_LV;
-   // GridView genresUserProf_GV;
-    //Button facebookContactUser_Btn,instagramContactUser_btn,twitterContactUser_btn,spotifyContactUser_btn;
-
 
 }
