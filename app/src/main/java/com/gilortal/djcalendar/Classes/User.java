@@ -52,21 +52,29 @@ public class User {
         try {
             name = user.getString(Consts.COLUMN_NAME); } catch (Exception e) { e.printStackTrace();name = "No Name"; }
         try {
-            picture_url = user.getString(Consts.COLUMN_PIC_URL); } catch (Exception e) { e.printStackTrace();name = "No Url"; }
+            picture_url = user.getString(Consts.COLUMN_PIC_URL); }
+            catch (Exception e) { e.printStackTrace();name = "No Url"; }
         try {
-            facebook = user.getString(Consts.COLUMN_FACEBOOK); } catch (Exception e) { e.printStackTrace();name = "No Facebook"; }
+            facebook = user.getString(Consts.COLUMN_FACEBOOK); }
+            catch (Exception e) { e.printStackTrace();name = "No Facebook"; }
         try {
-            spotify = user.getString(Consts.COLUMN_SPOTIFY); } catch (Exception e) { e.printStackTrace();name = "No Spotify"; }
+            spotify = user.getString(Consts.COLUMN_SPOTIFY); }
+            catch (Exception e) { e.printStackTrace();name = "No Spotify"; }
         try {
-            instagram = user.getString(Consts.COLUMN_INSTAGRAM); } catch (Exception e) { e.printStackTrace();name = "No Instagram"; }
+            instagram = user.getString(Consts.COLUMN_INSTAGRAM); }
+            catch (Exception e) { e.printStackTrace();name = "No Instagram"; }
         try {
-            twitter = user.getString(Consts.COLUMN_TWITTER); } catch (Exception e) { e.printStackTrace();name = "No Twitter"; }
+            twitter = user.getString(Consts.COLUMN_TWITTER); }
+            catch (Exception e) { e.printStackTrace();name = "No Twitter"; }
         try {
-            events_id = (ArrayList<String>) user.get(Consts.COLUMN_EVENS_ID); }catch (Exception e) { e.printStackTrace();events_id = new ArrayList<>(); }
+            events_id = (ArrayList<String>) user.get(Consts.COLUMN_EVENS_ID); }
+            catch (Exception e) { e.printStackTrace();events_id = new ArrayList<>(); }
         try {
-            genres = (ArrayList<String>) user.get(Consts.COLUMN_GENRES); }catch (Exception e) { e.printStackTrace();genres = new ArrayList<>(); }
+            genres = (ArrayList<String>) user.get(Consts.COLUMN_GENRES);
+        }catch (Exception e) { e.printStackTrace();genres = new ArrayList<>(); }
         try {
-            following = (ArrayList<String>) user.get(Consts.COLUMN_FOLLOWING); }catch (Exception e) { e.printStackTrace();following = new ArrayList<>(); }
+            following = (ArrayList<String>) user.get(Consts.COLUMN_FOLLOWING); }
+            catch (Exception e) { e.printStackTrace();following = new ArrayList<>(); }
     }
  //endregion
 
