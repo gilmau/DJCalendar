@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Classes.User;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -29,7 +32,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
 
-    TextView nameUserProf_TV,followNumUserProf_TV,genres_UserProf_TV,
+    TextView nameUserProf_TV,followNumUserProf_TV,
             nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     ListView suggestedEventListViewUserProf_LV;
     GridView genresUserProf_GV;
@@ -92,9 +95,41 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
     }
 
+
+
     @Override
-    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+    public void broadcastSnapShot(DocumentSnapshot document) {
+        User userProf = new User(document);
+        displayUserProf(userProf);
+
 
     }
+    private void displayUserProf(User userProf) {
+        //create event display method from server
+        nameUserProf_TV.setText(userProf.getName());
+        followNumUserProf_TV.setText(userProf.getFollowing().size());
+        for (String genre:userProf.getGenres()) {
+            TextView genreTV = new TextView(getContext());
+            genreTV.setText(genre);
+            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setGravity(Gravity.CENTER);
+            genresUserProf_GV.addView(genreTV);
+        }
+        facebookContactUser_Btn.setTag(0,userProf.getFacebook());
+        instagramContactUser_btn.setTag(0,userProf.getInstagram());
+        twitterContactUser_btn.setTag(0,userProf.getTwitter());
+        spotifyContactUser_btn.setTag(0,userProf.getSpotify());
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+
+
+        //lineup_Event TODO: Grid view lineup_Event
+    }
+    //TextView nameUserProf_TV,followNumUserProf_TV,
+     //       nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
+    //ListView suggestedEventListViewUserProf_LV;
+   // GridView genresUserProf_GV;
+    //Button facebookContactUser_Btn,instagramContactUser_btn,twitterContactUser_btn,spotifyContactUser_btn;
+
 
 }

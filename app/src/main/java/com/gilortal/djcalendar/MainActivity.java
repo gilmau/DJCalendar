@@ -3,6 +3,8 @@ package com.gilortal.djcalendar;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity
     String email;
     String password;
     Bundle savedInstanceState;
+    public static CoordinatorLayout coordinatorLayout;
+
+
 
     @Override
     public void onAttachFragment (Fragment fragment) {
@@ -120,7 +125,7 @@ public class MainActivity extends AppCompatActivity
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
                                 } else {
                                     sharedPref.setIsDj(false);
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
+                                    gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
                             }
                         }
@@ -218,23 +223,60 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_statistic) {
+            statistic();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_profile) {
+            show_Profile();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_edit_profile) {
+            edit_Profile();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_next_event) {
+            show_next_event();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_create_next_event) {
+            create_next_event();
 
+        } else if (id == R.id.nav_about) {
+
+
+        } else if (id == R.id.nav_logout) {
+            signOutUser();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void statistic() {
+    }
+    private void show_Profile() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(sharedPref.getIsDj()){
+            gotToFrag(Consts.DJ_PROFILE_FRAG,currentUser.getUid(),Consts.DB_DJS);
+
+        }else{
+            gotToFrag(Consts.USER_PROFILE_FRAG,currentUser.getUid(),Consts.DB_USERS);
+        }
+    }
+    private void edit_Profile() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        //gotToFrag(Consts.SIGNUP_FORM_FRAG,currentUser.getUid(),);
+        //SignUpFromFra
+    }
+    private void show_next_event() {
+    }
+    private void create_next_event() {
+    }
+    private void signOutUser() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        Snackbar.make(coordinatorLayout, "Bye bye " + currentUser.getDisplayName(), Snackbar.LENGTH_SHORT).show();
+        currentUser = null;
+        firebaseAuth.signOut();
+        sharedPref.clearDisplayProfile();
+        moveToFrag(Consts.LOGIN_SCREEN_FRAG);
     }
 
     @Override
@@ -247,8 +289,12 @@ public class MainActivity extends AppCompatActivity
         switch (moveToFragment){
             case Consts.DJ_PROFILE_FRAG:
                 getSnapshotFromServer(docId,collectionName);
+        }
+    }
 
-
+    public void moveToFrag(int moveToFragment) {
+        switch (moveToFragment){
+            case Consts.LOGIN_SCREEN_FRAG:
         }
     }
 
@@ -332,6 +378,8 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
+
 }
 
 
