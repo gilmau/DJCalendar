@@ -2,6 +2,7 @@ package com.gilortal.djcalendar;
 
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,16 +14,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
+import com.gilortal.djcalendar.Classes.Events;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
+import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.gilortal.djcalendar.Fragments.UserProfileFragment;
@@ -34,11 +38,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth {
+        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
     FirebaseFirestore db ;
     public SendServerResponeToFrags serverToFragsListener;
     CustomSharePrefAdapter sharedPref;
@@ -57,18 +64,21 @@ public class MainActivity extends AppCompatActivity
         if (fragment instanceof DjProfileFragment) {
             ((DjProfileFragment)fragment).fragChanger = this;
             ((DjProfileFragment)fragment).dbUpdater = this;
+            ((DjProfileFragment)fragment).requestServer = this;
 
         }else if (fragment instanceof UserProfileFragment){
             ((UserProfileFragment)fragment).fragChanger = this;
             ((UserProfileFragment)fragment).dbUpdater = this;
+            ((UserProfileFragment)fragment).requestServer = this;
 
         }else if (fragment instanceof EventFragment){
             ((EventFragment)fragment).fragChanger = this;
             ((EventFragment)fragment).dbUpdater = this;
+            ((EventFragment)fragment).requestServer = this;
 
         }else if (fragment instanceof LoginFragment){
             ((LoginFragment)fragment).loginAuth = this;
-       //     ((LoginFragment)fragment).loginAuth = this;
+            //     ((LoginFragment)fragment).loginAuth = this;
 
         }
 
@@ -104,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
                 if (currentUser != null){ //user is logged in
                     sharedPref.setSignedInStatus(true);
-               //     userNameDrawerTV.setText(currentUser.getDisplayName());
+                    //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
 //                    userTypeDrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -299,7 +309,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onComplete(Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()&&task.getResult().exists()){
-                            serverToFragsListener.BroadcastSnapShot(task.getResult());
+                            serverToFragsListener.broadcastSnapShot(task.getResult());
 
                         }
                     }
@@ -328,7 +338,60 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void queryFromServer(final int requestCode, int fromFragment, HashMap args) {
+        switch(requestCode){
+            case Consts.REQ_FOLLOWERS_INFO:
+                //get name, id, picture  | args : followers []
+                break;
+            case Consts.REQ_LINEUP_DJ_INFO:
+                //get name , id , picture | args : lineup ids []
+                break;
+            case Consts.REQ_EVENTS_LIST_QUERY:
+                //get Events[] | args :  events id
+                final ArrayList<Events> eventsList = new ArrayList<>();
+                String fromColumn = "";
+                String fromHash= "";
+                if (fromFragment == Consts.DJ_PROFILE_FRAG) { //requsting events that dj is in their lineup:
+                    fromHash = Consts.ARG_DJ_ID;
+                    fromColumn = Consts.COLUMN_LINEUP_IDS;
+                }else if (fromFragment == Consts.USER_PROFILE_FRAG){ //find events userId is in attending column
+                    fromHash = Consts.ARG_USER_ID;
+                    fromColumn = Consts.COLUMN_ATTENDING_IDS;
+                }
+                if (!(fromColumn.isEmpty() || fromHash.isEmpty()))
+                    db.collection(Consts.DB_EVENTS)
+                            .whereArrayContains(fromColumn, args.get(fromHash))
+                            .orderBy(Consts.COLUMN_DATE) //order by date milliseconds
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot doc : task.getResult()) {
+                                    Log.d("EVENT QUERY", doc.getId() + " == >" + doc.getData());
+                                    eventsList.add(new Events(doc));
+                                }
+                                serverToFragsListener.broadcastQueryResult(eventsList, requestCode);
+                            }
+                        }
+                    });
+
+
+
+                break;
+            case Consts.REQ_ATTENDERS_INFO:
+                //get name, id, picture | attenders []
+                break;
+            case Consts.REQ_SUGGESTED_EVENTS:
+                //get Events[] | args : genres[]
+                break;
+            case Consts.REQ_NEXT_EVENT:
+                //get next event's --> name,id,location,date,genres[] |args : user \ dj id
+                break;
+        }
+    }
+
 
 }
 
-//    }
+
