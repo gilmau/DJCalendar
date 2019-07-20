@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogNew_event_from_View = getLayoutInflater().inflate(R.layout.new_event_form,null);
-
+//TODO: create new event from view
     }
     private void signOutUser() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();

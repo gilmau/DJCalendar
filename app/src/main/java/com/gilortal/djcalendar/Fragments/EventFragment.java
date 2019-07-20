@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.gilortal.djcalendar.Classes.DJUser;
 import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -21,6 +22,7 @@ import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,6 +79,12 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
     }
 
     private void displayEventProf(Events event) {
+        //region fetch event's lineup from DB and display in gridview
+        HashMap args = new HashMap();
+        args.put(Consts.ARG_EVENT_ID,event.getId());
+        args.put(Consts.COLUMN_LINEUP_IDS,event.getLineup_ids());
+        requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.USER_PROFILE_FRAG,args);
+        //endregion
         nameEvent.setText(event.getName());
         dateEvent.setText(event.getDate());
         locationEvent.setText(event.getLocation());

@@ -101,6 +101,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
 
     }
+
     private void displayUserProf(User userProf) {
         //region fetch next events from DB and display first one
         HashMap args = new HashMap();
@@ -122,6 +123,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         twitterContactUser_btn.setTag(0, userProf.getTwitter());
         spotifyContactUser_btn.setTag(0, userProf.getSpotify());
     }
+
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
         switch (requestCode){
             case Consts.REQ_EVENTS_LIST_QUERY: //display next event

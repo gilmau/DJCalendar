@@ -11,7 +11,8 @@ public class Consts {
 
     /*****ARGS FOR HASH******/
     public static final String ARG_DJ_ID = "ARG_DJ_ID";
-    public static final String ARG_USER_ID = "ARG_DJ_ID";
+    public static final String ARG_USER_ID = "ARG_USER_ID";
+    public static final String ARG_EVENT_ID = "ARG_EVENT_ID";
 
 
     /*****TABLES_NAME******/
