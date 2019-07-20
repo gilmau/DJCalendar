@@ -34,9 +34,12 @@ public class Consts {
     public static final String COLUMN_LOCATION = "Location";
     public static final String COLUMN_DATE = "Date";
     public static final String COLUMN_ATTENDING_IDS = "Attending";
-    public static final String COLUMN_LINEUP_IDS = "Attending";
-    public static final String COLUMN_EVENTS_ID = "events_id";
-    public static final String COLUMN_FOLLOWING = "following";
+    public static final String COLUMN_LINEUP_IDS = "DJ Lineup";
+    public static final String COLUMN_EVENS_ID = "Events_id";
+    public static final String COLUMN_FOLLOWING = "Following";
+    public static final String COLUMN_EMAIL = "Email";
+    public static final String COLUMN_PASSWORD = "Password";
+
 
     /********Requset from server codes**********/
     public static final int REQ_EVENTS_LIST_QUERY = 0;

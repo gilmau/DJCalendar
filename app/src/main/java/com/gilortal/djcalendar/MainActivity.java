@@ -3,6 +3,8 @@ package com.gilortal.djcalendar;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -41,6 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -334,7 +337,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void signUpForm() {
+    public void signUpForm(final HashMap userData, final String collection) {
+        email = userData.get(Consts.COLUMN_EMAIL).toString();
+        password = userData.get(Consts.COLUMN_PASSWORD).toString();
+        userData.remove(Consts.COLUMN_EMAIL);
+        userData.remove(Consts.COLUMN_PASSWORD);
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser curUser = firebaseAuth.getCurrentUser();
+                            db.collection(collection).document(curUser.getUid()).set(userData);
+                            Toast.makeText(MainActivity.this, "Signed in ", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Signed out ", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
 
     }
 

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -33,8 +34,8 @@ public class LoginFragment extends Fragment  {
     TextInputEditText emailText;
     TextInputEditText passwordText;
     ImageButton signInButton;
-    ImageButton signupButton;
-    public LoginAuth loginAuth;
+    ImageButton signUpButton;
+    public LoginAuth loginAuth;;
 
  //   private OnFragmentInteractionListener mListener;
 
@@ -56,7 +57,7 @@ public class LoginFragment extends Fragment  {
         password = passwordText.getText().toString();
 
         signInButton = view.findViewById(R.id.sign_in_btn);
-        signupButton = view.findViewById(R.id.sign_up_btn);
+        signUpButton = view.findViewById(R.id.sign_up_btn);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +66,11 @@ public class LoginFragment extends Fragment  {
             }
         });
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
             }
         });
