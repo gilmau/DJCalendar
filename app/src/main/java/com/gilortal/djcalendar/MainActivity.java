@@ -1,6 +1,7 @@
 package com.gilortal.djcalendar;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,11 @@ import com.gilortal.djcalendar.Fragments.LoginFragment;
 import com.gilortal.djcalendar.Fragments.UserProfileFragment;
 import com.gilortal.djcalendar.Interfaces.AccessDjDB;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -29,6 +34,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag {
     FirebaseFirestore db ;
+    SendServerResponeToFrags sendToFrag;
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -153,6 +159,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showFrag(int fragment, String docId, String collectionName) {
+        switch (fragment){
 
+        }
+    }
+
+    private void getSnapshotFromServer(String docId, String collectionName){
+        db.collection(collectionName).document(docId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            sendToFrag.BroadcastSnapShot(task.getResult());
+                        }
+                    }
+                });
     }
 }
