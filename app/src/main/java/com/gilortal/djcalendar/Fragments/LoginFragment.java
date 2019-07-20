@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
@@ -31,6 +32,9 @@ public class LoginFragment extends Fragment {
     public UpdateToServer dbUpdater;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    TextView emailUser,passwordUser;
+    Button signInUser,signUpUser;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,9 +80,10 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
-
-
-
+        emailUser = view.findViewById(R.id.email_layout);
+        passwordUser = view.findViewById(R.id.password_layout);
+        signInUser = view.findViewById(R.id.sign_in_btn_logdia);
+        signUpUser = view.findViewById(R.id.sign_up_btn_logdia);
         return view;
     }
 
