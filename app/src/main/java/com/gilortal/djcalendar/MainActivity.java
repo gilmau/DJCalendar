@@ -274,6 +274,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void signUpForm(boolean fromsSignUp) {
+
+        if (fromsSignUp) {
+
+
+
+        }
+    }
+
+    @Override
     public void signUpForm() {
 
     }
