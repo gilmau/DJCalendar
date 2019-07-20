@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
                                 } else {
                                     sharedPref.setIsDj(false);
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
+                                    gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
                             }
                         }
@@ -244,8 +244,18 @@ public class MainActivity extends AppCompatActivity
     private void statistic() {
     }
     private void show_Profile() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(sharedPref.getIsDj()){
+            gotToFrag(Consts.DJ_PROFILE_FRAG,currentUser.getUid(),Consts.DB_DJS);
+
+        }else{
+            gotToFrag(Consts.USER_PROFILE_FRAG,currentUser.getUid(),Consts.DB_USERS);
+        }
     }
     private void edit_Profile() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        //gotToFrag(Consts.SIGNUP_FORM_FRAG,currentUser.getUid(),);
+        //SignUpFromFra
     }
     private void show_next_event() {
     }
@@ -257,8 +267,7 @@ public class MainActivity extends AppCompatActivity
         currentUser = null;
         firebaseAuth.signOut();
         sharedPref.clearDisplayProfile();
-        // goto LoginFragment
-
+        moveToFrag(Consts.LOGIN_SCREEN_FRAG);
     }
 
     @Override
@@ -271,8 +280,12 @@ public class MainActivity extends AppCompatActivity
         switch (moveToFragment){
             case Consts.DJ_PROFILE_FRAG:
                 getSnapshotFromServer(docId,collectionName);
+        }
+    }
 
-
+    public void moveToFrag(int moveToFragment) {
+        switch (moveToFragment){
+            case Consts.LOGIN_SCREEN_FRAG:
         }
     }
 
