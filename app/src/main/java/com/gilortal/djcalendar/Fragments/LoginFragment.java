@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -33,7 +34,7 @@ public class LoginFragment extends Fragment  {
     TextInputEditText passwordText;
     ImageButton signInButton;
     ImageButton signupButton;
-    public LoginAuth loginAuth;
+    public LoginAuth loginAuth;;
 
  //   private OnFragmentInteractionListener mListener;
 
