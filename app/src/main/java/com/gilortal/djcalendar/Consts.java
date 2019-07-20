@@ -9,6 +9,10 @@ public class Consts {
     public static final int USER_PROFILE_FRAG = 3;
     public static final int EVENT_FRAG = 4;
 
+    /*****ARGS FOR HASH******/
+    public static final String ARG_DJ_ID = "ARG_DJ_ID";
+    public static final String ARG_USER_ID = "ARG_DJ_ID";
+
 
     /*****TABLES_NAME******/
     public static final String DB_DJS = "DJ Profiles DB";
@@ -36,11 +40,13 @@ public class Consts {
     public static final String COLUMN_PASSWORD = "Password";
 
 
-//    /********Tag integers**********/
-//    public static final int TAG_FACEBOOK = 0;
-//    public static final int TAG_INSTAGRAM = 1;
-//    public static final int TAG_TWITTER = 2;
-//    public static final int TAG_SPOTIFY = 3;
+    /********Requset from server codes**********/
+    public static final int REQ_EVENTS_LIST_QUERY = 0;
+    public static final int REQ_SUGGESTED_EVENTS = 1;
+    public static final int REQ_LINEUP_DJ_INFO = 2;
+    public static final int REQ_FOLLOWERS_INFO = 3;
+    public static final int REQ_ATTENDERS_INFO = 4;
+    public static final int REQ_NEXT_EVENT = 5;
 
 
 
@@ -51,7 +57,8 @@ public class Consts {
     public static final String GENRES_ELECTRONIC = "Electronic";
     public static final String GENRES_RAGGAE = "Reggae";
     public static final String GENRES_ISRAELI = "Israeli Music";
-    public static final String GENRES_HOP_HOP = "Hip Hop";
+    public static final String GENRES_HIP_HOP = "Hip Hop";
+
 
 
 }
