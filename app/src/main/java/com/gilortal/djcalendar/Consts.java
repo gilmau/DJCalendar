@@ -30,10 +30,11 @@ public class Consts {
 
     /********GENRES**********/
     public static final String GENRES_ROCK = "Rock";
-    public static final String GENRES_ROCK = "Pop";
-    public static final String GENRES_ROCK = "Electronic";
-    public static final String GENRES_ROCK = "Reggae";
-    public static final String GENRES_ROCK = "ROCK";
+    public static final String GENRES_POP = "Pop";
+    public static final String GENRES_ELECTRONIC = "Electronic";
+    public static final String GENRES_RAGGAE = "Reggae";
+    public static final String GENRES_ISRAELI = "Israeli Music";
+    public static final String GENRES_HOP_HOP = "Hip Hop";
 
 
 }
