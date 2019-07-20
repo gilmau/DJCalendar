@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_margin="30dp"
+        android:paddingBottom="30dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/lists_background">
+
+            <LinearLayout
+                android:id="@+id/name_lin_event_frag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name_event_sign_up_form_ID"
+                    app:errorEnabled="true"
+                    style="@style/Login_Dialog_TextLayout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name Event"
+                        android:inputType="texNameEvent" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_lin_event_frag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/pin"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    />
+                <TextView
+                    android:id="@+id/location_event_frag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textSize="24sp"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:text="Location of event"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/date_lin_event_frag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/pin"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:id="@+id/date_event_frag"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Date"
+                android:textSize="30dp"
+                android:gravity="left"
+                android:layout_weight="1"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="About"
+                android:inputType="textPersonName"
+                android:maxLines="4"
+                android:textSize="24sp"/>
+
+            <TextView
+                android:id="@+id/picture_event_frag"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="add picture event"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="10dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/thumbnail_iv_dj_frag"
+                android:src="@drawable/event_background_cover"
+                android:tag="default"/>
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:padding="5dp"
+                android:id="@+id/lineup_list_view_event_frag"
+                android:numColumns="4"
+                android:columnWidth="20dp"
+                />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
