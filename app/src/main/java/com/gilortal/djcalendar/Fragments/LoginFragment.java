@@ -25,7 +25,7 @@ import org.w3c.dom.Text;
 
 
 
-public class LoginFragment extends Fragment implements SendServerResponeToFrags {
+public class LoginFragment extends Fragment  {
 
     String email = null;
     String password = null;
@@ -39,20 +39,6 @@ public class LoginFragment extends Fragment implements SendServerResponeToFrags 
 
     public LoginFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity)getActivity()).serverToFragsListener = this;
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        ((MainActivity)getActivity()).serverToFragsListener = null;
-
     }
 
 
@@ -86,21 +72,9 @@ public class LoginFragment extends Fragment implements SendServerResponeToFrags 
         });
 
 
-
-
-
-
         return view;
     }
 
-    @Override
-    public void BroadcastSnapShot(DocumentSnapshot document) {
-        LoginFragment login = new LoginFragment();
-        displayLoginProf(login);
-    }
-    private void displayLoginProf(LoginFragment login) {
-
-    }
 }
 
 

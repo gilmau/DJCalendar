@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Classes.User;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
@@ -37,7 +39,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView nameUserProf_TV,followNumUserProf_TV,genres_UserProf_TV,
+    TextView nameUserProf_TV,followNumUserProf_TV,
             nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     ListView suggestedEventListViewUserProf_LV;
     GridView genresUserProf_GV;
@@ -142,8 +144,23 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
     @Override
     public void BroadcastSnapShot(DocumentSnapshot document) {
+        User userProf = new User(document);
+        displayUserProf(userProf);
+
 
     }
+    private void displayUserProf(User userProf) {
+        nameUserProf_TV.setText(userProf.getName());
+        followNumUserProf_TV.setText( userProf.getFollowing().size());
+
+
+        //lineup_Event TODO: Grid view lineup_Event
+    }
+    //TextView nameUserProf_TV,followNumUserProf_TV,
+     //       nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
+    //ListView suggestedEventListViewUserProf_LV;
+   // GridView genresUserProf_GV;
+
 
     /**
      * This interface must be implemented by activities that contain this
