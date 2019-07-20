@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
+import com.gilortal.djcalendar.Classes.DJUser;
 import com.gilortal.djcalendar.Classes.DjProfs;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -72,12 +73,12 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 
     @Override
     public void BroadcastSnapShot(DocumentSnapshot document) {
-        DjProfs DjProf= new DjProfs(document);
-        displayDjProf(DjProf);
+        DJUser djUser= new DJUser(document);
+        displayDjProf(djUser);
 
     }
 
-    private void displayDjProf(DjProfs DjProf) {
+    private void displayDjProf(DJUser djUser) {
 
     }
 }
