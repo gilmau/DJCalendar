@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     FirebaseFirestore db ;
     SendServerResponeToFrags sendToFrag;
     @Override
-    public void onAttachFragment(Fragment fragment) {
+    public void  (Fragment fragment) {
         super.onAttachFragment(fragment);
         if (fragment instanceof DjProfileFragment) {
             ((DjProfileFragment)fragment).fragChanger = this;
