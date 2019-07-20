@@ -11,7 +11,29 @@ public class Consts {
 
 
     /*****TABLES_NAME******/
+    public static final String DB_DJS = "DJ Profiles DB";
+    public static final String DB_USERS = "Users Profiles DB";
+    public static final String DB_EVENTS = "Events Profile DB";
 
+    /*****COLUMNS NAMES****/
+    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_FOLLOWERS = "Followers";
+    public static final String COLUMN_FOLLOWING = "Following";
+    public static final String COLUMN_ABOUT = "About";
+    public static final String COLUMN_PIC_URL = "Picture Url";
+    public static final String COLUMN_FACEBOOK = "Facebook";
+    public static final String COLUMN_SPOTIFY = "Spotify";
+    public static final String COLUMN_INSTAGRAM = "Instagram";
+    public static final String COLUMN_TWITTER = "Twitter";
+    public static final String COLUMN_GENRES = "Genres";
+
+
+    /********GENRES**********/
+    public static final String GENRES_ROCK = "Rock";
+    public static final String GENRES_ROCK = "Pop";
+    public static final String GENRES_ROCK = "Electronic";
+    public static final String GENRES_ROCK = "Reggae";
+    public static final String GENRES_ROCK = "ROCK";
 
 
 }
