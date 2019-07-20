@@ -33,7 +33,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
-
+    ArrayList<Events> nextEvents,suggestedEvents;
     TextView nameUserProf_TV,followNumUserProf_TV,
             nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     ListView suggestedEventListViewUserProf_LV;
@@ -70,7 +70,6 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_user_profile, container, false);
         nameUserProf_TV = v.findViewById(R.id.name_tv_user_frag);
@@ -124,7 +123,22 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         spotifyContactUser_btn.setTag(0, userProf.getSpotify());
     }
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+        switch (requestCode){
+            case Consts.REQ_EVENTS_LIST_QUERY: //display next event
+                try{nextEvents =  queryResult;} catch (Exception e ){e.printStackTrace();}
+                if (nextEvents != null && nextEvents.size() > 0){
+                    //display 1st to next event
+                    //add rest of events to list of events
+                    nameNextEventUserProf_TV.setText(nextEvents.get(0).getName());
+                    locationNextEventUserProf_TV.setText(nextEvents.get(0).getLocation());
+                    genreNextEventUserProf_TV.setText(nextEvents.get(0).getGenres().toString());
+                    dateNextEventUserProf_TV.setText(nextEvents.get(0).getDate());
+                }
+                break;
+            case Consts.REQ_SUGGESTED_EVENTS: //display events list
+                try{suggestedEvents = queryResult;} catch (Exception e){e.printStackTrace();}
 
+        }
     }
 
 }
