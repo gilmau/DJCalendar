@@ -14,8 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
+import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 
 /**
@@ -26,7 +29,7 @@ import com.gilortal.djcalendar.R;
  * Use the {@link UserProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements SendServerResponeToFrags {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public MoveToFrag fragChanger;
@@ -49,6 +52,20 @@ public class UserProfileFragment extends Fragment {
 
     public UserProfileFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).serverToFragsListener = this;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).serverToFragsListener = null;
+
     }
 
     /**
@@ -121,6 +138,11 @@ public class UserProfileFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void BroadcastSnapShot(DocumentSnapshot document) {
+
     }
 
     /**

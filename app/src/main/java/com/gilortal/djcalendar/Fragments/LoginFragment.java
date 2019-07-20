@@ -13,14 +13,17 @@ import android.widget.TextView;
 
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
+import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.w3c.dom.Text;
 
 
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements SendServerResponeToFrags {
 
     String email = null;
     String password = null;
@@ -34,6 +37,19 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).serverToFragsListener = this;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).serverToFragsListener = null;
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +76,15 @@ public class LoginFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void BroadcastSnapShot(DocumentSnapshot document) {
+        LoginFragment login = new LoginFragment();
+        displayLoginProf(login);
+    }
+    private void displayLoginProf(LoginFragment login) {
+
     }
 }
 
