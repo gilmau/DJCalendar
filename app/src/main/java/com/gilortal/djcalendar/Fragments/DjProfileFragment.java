@@ -79,6 +79,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 
     private void displayDjProf(DJUser djUser) {
         //create event display method from server
+        nameNextEventDjProf_TV.setText(djUser.getName());
         followerNumDjProf_TV.setText(djUser.getFollowing().size());
         aboutDjProf_TV.setText(djUser.getAbout());
         for (String genre:djUser.getGenres()) {
@@ -87,14 +88,11 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
             genreTV.setGravity(Gravity.CENTER);
-
-
-            genresDjProf_GV.addView();
+            genresDjProf_GV.addView(genreTV);
         }
-        genresDjProf_GV.setText(djUser.getGenres()
-        facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
-        instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
-        twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
-        spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
+        facebookContactDj_btn.setTag(0,djUser.getFacebook());
+        instagramContactDj_btn.setTag(0,djUser.getInstagram());
+        twitterContactDj_btn.setTag(0,djUser.getTwitter());
+        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
     }
 }
