@@ -67,7 +67,7 @@ public class User {
             twitter = user.getString(Consts.COLUMN_TWITTER); }
             catch (Exception e) { e.printStackTrace();name = "No Twitter"; }
         try {
-            events_id = (ArrayList<String>) user.get(Consts.COLUMN_EVENS_ID); }
+            events_id = (ArrayList<String>) user.get(Consts.COLUMN_EVENTS_ID); }
             catch (Exception e) { e.printStackTrace();events_id = new ArrayList<>(); }
         try {
             genres = (ArrayList<String>) user.get(Consts.COLUMN_GENRES);

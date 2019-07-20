@@ -13,11 +13,14 @@ import android.widget.TextView;
 import com.gilortal.djcalendar.Classes.DJUser;
 import com.gilortal.djcalendar.Classes.Events;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +29,7 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
 
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
+    public RequestDataFromServer requestServer;
 
     TextView nameEvent,dateEvent,locationEvent,attendingNumEvent,aboutEvent;
     Button songRequestBtn;
@@ -62,10 +66,16 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
     }
 
     @Override
-    public void BroadcastSnapShot(DocumentSnapshot document) {
+    public void broadcastSnapShot(DocumentSnapshot document) {
         Events event = new Events(document);
         displayEventProf(event);
     }
+
+    @Override
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+
+    }
+
     private void displayEventProf(Events event) {
         nameEvent.setText(event.getName());
         dateEvent.setText(event.getDate());

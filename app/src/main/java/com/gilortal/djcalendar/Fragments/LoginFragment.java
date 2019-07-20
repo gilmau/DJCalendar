@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 
 
 public class LoginFragment extends Fragment implements SendServerResponeToFrags {
@@ -94,10 +95,16 @@ public class LoginFragment extends Fragment implements SendServerResponeToFrags 
     }
 
     @Override
-    public void BroadcastSnapShot(DocumentSnapshot document) {
+    public void broadcastSnapShot(DocumentSnapshot document) {
         LoginFragment login = new LoginFragment();
         displayLoginProf(login);
     }
+
+    @Override
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+
+    }
+
     private void displayLoginProf(LoginFragment login) {
 
     }

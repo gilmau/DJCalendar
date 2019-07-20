@@ -13,12 +13,19 @@ import android.widget.TextView;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Classes.DJUser;
+import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +38,8 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV, dateNextEventDjProf_TV, locationNextEventDjProf_TV, followerNumDjProf_TV, aboutDjProf_TV;
     GridView genresDjProf_GV;
     Button facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
-
-
+    ArrayList<Events> nextEvents;
+    public RequestDataFromServer requestServer;
 
 
     public DjProfileFragment() {
@@ -71,14 +78,35 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     }
 
     @Override
-    public void BroadcastSnapShot(DocumentSnapshot document) {
+    public void broadcastSnapShot(DocumentSnapshot document) {
         DJUser djUser= new DJUser(document);
         displayDjProf(djUser);
 
     }
 
+    @Override
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+        switch (requestCode){
+            case Consts.REQ_EVENTS_LIST_QUERY:
+                //result is arraylist of events
+                try{nextEvents =  queryResult;} catch (Exception e ){e.printStackTrace();}
+                if (nextEvents != null && nextEvents.size() > 0){
+                    //display 1st to next event
+                    //add rest of events to list of events
+                    nameNextEventDjProf_TV.setText(nextEvents.get(0).getName());
+                    locationNextEventDjProf_TV.setText(nextEvents.get(0).getLocation());
+
+                    dateNextEventDjProf_TV.setText(nextEvents.get(0).getDate());
+                }
+        }
+    }
+
     private void displayDjProf(DJUser djUser) {
-        //create event display method from server
+        //region fetch next events from DB and display first one
+        HashMap args = new HashMap();
+        args.put(Consts.ARG_DJ_ID,djUser.getId());
+        requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
+        //endregion
         nameNextEventDjProf_TV.setText(djUser.getName());
         followerNumDjProf_TV.setText(djUser.getFollowing().size());
         aboutDjProf_TV.setText(djUser.getAbout());
