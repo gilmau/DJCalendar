@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFormFragment extends Fragment {
+public class SignUpFormFragment extends Fragment implements View.OnClickListener {
 
     LoginAuth loginAuth;
     TextInputEditText nameText;
@@ -34,19 +34,13 @@ public class SignUpFormFragment extends Fragment {
     TextInputEditText passwordText;
     TextInputEditText confirmPasswordText;
     CheckBox isDJCheckBox;
-    CheckBox Rock;
     EditText aboutBox;
     Button confirmBox;
-    List<CheckBox> gennres = new ArrayList<>();
+    CheckBox electronicGenre, rockGenre, popGenre, reggaeGenre, hiphopGenre, israelGenre;
     List<String> checkedGenres = new ArrayList<>();
 
     String name = null, email = null, password = null, confirmPassword = null;
     boolean isDJ = false;
-
-
-
-
-
 
 
     public SignUpFormFragment() {
@@ -62,40 +56,49 @@ public class SignUpFormFragment extends Fragment {
 
 
 
-        Rock = v.findViewById(R.id.checkedbox_rock_id);
+
+
+
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
         passwordText = v.findViewById(R.id.password_sign_up_form_ID);
         confirmPasswordText = v.findViewById(R.id.password_confirm_sign_up_form_ID);
         isDJCheckBox = v.findViewById(R.id.dj_or_not_button_ID);
         aboutBox = v.findViewById(R.id.about_text_id);
-        confirmBox = v.findViewById(R.id.confirmBox);
+        electronicGenre = v.findViewById(R.id.checkedbox_electronic_id);
+        rockGenre = v.findViewById(R.id.checkedbox_rock_id);
+        popGenre = v.findViewById(R.id.checkedbox_pop_id);
+        reggaeGenre = v.findViewById(R.id.checkedbox_reggae_id);
+        hiphopGenre = v.findViewById(R.id.checkedbox_hiphop_id);
+        israelGenre = v.findViewById(R.id.checkedbox_israel_id);
+        rockGenre.setOnClickListener(this);
+        popGenre.setOnClickListener(this);
+        reggaeGenre.setOnClickListener(this);
+        hiphopGenre.setOnClickListener(this);
+        israelGenre.setOnClickListener(this);
+        electronicGenre.setOnClickListener(this);
+
+
+
 
 
         isDJCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isDJ = !isDJ;
+                isDJ = ((CheckBox)v).isChecked();
             }
         });
 
 
-        checkedGenre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Rock.
-            }
-        });
 
         confirmBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                name = nameText.getText().toString();
-                password = passwordText.getText().toString();
-                confirmPassword = confirmPasswordText.getText().toString();
-                email = emailText.getText().toString();
+                try{name = nameText.getText().toString();}catch (Exception e){e.printStackTrace();}
+                try{password = passwordText.getText().toString();}catch (Exception e ){e.printStackTrace();}
+                try{confirmPassword = confirmPasswordText.getText().toString();}catch (Exception e ){e.printStackTrace();}
+                try{email = emailText.getText().toString();}catch (Exception e ){e.printStackTrace();}
 
                 if (name == null || email == null || password == null || confirmPassword == null) {
 
@@ -112,11 +115,10 @@ public class SignUpFormFragment extends Fragment {
                     userData.put(Consts.COLUMN_NAME, name);
                     userData.put(Consts.COLUMN_EMAIL, email);
                     userData.put(Consts.COLUMN_PASSWORD, password);
-                    userData.put(Consts.COLUMN_GENRES, );
-                    userData.put(Consts.COLUMN_PIC_URL, );
+                    userData.put(Consts.COLUMN_GENRES,checkedGenres );
+                    userData.put(Consts.COLUMN_PIC_URL, "");
 
                     if (isDJ){
-
                         userData.put(Consts.COLUMN_ABOUT, aboutBox.getText().toString());
                         loginAuth.signUpForm(userData, Consts.DB_DJS);
                     }
@@ -134,5 +136,10 @@ public class SignUpFormFragment extends Fragment {
 
 
         return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        checkedGenres.add(((CheckBox)v).getText().toString());
     }
 }

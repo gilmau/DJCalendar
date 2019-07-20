@@ -2,6 +2,8 @@ package com.gilortal.djcalendar;
 
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -33,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.net.PasswordAuthentication;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
                                 } else {
                                     sharedPref.setIsDj(false);
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
+                                    gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
                             }
                         }
@@ -274,14 +277,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void signUpForm(boolean fromsSignUp) {
+    public void signUpForm(final HashMap userData, final String collection) {
+        email = userData.get(Consts.COLUMN_EMAIL).toString();
+        password = userData.get(Consts.COLUMN_PASSWORD).toString();
+        userData.remove(Consts.COLUMN_EMAIL);
+        userData.remove(Consts.COLUMN_PASSWORD);
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            FirebaseUser curUser = firebaseAuth.getCurrentUser();
+                            db.collection(collection).document(curUser.getUid()).set(userData);
+                            Toast.makeText(MainActivity.this, "Signed in ", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Signed out ", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-        if (fromsSignUp) {
 
 
-
-        }
     }
+
+
 
 }
 

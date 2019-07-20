@@ -151,6 +151,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="4.5"
+                        android:clickable="true"
+                        android:linksClickable="false"
                         android:text="Rock" />
 
                     <CheckBox
