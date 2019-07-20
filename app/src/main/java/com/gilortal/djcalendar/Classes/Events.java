@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Events {
 
     private String name, id, location, date, about, picture;
-    private ArrayList<String> attending_ids, lineup_ids;
+    private ArrayList<String> attending_ids, lineup_ids,genres;
 
     //region functions
     //TODO: toHash
@@ -19,7 +19,9 @@ public class Events {
 
 
     //region constructors
-    public Events(String name, String id, String location, String date, String about, String picture, ArrayList<String> attending_ids, ArrayList<String> lineup_ids) {
+
+
+    public Events(String name, String id, String location, String date, String about, String picture, ArrayList<String> attending_ids, ArrayList<String> lineup_ids, ArrayList<String> genres) {
         this.name = name;
         this.id = id;
         this.location = location;
@@ -28,6 +30,7 @@ public class Events {
         this.picture = picture;
         this.attending_ids = attending_ids;
         this.lineup_ids = lineup_ids;
+        this.genres = genres;
     }
 
     public Events(DocumentSnapshot event) {
@@ -48,6 +51,9 @@ public class Events {
         }catch (Exception e) {e.printStackTrace();attending_ids = new ArrayList<>(); }
         try {lineup_ids = (ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);
         }catch (Exception e) {e.printStackTrace();lineup_ids = new ArrayList<>(); }
+        try {genres = (ArrayList<String>)event.get(Consts.COLUMN_GENRES);}
+        catch (Exception e){e.printStackTrace();genres = new ArrayList<>();}
+
 
 
 //        TODO: construct from snapshot
@@ -56,6 +62,16 @@ public class Events {
 //endregion
 
     //region getters and setters
+
+
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
+    }
+
     public String getName() {
         return name;
     }

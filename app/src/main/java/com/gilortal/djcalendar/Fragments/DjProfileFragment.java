@@ -98,7 +98,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
                     //add rest of events to list of events
                     nameNextEventDjProf_TV.setText(nextEvents.get(0).getName());
                     locationNextEventDjProf_TV.setText(nextEvents.get(0).getLocation());
-
+                    genresNextEventDjProf_TV.setText(nextEvents.get(0).getGenres().toString());
                     dateNextEventDjProf_TV.setText(nextEvents.get(0).getDate());
                 }
         }
