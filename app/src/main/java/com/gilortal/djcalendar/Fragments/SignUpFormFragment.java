@@ -16,26 +16,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gilortal.djcalendar.Consts;
+import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFormFragment extends Fragment {
 
+    LoginAuth loginAuth;
     TextInputEditText nameText;
     TextInputEditText emailText;
     TextInputEditText passwordText;
     TextInputEditText confirmPasswordText;
     CheckBox isDJCheckBox;
+    CheckBox Rock;
     EditText aboutBox;
     Button confirmBox;
-
+    List<CheckBox> gennres = new ArrayList<>();
+    List<String> checkedGenres = new ArrayList<>();
 
     String name = null, email = null, password = null, confirmPassword = null;
     boolean isDJ = false;
+
 
 
 
@@ -53,6 +60,9 @@ public class SignUpFormFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_signupform, container, false);
 
 
+
+
+        Rock = v.findViewById(R.id.checkedbox_rock_id);
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
         passwordText = v.findViewById(R.id.password_sign_up_form_ID);
@@ -70,6 +80,13 @@ public class SignUpFormFragment extends Fragment {
         });
 
 
+        checkedGenre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Rock.
+            }
+        });
 
         confirmBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +112,15 @@ public class SignUpFormFragment extends Fragment {
                     userData.put(Consts.COLUMN_NAME, name);
                     userData.put(Consts.COLUMN_EMAIL, email);
                     userData.put(Consts.COLUMN_PASSWORD, password);
+                    userData.put(Consts.COLUMN_GENRES, );
+                    userData.put(Consts.COLUMN_PIC_URL, );
 
-                    if (isDJ)
+                    if (isDJ){
+
                         userData.put(Consts.COLUMN_ABOUT, aboutBox.getText().toString());
+                        loginAuth.signUpForm(userData, Consts.DB_DJS);
+                    }
+                    else loginAuth.signUpForm(userData, Consts.DB_USERS);
 
 
                 }
