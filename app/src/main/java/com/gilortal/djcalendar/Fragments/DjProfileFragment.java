@@ -60,16 +60,14 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         dateNextEventDjProf_TV = v.findViewById(R.id.date_next_event_tv_dj_frag);
         locationNextEventDjProf_TV = v.findViewById( R.id.location_next_event_tv_dj_frag);
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
-
-
-
-
-
-
-
+        followerNumDjProf_TV = v.findViewById(R.id.follow_ro_tv_dj_frag);
+        aboutDjProf_TV = v.findViewById(R.id.about_dj_frag);
+        genresDjProf_GV = v.findViewById(R.id.genres_gridview_dj_frag);
+        facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
+        instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
+        twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
+        spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
         return v;
-
-
     }
 
     @Override
