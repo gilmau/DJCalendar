@@ -1,7 +1,7 @@
 package com.gilortal.djcalendar;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
 
         }else if (fragment instanceof LoginFragment){
             ((LoginFragment)fragment).loginAuth = this;
-      //      ((LoginFragment)fragment).dbUpdater = this;
+       //     ((LoginFragment)fragment).loginAuth = this;
 
         }
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 //                    userTypeDrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        public void onComplete(Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         db.collection(collectionName).document(docId).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()&&task.getResult().exists()){
                             serverToFragsListener.BroadcastSnapShot(task.getResult());
 
@@ -256,19 +257,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void singInUser(String email, String password) {
+    public void signInUser(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()){
 
                         }
                         else {
+                            Toast.makeText(MainActivity.this, "E-Mail or Password Incorrect", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 });
+    }
+
+    @Override
+    public void signUpForm() {
+
     }
 }
 
