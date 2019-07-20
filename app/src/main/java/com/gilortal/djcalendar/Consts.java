@@ -33,7 +33,11 @@ public class Consts {
     public static final String COLUMN_EVENS_ID = "events_id";
     public static final String COLUMN_FOLLOWING = "following";
 
-
+//    /********Tag integers**********/
+//    public static final int TAG_FACEBOOK = 0;
+//    public static final int TAG_INSTAGRAM = 1;
+//    public static final int TAG_TWITTER = 2;
+//    public static final int TAG_SPOTIFY = 3;
 
 
 

@@ -15,14 +15,17 @@ import android.widget.TextView;
 
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
+import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.w3c.dom.Text;
 
 
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment  {
 
     String email = null;
     String password = null;
@@ -37,7 +40,6 @@ public class LoginFragment extends Fragment {
     public LoginFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -72,12 +74,9 @@ public class LoginFragment extends Fragment {
         });
 
 
-
-
-
-
         return view;
     }
+
 }
 
 

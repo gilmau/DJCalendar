@@ -13,9 +13,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Classes.User;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
+import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 
 /**
@@ -26,7 +31,7 @@ import com.gilortal.djcalendar.R;
  * Use the {@link UserProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements SendServerResponeToFrags {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public MoveToFrag fragChanger;
@@ -34,7 +39,7 @@ public class UserProfileFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView nameUserProf_TV,followNumUserProf_TV,genres_UserProf_TV,
+    TextView nameUserProf_TV,followNumUserProf_TV,
             nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     ListView suggestedEventListViewUserProf_LV;
     GridView genresUserProf_GV;
@@ -49,6 +54,20 @@ public class UserProfileFragment extends Fragment {
 
     public UserProfileFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).serverToFragsListener = this;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).serverToFragsListener = null;
+
     }
 
     /**
@@ -122,6 +141,26 @@ public class UserProfileFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void BroadcastSnapShot(DocumentSnapshot document) {
+        User userProf = new User(document);
+        displayUserProf(userProf);
+
+
+    }
+    private void displayUserProf(User userProf) {
+        nameUserProf_TV.setText(userProf.getName());
+        followNumUserProf_TV.setText( userProf.getFollowing().size());
+
+
+        //lineup_Event TODO: Grid view lineup_Event
+    }
+    //TextView nameUserProf_TV,followNumUserProf_TV,
+     //       nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
+    //ListView suggestedEventListViewUserProf_LV;
+   // GridView genresUserProf_GV;
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -3,6 +3,7 @@ package com.gilortal.djcalendar.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
         followerNumDjProf_TV = v.findViewById(R.id.follow_ro_tv_dj_frag);
         aboutDjProf_TV = v.findViewById(R.id.about_dj_frag);
-        genresDjProf_GV = v.findViewById(R.id.genres_gridview_dj_frag);
+        genresDjProf_GV = v.findViewById(R.id.genres_gridlayout_dj_frag);
         facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
         instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
@@ -77,6 +78,21 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     }
 
     private void displayDjProf(DJUser djUser) {
-
+        //create event display method from server
+        nameNextEventDjProf_TV.setText(djUser.getName());
+        followerNumDjProf_TV.setText(djUser.getFollowing().size());
+        aboutDjProf_TV.setText(djUser.getAbout());
+        for (String genre:djUser.getGenres()) {
+            TextView genreTV = new TextView(getContext());
+            genreTV.setText(genre);
+            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            genreTV.setGravity(Gravity.CENTER);
+            genresDjProf_GV.addView(genreTV);
+        }
+        facebookContactDj_btn.setTag(0,djUser.getFacebook());
+        instagramContactDj_btn.setTag(0,djUser.getInstagram());
+        twitterContactDj_btn.setTag(0,djUser.getTwitter());
+        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
     }
 }
