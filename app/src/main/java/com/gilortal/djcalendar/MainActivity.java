@@ -93,15 +93,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 View headerView = navigationView.getHeaderView(0); //title of drawer
-                TextView userNameDrawerTV = headerView.findViewById(R.id.);
-                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
+//                TextView userNameDrawerTV = headerView.findViewById(R.id.);
+//                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
                 if (currentUser != null){ //user is logged in
                     sharedPref.setSignedInStatus(true);
                //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
-                    userTypeDrawerTV.setText("");
+//                    userTypeDrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -125,14 +125,14 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 else { //signed out
-                    sharedPref.setLoginStatus(false);
-                    sharedPref.removeCurrentUserInfo();
-                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
-                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
-                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(false);
+                    sharedPref.setSignedInStatus(false);
+                    sharedPref.setMyUserId("");
+//                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
+//                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
+//                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(true);
+//                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(false);
                 }
 
             }
