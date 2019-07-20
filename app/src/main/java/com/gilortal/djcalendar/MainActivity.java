@@ -11,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -235,8 +236,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_next_event) {
             show_next_event();
 
-        } else if (id == R.id.nav_create_next_event) {
-            create_next_event();
+        } else if (id == R.id.nav_create_new_event) {
+            create_New_event();
 
         } else if (id == R.id.nav_about) {
 
@@ -268,7 +269,11 @@ public class MainActivity extends AppCompatActivity
     }
     private void show_next_event() {
     }
-    private void create_next_event() {
+    private void create_New_event() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogNew_event_from_View = getLayoutInflater().inflate(R.layout.new_event_form,null);
+
     }
     private void signOutUser() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
