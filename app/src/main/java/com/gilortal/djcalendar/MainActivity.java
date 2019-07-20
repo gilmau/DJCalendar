@@ -17,7 +17,8 @@ import android.view.MenuItem;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
