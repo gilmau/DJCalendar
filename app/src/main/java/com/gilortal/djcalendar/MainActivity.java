@@ -288,11 +288,7 @@ public class MainActivity extends AppCompatActivity
 //TODO: create new event from view
     }
     private void signOutUser() {
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        Snackbar.make(coordinatorLayout, "Bye bye " + currentUser.getDisplayName(), Snackbar.LENGTH_SHORT).show();
-        currentUser = null;
         firebaseAuth.signOut();
-        sharedPref.clearDisplayProfile();
         moveToFrag(Consts.LOGIN_SCREEN_FRAG);
     }
 

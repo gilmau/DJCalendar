@@ -87,6 +87,7 @@ confirmBox = v.findViewById(R.id.confirmBox);
             @Override
             public void onClick(View v) {
                 isDJ = ((CheckBox)v).isChecked();
+                aboutBox.setVisibility(View.VISIBLE);
             }
         });
 
