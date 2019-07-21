@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class SignUpFormFragment extends Fragment implements View.OnClickListener {
 
-    LoginAuth loginAuth;
+    public LoginAuth loginAuth;
     TextInputEditText nameText;
     TextInputEditText emailText;
     TextInputEditText passwordText;
@@ -53,12 +53,13 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_signupform, container, false);
 
+        container.clearDisappearingChildren();
 
 
 
 
 
-
+confirmBox = v.findViewById(R.id.confirmBox);
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
         passwordText = v.findViewById(R.id.password_sign_up_form_ID);
@@ -95,19 +96,21 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
 
-                try{name = nameText.getText().toString();}catch (Exception e){e.printStackTrace();}
-                try{password = passwordText.getText().toString();}catch (Exception e ){e.printStackTrace();}
-                try{confirmPassword = confirmPasswordText.getText().toString();}catch (Exception e ){e.printStackTrace();}
+                try{name = String.valueOf( nameText.getText());}catch (Exception e){e.printStackTrace();}
+                try{password =String.valueOf( passwordText.getText());}catch (Exception e ){e.printStackTrace();}
+                try{confirmPassword = String.valueOf( confirmPasswordText.getText());}catch (Exception e ){e.printStackTrace();}
                 try{email = emailText.getText().toString();}catch (Exception e ){e.printStackTrace();}
+                Toast.makeText(getActivity().getBaseContext(), password + " " + confirmPassword, Toast.LENGTH_LONG).show();
 
                 if (name == null || email == null || password == null || confirmPassword == null) {
 
                     Toast.makeText(getActivity().getBaseContext(), "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
                 }
 
-                else if (password != confirmPassword)
+                else if (!(password.equals(confirmPassword))) {
 
-                    Toast.makeText(getActivity().getParent(), "Please confirm again the password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getBaseContext(), "Please confirm again the password", Toast.LENGTH_LONG).show();
+                }
                 else {
 
                     HashMap<String, Object> userData = new HashMap();
