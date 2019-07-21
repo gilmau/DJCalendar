@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
+import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
@@ -35,7 +36,8 @@ public class LoginFragment extends Fragment  {
     TextInputEditText passwordText;
     ImageButton signInButton;
     ImageButton signUpButton;
-    public LoginAuth loginAuth;
+    public LoginAuth loginAuth;;
+    public MoveToFrag moveToFrag;
 
  //   private OnFragmentInteractionListener mListener;
 
@@ -48,6 +50,7 @@ public class LoginFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
 
@@ -71,6 +74,8 @@ public class LoginFragment extends Fragment  {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+               moveToFrag.goToSignUpFrag(Consts.SIGNUP_FORM_FRAG);
 
 
 

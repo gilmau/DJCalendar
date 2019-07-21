@@ -27,6 +27,7 @@ import com.gilortal.djcalendar.Classes.Events;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
+import com.gilortal.djcalendar.Fragments.SignUpFormFragment;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.RequestDataFromServer;
 import com.google.firebase.auth.AuthResult;
@@ -81,8 +82,9 @@ public class MainActivity extends AppCompatActivity
 
         }else if (fragment instanceof LoginFragment){
             ((LoginFragment)fragment).loginAuth = this;
-            //     ((LoginFragment)fragment).loginAuth = this;
-
+            ((LoginFragment)fragment).moveToFrag = this;
+        }else if (fragment instanceof SignUpFormFragment){
+            ((SignUpFormFragment)fragment).loginAuth = this;
         }
 
     }
@@ -160,22 +162,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeFragmentDisplay(int displayFragment) {
+        Toast.makeText(this, ""+displayFragment , Toast.LENGTH_SHORT).show();
         if(findViewById(R.id.fragment_container) != null) {
+
+            Toast.makeText(this, "fragmentcpntainer isnt null", Toast.LENGTH_SHORT).show();
             if(savedInstanceState!=null) {
                 return;
             }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch(displayFragment){
                 case Consts.DJ_PROFILE_FRAG:
-                    fragmentTransaction.add(R.id.fragment_container, new DjProfileFragment(), null); break;
+                    fragmentTransaction.replace(R.id.fragment_container, new DjProfileFragment()); break;
                 case Consts.EVENT_FRAG:
-                    fragmentTransaction.add(R.id.fragment_container, new EventFragment(), null); break;
+                    fragmentTransaction.replace(R.id.fragment_container, new EventFragment()); break;
                 case Consts.SIGNUP_FORM_FRAG:
-//                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                    SignUpFormFragment signUpFormFragment = new SignUpFormFragment();
+                    fragmentTransaction.replace(R.id.fragment_container,signUpFormFragment );
+                    fragmentTransaction.addToBackStack(null); break;
                 case Consts.LOGIN_SCREEN_FRAG:
-                    fragmentTransaction.add(R.id.fragment_container, new LoginFragment(), null); break;
+                    LoginFragment loginFragment = new LoginFragment();
+                    fragmentTransaction.replace(R.id.fragment_container, loginFragment);
+                    fragmentTransaction.addToBackStack(null); break;
                 case Consts.USER_PROFILE_FRAG:
-                    fragmentTransaction.add(R.id.fragment_container, new UserProfileFragment(), null); break;
+                    fragmentTransaction.replace(R.id.fragment_container, new UserProfileFragment()); break;
 
             }
 
@@ -296,6 +305,13 @@ public class MainActivity extends AppCompatActivity
                 getSnapshotFromServer(docId,collectionName);
         }
     }
+
+    @Override
+    public void goToSignUpFrag(int fragment) {
+        changeFragmentDisplay(fragment);
+
+    }
+
 
     public void moveToFrag(int moveToFragment) {
         switch (moveToFragment){
