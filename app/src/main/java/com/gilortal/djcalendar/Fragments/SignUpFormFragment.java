@@ -87,7 +87,10 @@ confirmBox = v.findViewById(R.id.confirmBox);
             @Override
             public void onClick(View v) {
                 isDJ = ((CheckBox)v).isChecked();
-                aboutBox.setVisibility(View.VISIBLE);
+                if (isDJ)
+                    aboutBox.setVisibility(View.VISIBLE);
+                else
+                    aboutBox.setVisibility(View.GONE);
             }
         });
 
@@ -101,7 +104,7 @@ confirmBox = v.findViewById(R.id.confirmBox);
                 try{password =String.valueOf( passwordText.getText());}catch (Exception e ){e.printStackTrace();}
                 try{confirmPassword = String.valueOf( confirmPasswordText.getText());}catch (Exception e ){e.printStackTrace();}
                 try{email = emailText.getText().toString();}catch (Exception e ){e.printStackTrace();}
-                Toast.makeText(getActivity().getBaseContext(), password + " " + confirmPassword, Toast.LENGTH_LONG).show();
+             //  Toast.makeText(getActivity().getBaseContext(), password + " " + confirmPassword, Toast.LENGTH_LONG).show();
 
                 if (name == null || email == null || password == null || confirmPassword == null) {
 

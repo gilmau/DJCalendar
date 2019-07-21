@@ -358,7 +358,8 @@ public class MainActivity extends AppCompatActivity
                         if (task.isSuccessful()){
                             FirebaseUser curUser = firebaseAuth.getCurrentUser();
                             db.collection(collection).document(curUser.getUid()).set(userData);
-                            Toast.makeText(MainActivity.this, "Signed in ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Signed Up Successfully ", Toast.LENGTH_SHORT).show();
+                          //  signInUser(email, password);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Signed out ", Toast.LENGTH_SHORT).show();
