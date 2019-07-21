@@ -155,10 +155,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         };
-
-
-
-
         changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
 
     }
@@ -182,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.add(R.id.fragment_container, new UserProfileFragment(), null); break;
 
             }
+
             fragmentTransaction.commit();
         }
     }

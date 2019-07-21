@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment  {
     TextInputEditText passwordText;
     ImageButton signInButton;
     ImageButton signUpButton;
-    public LoginAuth loginAuth;;
+    public LoginAuth loginAuth;
 
  //   private OnFragmentInteractionListener mListener;
 
