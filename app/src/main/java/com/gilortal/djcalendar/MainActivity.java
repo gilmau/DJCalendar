@@ -73,6 +73,13 @@ public class MainActivity extends AppCompatActivity
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
     @Override
     public void onAttachFragment (Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -141,14 +148,17 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onComplete(Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
+                                Log.d("onAuthStateChanged", "success");
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
+                                    Log.d("onAuthStateChanged","user is a dj");
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
                                 } else {
+                                    Log.d("onAuthStateChanged","user NOT a dj");
                                     sharedPref.setIsDj(false);
                                     gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
-                            }
+                            }else{Log.d("onAuthStateChanged", "failed connecting to DB");}
                         }
                     });
 
