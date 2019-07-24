@@ -1,5 +1,6 @@
 package com.gilortal.djcalendar;
 
+import android.app.Activity;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
+                Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
                 if (currentUser != null){ //user is logged in
