@@ -25,7 +25,7 @@ android:src="@drawable/event_background_cover"
             android:id="@+id/name_event_frag"
             />
         <TextView
-            android:id="@+id/date_event_frag"
+            android:id="@+id/event_new_form_date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Jul\n24"

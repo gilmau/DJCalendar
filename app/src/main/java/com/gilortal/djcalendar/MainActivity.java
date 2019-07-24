@@ -3,11 +3,7 @@ package com.gilortal.djcalendar;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -49,7 +45,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -294,13 +289,13 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form,null);
 
-        nameNewEvent = dialogNewEventFormView.findViewById(R.id.name_event_new_form);
-        locationNewEvent = dialogNewEventFormView.findViewById(R.id.location_event_new_form);
-        dateNewEvent = dialogNewEventFormView.findViewById(R.id.date_event_new_form);
+        nameNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_name);
+        locationNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_location);
+        dateNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_date);
         aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
-        imageNewEvent = dialogNewEventFormView.findViewById(R.id.image_Event_New_Form);
-        linupEvent = dialogNewEventFormView.findViewById(R.id.lineup_list_view_event);
-        confirmNewEvent = dialogNewEventFormView.findViewById(R.id.confirmEvent);
+        imageNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_image);
+        linupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
+        confirmNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_confirmbtn);
 
         confirmNewEvent.setOnClickListener(new View.OnClickListener() {
             @Override
