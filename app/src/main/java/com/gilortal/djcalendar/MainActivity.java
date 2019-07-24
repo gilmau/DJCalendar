@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity
 //                    eventData.put(Consts.COLUMN_LOCATION_EVENT, locationEvent);
 //                    eventData.put(Consts.COLUMN_ABOUT_EVENT,aboutEvent );
 //                    eventData.put(Consts.COLUMN_PIC_URL, "");
+//                    eventData.put(Consts.COLUMN_PIC_URL, "");
 //                  }
 
 
