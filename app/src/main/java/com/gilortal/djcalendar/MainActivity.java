@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+                Toast.makeText(MainActivity.this, "I'm Here The new user is ", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                     sharedPref.setSignedInStatus(true);
                     //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
-//                    userTypeDrawerTV.setText("");
+//                    userType                   DrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(Task<DocumentSnapshot> task) {
@@ -407,7 +408,7 @@ public class MainActivity extends AppCompatActivity
                             FirebaseUser curUser = firebaseAuth.getCurrentUser();
                             db.collection(collection).document(curUser.getUid()).set(userData);
                             Toast.makeText(MainActivity.this, "Signed Up Successfully ", Toast.LENGTH_SHORT).show();
-                          //  signInUser(email, password);
+
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Signed out ", Toast.LENGTH_SHORT).show();
