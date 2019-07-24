@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity
 
     public static CoordinatorLayout coordinatorLayout;
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
 
     @Override
     public void onAttachFragment (Fragment fragment) {
@@ -105,12 +109,13 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         db = FirebaseFirestore.getInstance();
         this.savedInstanceState = savedInstanceState;
-
+        firebaseAuth = FirebaseAuth.getInstance();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        sharedPref = new CustomSharePrefAdapter(this);
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -118,16 +123,17 @@ public class MainActivity extends AppCompatActivity
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
-                Toast.makeText(MainActivity.this, "I'm Here The new user is ", Toast.LENGTH_SHORT).show();
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Toast.makeText(MainActivity.this, "state changed", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
-                Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
+                Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
                 if (currentUser != null){ //user is logged in
                     sharedPref.setSignedInStatus(true);
+                    Log.d("STATE LISTENER" , "Signed in");
                     //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
 //                    userType                   DrawerTV.setText("");
@@ -156,6 +162,8 @@ public class MainActivity extends AppCompatActivity
                 else { //signed out
                     sharedPref.setSignedInStatus(false);
                     sharedPref.setMyUserId("");
+                    Toast.makeText(MainActivity.this, "User is signed u=out!!", Toast.LENGTH_SHORT).show();
+                    Log.d("STATE LISTENER" , "User is signed u=out!!");
 //                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
 //                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
 //                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
@@ -408,10 +416,11 @@ public class MainActivity extends AppCompatActivity
                             FirebaseUser curUser = firebaseAuth.getCurrentUser();
                             db.collection(collection).document(curUser.getUid()).set(userData);
                             Toast.makeText(MainActivity.this, "Signed Up Successfully ", Toast.LENGTH_SHORT).show();
-
+                            Log.d("signup in activity" , "signed up successfuly");
                         }
                         else {
-                            Toast.makeText(MainActivity.this, "Signed out ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "signed up failed ", Toast.LENGTH_SHORT).show();
+                            Log.d("signup in activity" , "signed up failed");
                         }
                     }
                 });
