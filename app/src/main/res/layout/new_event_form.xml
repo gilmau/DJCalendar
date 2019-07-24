@@ -13,6 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/title_sign_up_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create New Event Form"
+            android:layout_marginTop="15dp"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,15 +32,10 @@
             android:layout_marginTop="20dp"
             android:background="@color/lists_background">
 
-            <LinearLayout
-                android:id="@+id/name_lin_event_frag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name_event_sign_up_form_ID"
+                    android:id="@+id/name_event_new_form"
                     app:errorEnabled="true"
                     style="@style/Login_Dialog_TextLayout">
 
@@ -42,7 +46,7 @@
                         android:inputType="textPersonName" />
 
                 </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/location_lin_event_frag"
@@ -58,18 +62,18 @@
                     android:layout_marginEnd="5dp"
                     />
                 <TextView
-                    android:id="@+id/location_event_frag"
+                    android:id="@+id/location_event_new_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:maxLines="1"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
-                    android:text="Location of event"/>
+                    android:text="Location event"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/date_lin_event_frag"
+                android:id="@+id/date_event_new_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -85,13 +89,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Date"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:gravity="left"
                 android:layout_weight="1"/>
             </LinearLayout>
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/about_new_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="About"
@@ -100,34 +104,37 @@
                 android:textSize="24sp"/>
 
             <TextView
-                android:id="@+id/picture_event_frag"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="add picture event"
-                android:textSize="30dp"
-                android:gravity="center"
-                android:layout_weight="1"/>
+                android:id="@+id/picture_event_New_Form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Add Picture Event"
+                android:textAlignment="center"
+                android:textSize="18sp" />
             <ImageView
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_margin="10dp"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:id="@+id/thumbnail_iv_dj_frag"
-                android:src="@drawable/event_background_cover"
+                android:id="@+id/image_Event_New_Form"
+                android:src="@drawable/addImageEvent"
+                android:background="@color/appbar_background"
+                android:layout_gravity="center"
                 android:tag="default"/>
-            <GridView
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:padding="5dp"
-                android:id="@+id/lineup_list_view_event_frag"
+                android:id="@+id/lineup_list_view_event"
                 android:numColumns="4"
                 android:columnWidth="20dp"
                 />
+        </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id ="@+id/confirmEvent"
             android:text="Confirm"/>
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

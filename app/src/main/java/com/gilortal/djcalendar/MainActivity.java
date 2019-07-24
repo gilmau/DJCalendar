@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
@@ -58,6 +63,12 @@ public class MainActivity extends AppCompatActivity
     String email;
     String password;
     Bundle savedInstanceState;
+    TextView nameNewEvent,locationNewEvent,dateNewEvent,aboutNewEvent;
+    ImageView imageNewEvent;
+    ListView linupEvent;
+    String nameEvent = null,locationEvent ,dateEvent,aboutEvent = null;
+    Button confirmNewEvent;
+
     public static CoordinatorLayout coordinatorLayout;
 
 
@@ -281,9 +292,48 @@ public class MainActivity extends AppCompatActivity
     private void create_New_event() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogNew_event_from_View = getLayoutInflater().inflate(R.layout.new_event_form,null);
-//TODO: create new event from view
+        View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form,null);
+
+        nameNewEvent = dialogNewEventFormView.findViewById(R.id.name_event_new_form);
+        locationNewEvent = dialogNewEventFormView.findViewById(R.id.location_event_new_form);
+        dateNewEvent = dialogNewEventFormView.findViewById(R.id.date_event_new_form);
+        aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
+        imageNewEvent = dialogNewEventFormView.findViewById(R.id.image_Event_New_Form);
+        linupEvent = dialogNewEventFormView.findViewById(R.id.lineup_list_view_event);
+        confirmNewEvent = dialogNewEventFormView.findViewById(R.id.confirmEvent);
+
+        confirmNewEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    nameEvent = String.valueOf(nameNewEvent.getText()); } catch (Exception e) { e.printStackTrace(); }
+                try {
+                    locationEvent = String.valueOf(locationNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+                try {
+                    dateEvent = String.valueOf(dateNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+                try {
+                    aboutEvent = String.valueOf(aboutNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+
+//                if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
+//                    Toast.makeText(getActivity().getBaseContext(), "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
+//                else {
+//
+//                    HashMap<String, Object> eventData = new HashMap();
+//
+//                    eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
+//                    eventData.put(Consts.COLUMN_DATE_EVENT, dateEvent);
+//                    eventData.put(Consts.COLUMN_LOCATION_EVENT, locationEvent);
+//                    eventData.put(Consts.COLUMN_ABOUT_EVENT,aboutEvent );
+//                    eventData.put(Consts.COLUMN_PIC_URL, "");
+//                  }
+
+
+
+            }
+        });
     }
+//TODO: create new event from view
+
     private void signOutUser() {
         firebaseAuth.signOut();
         moveToFrag(Consts.LOGIN_SCREEN_FRAG);
