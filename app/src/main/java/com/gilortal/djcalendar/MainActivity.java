@@ -1,5 +1,9 @@
 package com.gilortal.djcalendar;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     Bundle savedInstanceState;
     TextView nameNewEvent,locationNewEvent,dateNewEvent,aboutNewEvent;
     ImageView imageNewEvent;
-    ListView lineupEvent;
+    ListView linupEvent;
     String nameEvent = null,locationEvent ,dateEvent,aboutEvent = null;
     Button confirmNewEvent;
 
@@ -314,7 +318,7 @@ public class MainActivity extends AppCompatActivity
         dateNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_date);
         aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
         imageNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_image);
-        lineupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
+        linupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
         confirmNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_confirmbtn);
 
         confirmNewEvent.setOnClickListener(new View.OnClickListener() {
@@ -329,19 +333,19 @@ public class MainActivity extends AppCompatActivity
                 try {
                     aboutEvent = String.valueOf(aboutNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
 
-//                if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
-//                    Toast.makeText(getActivity().getBaseContext(), "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
-//                else {
-//
-//                    HashMap<String, Object> eventData = new HashMap();
-//
-//                    eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
-//                    eventData.put(Consts.COLUMN_DATE_EVENT, dateEvent);
-//                    eventData.put(Consts.COLUMN_LOCATION_EVENT, locationEvent);
-//                    eventData.put(Consts.COLUMN_ABOUT_EVENT,aboutEvent );
-//                    eventData.put(Consts.COLUMN_PIC_URL, "");
-//                    eventData.put(Consts.COLUMN_PIC_URL, "");
-//                  }
+               if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
+                   Toast.makeText(MainActivity.this, "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
+               }else {
+
+                    HashMap<String, Object> eventData = new HashMap();
+
+                    eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
+                    eventData.put(Consts.COLUMN_DATE, dateEvent);
+                    eventData.put(Consts.COLUMN_LOCATION, locationEvent);
+                    eventData.put(Consts.COLUMN_ABOUT,aboutEvent );
+                    eventData.put(Consts.COLUMN_PIC_URL, "");
+                    eventData.put(Consts.COLUMN_LINEUP_IDS, linupEvent);
+                  }
 
 
 
@@ -392,7 +396,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         }
                     });
-        
+
     }
 
     @Override
