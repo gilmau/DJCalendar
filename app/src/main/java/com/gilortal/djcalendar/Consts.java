@@ -39,6 +39,8 @@ public class Consts {
     public static final String COLUMN_FOLLOWING = "Following";
     public static final String COLUMN_EMAIL = "Email";
     public static final String COLUMN_PASSWORD = "Password";
+    public static final String COLUMN_NAME_EVENT = "Name";
+
 
 
     /********Requset from server codes**********/
