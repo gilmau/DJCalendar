@@ -150,9 +150,6 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
         electronicGenre.setOnClickListener(this);
 
 
-
-
-
         isDJCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,13 +166,8 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             public void onClick(View v) {
                 openFileChooser();
 
-
-
-
             }
         });
-
-
 
         confirmBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,62 +259,31 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(imageURI));
 
-            mUploadTask = fileReference.putFile(imageURI)
+            fileReference.putFile(imageURI)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mProgressBar.setProgress(0);
-                                }
-                            }, 500);
 
-                            Toast.makeText(getActivity().getBaseContext(), "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload( "bla", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
+                            Toast.makeText(getActivity().getBaseContext(), "Image Upload Success", Toast.LENGTH_SHORT).show();
+                            Upload upload = new Upload("pic", taskSnapshot.getMetadata().getReference()
+                                    .getDownloadUrl().toString());
+                            String uploadID = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadID).setValue(upload);
                         }
+
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-
-            mUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                            @Override
-                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                                if (!task.isSuccessful()) {
-                                    throw task.getException();
-                                }
-
-                                // Continue with the task to get the download URL
-                                return fileReference.getDownloadUrl();
-                            }
-                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Uri> task) {
-                                if (task.isSuccessful()) {
-                                    Uri downloadUri = task.getResult();
-                                    String url = downloadUri.toString();
-
-                                    Glide.with(getActivity()).load(url)
-                                            .apply(new RequestOptions().apply(new RequestOptions()).
-                                                    centerCrop().placeholder(R.drawable.add_member)).into(profilePic);
-
-                                }
-                            }
-                        });
-                    }
+        }
          else {
             Toast.makeText(getActivity().getBaseContext(), "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onClick(View v) {

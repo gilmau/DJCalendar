@@ -81,11 +81,11 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         locationNextEventUserProf_TV = v.findViewById(R.id.location_next_event_tv_prof_frag);
         genreNextEventUserProf_TV = v.findViewById(R.id.genre_next_event_tv_prof_frag);
         suggestedEventListViewUserProf_LV = v.findViewById(R.id.suggested_event_list_view_title_prof_frag);
-        facebookContactUser_Btn = v.findViewById(R.id.facebook_btn_prof_frag);
-        instagramContactUser_btn = v.findViewById(R.id.instagram_btn_prof_frag);
-        twitterContactUser_btn = v.findViewById(R.id.twitter_btn_prof_frag);
-        spotifyContactUser_btn = v.findViewById(R.id.spotify_btn_prof_frag);
-        return v;
+//        facebookContactUser_Btn = v.findViewById(R.id.facebook_btn_prof_frag);
+//        instagramContactUser_btn = v.findViewById(R.id.instagram_btn_prof_frag);
+//        twitterContactUser_btn = v.findViewById(R.id.twitter_btn_prof_frag);
+//        spotifyContactUser_btn = v.findViewById(R.id.spotify_btn_prof_frag);
+return v;
     }
 
 
