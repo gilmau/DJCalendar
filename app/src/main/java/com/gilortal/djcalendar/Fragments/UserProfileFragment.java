@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     TextView nameUserProf_TV,followNumUserProf_TV,
             nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
     ListView suggestedEventListViewUserProf_LV;
-    GridView genresUserProf_GV;
+    GridLayout genresUserProf_GL;
     Button facebookContactUser_Btn,instagramContactUser_btn,twitterContactUser_btn,spotifyContactUser_btn;
     public RequestDataFromServer requestServer;
 
@@ -71,9 +72,10 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_user_profile, container, false);
+
         nameUserProf_TV = v.findViewById(R.id.name_tv_user_frag);
         followNumUserProf_TV = v.findViewById(R.id.follow_num_tv_user_frag);
-        genresUserProf_GV = v.findViewById(R.id.genres_gridview_prof_frag);
+        genresUserProf_GL = v.findViewById(R.id.genres_gridview_prof_frag);
         nameNextEventUserProf_TV = v.findViewById(R.id.name_next_event_tv_prof_frag);
         dateNextEventUserProf_TV = v.findViewById(R.id.date_next_event_tv_prof_frag);
         locationNextEventUserProf_TV = v.findViewById(R.id.location_next_event_tv_prof_frag);
@@ -98,9 +100,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         User userProf = new User(document);
         displayUserProf(userProf);
 
-
     }
-
     private void displayUserProf(User userProf) {
         //region fetch next events from DB and display first one
         HashMap args = new HashMap();
@@ -109,19 +109,19 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         //endregion
         nameUserProf_TV.setText(userProf.getName());
        // followNumUserProf_TV.setText(userProf.getFollowing().size());
-        for (String genre : userProf.getGenres()) {
-            TextView genreTV = new TextView(getContext());
-            genreTV.setText(genre);
-            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            genreTV.setGravity(Gravity.CENTER);
-            genresUserProf_GV.addView(genreTV);
+//        for (String genre : userProf.getGenres()) {
+//            TextView genreTV = new TextView(getContext());
+//            genreTV.setText(genre);
+//            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+//            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+//            genreTV.setGravity(Gravity.CENTER);
+//            genresUserProf_GV.addView(genreTV);
         }
-        facebookContactUser_Btn.setTag(0, userProf.getFacebook());
-        instagramContactUser_btn.setTag(0, userProf.getInstagram());
-        twitterContactUser_btn.setTag(0, userProf.getTwitter());
-        spotifyContactUser_btn.setTag(0, userProf.getSpotify());
-    }
+//        facebookContactUser_Btn.setTag(0, userProf.getFacebook());
+//        instagramContactUser_btn.setTag(0, userProf.getInstagram());
+//        twitterContactUser_btn.setTag(0, userProf.getTwitter());
+//        spotifyContactUser_btn.setTag(0, userProf.getSpotify());
+//    }
 
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
         switch (requestCode){

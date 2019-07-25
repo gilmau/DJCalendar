@@ -5,83 +5,43 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class User {
+public class User  {
     private String id,name,picture_url,facebook,spotify,instagram,twitter;
-    private List<String> events_id,genres,following;
+    private List<String> events_id;
 
+    Map<String,Object> data;
+    List<String> follwersList, genresList;
 
-    //region functions
-    //TODO: toHash
-
-    //endregion
-
-    //region constructors
 
     public User(DocumentSnapshot user) {
-        //TODO: build constructor from snapshot
-        // id,name,picture_url,facebook,spotify,instagram,twitter;//string
-        //   events_id,genres,following;//ArrayList
-        try {
-            id = user.getId();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            name = user.getString(Consts.COLUMN_NAME);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Name";
-        }
-        try {
-            picture_url = user.getString(Consts.COLUMN_PIC_URL);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Url";
-        }
-        try {
-            facebook = user.getString(Consts.COLUMN_FACEBOOK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Facebook";
-        }
-        try {
-            spotify = user.getString(Consts.COLUMN_SPOTIFY);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Spotify";
-        }
-        try {
-            instagram = user.getString(Consts.COLUMN_INSTAGRAM);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Instagram";
-        }
-        try {
-            twitter = user.getString(Consts.COLUMN_TWITTER);
-        } catch (Exception e) {
-            e.printStackTrace();
-            name = "No Twitter";
-        }
-        try {
-            events_id = (ArrayList<String>) user.get(Consts.COLUMN_EVENTS_ID);
-        } catch (Exception e) {
-            e.printStackTrace();
-            events_id = new ArrayList<>();
-        }
-        try {
-            genres = (ArrayList<String>) user.get(Consts.COLUMN_GENRES);
-        } catch (Exception e) {
-            e.printStackTrace();
-            genres = new ArrayList<>();
+        id = user.getId();
+//      facebook = user.getString(Consts.COLUMN_FACEBOOK);
+//      instagram = user.getString(Consts.COLUMN_INSTAGRAM);
+//      twitter = user.getString(Consts.COLUMN_TWITTER);
+//      spotify = user.getString(Consts.COLUMN_SPOTIFY);
+        data = user.getData();
+        for(Map.Entry<String, Object> entry : data.entrySet())
+        {
+            switch(entry.getKey()) {
+                case Consts.COLUMN_NAME:
+                    name = (String) entry.getValue(); break;
+                case Consts.COLUMN_PIC_URL:
+                    picture_url = (String) entry.getValue(); break;
+                case Consts.COLUMN_FOLLOWERS_IDS:
+                    follwersList = (List) entry.getValue(); break;
+                case Consts.COLUMN_GENRES:
+                    genresList = (List) entry.getValue(); break;
+            }
+
         }
 
-        //endregion
-
-        //region getters and setters
     }
 
+//endregion
 
+    //region getters and setters
 
     public String getId() {
         return id;
@@ -143,17 +103,23 @@ public class User {
         return events_id;
     }
 
-    public void setEvents_id(ArrayList<String> events_id) {
+    public void setEvents_id(List<String> events_id) {
         this.events_id = events_id;
     }
 
+    public int getNumberOfFollwers() {
+        return follwersList.size();
+    }
+
+
     public List<String> getGenres() {
-        return genres;
+        return genresList;
     }
 
     public void setGenres(ArrayList<String> genres) {
-        this.genres = genres;
+        this.genresList = genres;
     }
 
-//    endregion
+//endregion
+
 }

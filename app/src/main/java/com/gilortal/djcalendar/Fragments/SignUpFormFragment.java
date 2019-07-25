@@ -43,7 +43,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     List<String> checkedGenres = new ArrayList<>();
     List<String> followersList, followingList;
 
-    String name = null, email = null, password = null, confirmPassword = null;
+    String name = "", email = "", password = "", confirmPassword = "";
     boolean isDJ = false;
 
 
@@ -122,7 +122,7 @@ confirmBox = v.findViewById(R.id.confirmBox);
                 try{email = emailText.getText().toString();}catch (Exception e ){e.printStackTrace();}
              //  Toast.makeText(getActivity().getBaseContext(), password + " " + confirmPassword, Toast.LENGTH_LONG).show();
 
-                if (name == null || email == null || password == null || confirmPassword == null) {
+                if (name == "" || email == "" || password == "" || confirmPassword == "") {
 
                     Toast.makeText(getActivity().getBaseContext(), "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
                 }

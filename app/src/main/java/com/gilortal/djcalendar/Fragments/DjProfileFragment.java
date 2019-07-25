@@ -43,7 +43,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     ImageView imageDjProf;
     TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV,
             dateNextEventDjProf_TV, locationNextEventDjProf_TV, followersNumDjProf_TV, aboutDjProf_TV;
-    GridLayout genresDjProf_GV;
+    GridLayout genresDjProf_GL;
     ImageView facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
     ArrayList<Events> nextEvents;
     public RequestDataFromServer requestServer;
@@ -76,7 +76,8 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
         followersNumDjProf_TV = v.findViewById(R.id.follow_num_tv_dj_frag);
         aboutDjProf_TV = v.findViewById(R.id.about_dj_frag);
-        genresDjProf_GV = v.findViewById(R.id.genres_gridlayout_dj_frag);
+        genresDjProf_GL = v.findViewById(R.id.genres_gridlayout_dj_frag);
+        genresDjProf_GL.removeAllViews();
         facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
         instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
@@ -117,14 +118,25 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         //endregion
         nameNextEventDjProf_TV.setText(djUser.getName());
         aboutDjProf_TV.setText(djUser.getAbout());
-        followersNumDjProf_TV.setText(djUser.getNumberOfFollwers());
-        for (String genre:djUser.getGenres()) {
+        followersNumDjProf_TV.setText(String.valueOf(djUser.getNumberOfFollwers()));
+        int rows = djUser.getGenres().size() / 3 ;
+        for (int j = 0 , c = 0, r = 0 ; j < djUser.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
             TextView genreTV = new TextView(getContext());
-            genreTV.setText(genre);
-            genreTV.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            genreTV.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            genreTV.setGravity(Gravity.CENTER);
-            genresDjProf_GV.addView(genreTV);
+            genreTV.setText(djUser.getGenres().get(j));
+            GridLayout.LayoutParams layoutParams  = new GridLayout.LayoutParams();
+            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.rightMargin = 5;
+            layoutParams.leftMargin = 5;
+            layoutParams.setGravity(Gravity.CENTER);
+
+            layoutParams.columnSpec = GridLayout.spec(c);
+            layoutParams.rowSpec = GridLayout.spec(r);
+            genreTV.setLayoutParams(layoutParams);
+           genresDjProf_GL.addView(genreTV);
+
+
+
         }
 //        facebookContactDj_btn.setTag(0,djUser.getFacebook());
 //        instagramContactDj_btn.setTag(0,djUser.getInstagram());

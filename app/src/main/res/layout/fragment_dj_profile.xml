@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_tv_dj_frag"
         style="@style/Profile_TextView"
-        android:text="19663"
+        android:text="0"
         android:gravity="center"
         />
 
@@ -101,7 +101,7 @@
         style="@style/Profile_TextView"
         android:text="About "
         />
-<TextView
+    <TextView
     android:hint="Say somthing about yourself...
     \njust a few lines\ntell them what you offer
     \nthe expirience you give"
@@ -112,22 +112,31 @@
     android:id="@+id/about_dj_frag"
     style="@style/Profile_TextView"
     app:layout_constraintTop_toBottomOf="@id/about_title_ro_tv_dj_frag"/>
+
+
+    <TextView
+        android:id="@+id/genres_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        style="@style/Profile_TextView"
+        android:text="Genres: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_dj_frag" />
+
     <GridLayout
-        app:layout_constraintTop_toBottomOf="@id/about_dj_frag"
+        android:id="@+id/genres_gridlayout_dj_frag"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="8dp"
         android:columnCount="3"
         android:columnOrderPreserved="false"
-        android:id="@+id/genres_gridlayout_dj_frag"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Profile_TextView"
-            android:text="Genres : "
-            android:layout_column="0"
-            android:layout_row="0"
-            android:id="@+id/genres_Text_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/genres_title"
+        tools:layout_editor_absoluteX="0dp">
+
     </GridLayout>
     <TextView
         android:layout_width="match_parent"
@@ -185,6 +194,6 @@
             />
 
     </android.support.constraint.ConstraintLayout>
-  
+
 
 </android.support.constraint.ConstraintLayout>
