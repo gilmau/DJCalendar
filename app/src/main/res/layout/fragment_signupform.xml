@@ -195,26 +195,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/picture_sign_up_id"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/add_pic_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="Add Picture"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="10dp" />
 
             <ImageView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="10dp"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:id="@+id/profile_picture_sign_up_id"
-                android:src="@drawable/add_member"
-                android:background="@color/appbar_background"
+                android:id="@+id/profile_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:tag="default"/>
+                app:srcCompat="@drawable/add_member" />
 
 
         </LinearLayout>

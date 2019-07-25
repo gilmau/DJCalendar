@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +87,9 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         return v;
     }
 
+
+
+
     @Override
     public void broadcastSnapShot(DocumentSnapshot document) {
         DJUser djUser= new DJUser(document);
@@ -147,4 +151,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 //        twitterContactDj_btn.setTag(0,djUser.getTwitter());
 //        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
     }
+
+
+
 }

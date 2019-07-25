@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity
                 } else { //signed out
                     sharedPref.setSignedInStatus(false);
                     sharedPref.setMyUserId("");
-                    Toast.makeText(MainActivity.this, "User is signed u=out!!", Toast.LENGTH_SHORT).show();
-                    Log.d("STATE LISTENER", "User is signed u=out!!");
+
+
 //                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
 //                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
 //                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
@@ -193,10 +193,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeFragmentDisplay(int displayFragment) {
-        Toast.makeText(this, "" + displayFragment, Toast.LENGTH_SHORT).show();
+
         if (findViewById(R.id.fragment_container) != null) {
 
-            Toast.makeText(this, "fragmentcpntainer isnt null", Toast.LENGTH_SHORT).show();
             if (savedInstanceState != null) {
                 return;
             }

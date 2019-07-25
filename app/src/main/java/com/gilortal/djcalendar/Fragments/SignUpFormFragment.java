@@ -1,11 +1,20 @@
 package com.gilortal.djcalendar.Fragments;
 
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
@@ -13,21 +22,42 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.gilortal.djcalendar.Upload;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+
 
 import java.io.File;
 import java.io.IOException;
@@ -38,12 +68,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.google.common.io.Files.getFileExtension;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignUpFormFragment extends Fragment implements View.OnClickListener, SendServerResponeToFrags {
 
     public LoginAuth loginAuth;
+    private CustomSharePrefAdapter spref;
     TextInputEditText nameText;
     TextInputEditText emailText;
     TextInputEditText passwordText;
@@ -51,10 +84,16 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     CheckBox isDJCheckBox;
     EditText aboutBox;
     Button confirmBox;
+    Button addPicButton;
     CheckBox electronicGenre, rockGenre, popGenre, reggaeGenre, hiphopGenre, israelGenre;
     List<String> checkedGenres = new ArrayList<>();
     List<String> followersList, followingList;
     ImageView profilePic;
+    private Uri imageURI;
+    private DatabaseReference mDatabaseRef;
+    private StorageReference mStorageRef;
+    private StorageTask mUploadTask;
+    private ProgressBar mProgressBar;
     final static int GALLERY_PICK = 1;
     final static int RESULT_OK = 1;
 
@@ -87,7 +126,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
 
         container.clearDisappearingChildren();
 
-
+        mStorageRef = FirebaseStorage.getInstance().getReference("Profile Pictures");
         confirmBox = v.findViewById(R.id.confirmBox);
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
@@ -95,7 +134,8 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
         confirmPasswordText = v.findViewById(R.id.password_confirm_sign_up_form_ID);
         isDJCheckBox = v.findViewById(R.id.dj_or_not_button_ID);
         aboutBox = v.findViewById(R.id.about_text_id);
-        profilePic = v.findViewById(R.id.profile_picture_sign_up_id);
+        profilePic = v.findViewById(R.id.profile_pic);
+        addPicButton = v.findViewById(R.id.add_pic_button);
         electronicGenre = v.findViewById(R.id.checkedbox_electronic_id);
         rockGenre = v.findViewById(R.id.checkedbox_rock_id);
         popGenre = v.findViewById(R.id.checkedbox_pop_id);
@@ -124,13 +164,14 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        profilePic.setOnClickListener(new View.OnClickListener() {
+        addPicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_PICK);
+                openFileChooser();
+
+
+
+
             }
         });
 
@@ -156,6 +197,11 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getActivity().getBaseContext(), "Please confirm again the password", Toast.LENGTH_LONG).show();
                 }
                 else {
+
+                    if (mUploadTask != null && mUploadTask.isInProgress()) {
+                        Toast.makeText(getActivity().getBaseContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+                    } else  uploadFile();
+
 
                     HashMap<String, Object> userData = new HashMap();
 
@@ -187,15 +233,94 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
        return v;
     }
 
+    private void openFileChooser() {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, GALLERY_PICK);
+
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_PICK && resultCode == RESULT_OK && data!= null) {
-            Uri ImageUri = data.getData();
+        if (requestCode == GALLERY_PICK && resultCode  == getActivity().RESULT_OK && data != null && data.getData() != null) {
+            imageURI = data.getData();
+            Toast.makeText(getActivity().getBaseContext(), imageURI.toString(), Toast.LENGTH_SHORT).show();
 
+            Picasso.with(getActivity().getApplicationContext()).load(imageURI).into(profilePic);
         }
+    }
 
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getActivity().getBaseContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
+    private void uploadFile () {
+        if (imageURI != null) {
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                    + "." + getFileExtension(imageURI));
+
+            mUploadTask = fileReference.putFile(imageURI)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(0);
+                                }
+                            }, 500);
+
+                            Toast.makeText(getActivity().getBaseContext(), "Upload successful", Toast.LENGTH_LONG).show();
+                            Upload upload = new Upload( "bla", taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                            String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadId).setValue(upload);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            mUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
+
+                                // Continue with the task to get the download URL
+                                return fileReference.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    String url = downloadUri.toString();
+
+                                    Glide.with(getActivity()).load(url)
+                                            .apply(new RequestOptions().apply(new RequestOptions()).
+                                                    centerCrop().placeholder(R.drawable.add_member)).into(profilePic);
+
+                                }
+                            }
+                        });
+                    }
+         else {
+            Toast.makeText(getActivity().getBaseContext(), "No file selected", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
