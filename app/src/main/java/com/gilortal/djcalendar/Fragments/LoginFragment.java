@@ -28,7 +28,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 
-public class LoginFragment extends Fragment  {
+public class LoginFragment extends Fragment implements SendServerResponeToFrags  {
 
     String email = null;
     String password = null;
@@ -45,6 +45,17 @@ public class LoginFragment extends Fragment  {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).serverToFragsListener = this;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).serverToFragsListener = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +97,15 @@ public class LoginFragment extends Fragment  {
         return view;
     }
 
+    @Override
+    public void broadcastSnapShot(DocumentSnapshot document) {
+
+    }
+
+    @Override
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+
+    }
 }
 
 

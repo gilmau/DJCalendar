@@ -60,7 +60,6 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

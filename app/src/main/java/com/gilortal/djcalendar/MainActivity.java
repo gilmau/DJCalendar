@@ -382,16 +382,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getSnapshotFromServer(String docId, String collectionName){
-        db.collection(collectionName).document(docId).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()&&task.getResult().exists()){
-                            serverToFragsListener.broadcastSnapShot(task.getResult());
+            db.collection(collectionName).document(docId).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult().exists()) {
+                                serverToFragsListener.broadcastSnapShot(task.getResult());
 
+                            }
                         }
-                    }
-                });
+                    });
+        
     }
 
     @Override

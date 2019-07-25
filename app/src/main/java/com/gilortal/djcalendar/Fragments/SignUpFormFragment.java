@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
+import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
+import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFormFragment extends Fragment implements View.OnClickListener {
+public class SignUpFormFragment extends Fragment implements View.OnClickListener, SendServerResponeToFrags {
 
     public LoginAuth loginAuth;
     TextInputEditText nameText;
@@ -45,6 +48,18 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
 
     public SignUpFormFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).serverToFragsListener = this;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((MainActivity)getActivity()).serverToFragsListener = null;
     }
 
 
@@ -148,5 +163,15 @@ confirmBox = v.findViewById(R.id.confirmBox);
     @Override
     public void onClick(View v) {
         checkedGenres.add(((CheckBox)v).getText().toString());
+    }
+
+    @Override
+    public void broadcastSnapShot(DocumentSnapshot document) {
+
+    }
+
+    @Override
+    public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
+
     }
 }
