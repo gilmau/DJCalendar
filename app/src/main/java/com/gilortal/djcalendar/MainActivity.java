@@ -1,6 +1,5 @@
 package com.gilortal.djcalendar;
 
-import android.app.Activity;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     Bundle savedInstanceState;
     TextView nameNewEvent,locationNewEvent,dateNewEvent,aboutNewEvent;
     ImageView imageNewEvent;
-    ListView linupEvent;
+    ListView lineupEvent;
     String nameEvent = null,locationEvent ,dateEvent,aboutEvent = null;
     Button confirmNewEvent;
 
@@ -315,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         dateNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_date);
         aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
         imageNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_image);
-        linupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
+        lineupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
         confirmNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_confirmbtn);
 
         confirmNewEvent.setOnClickListener(new View.OnClickListener() {
