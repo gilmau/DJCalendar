@@ -54,7 +54,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
-    FirebaseFirestore db ;
+    FirebaseFirestore db;
     public SendServerResponeToFrags serverToFragsListener;
     CustomSharePrefAdapter sharedPref;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity
     String email;
     String password;
     Bundle savedInstanceState;
-    TextView nameNewEvent,locationNewEvent,dateNewEvent,aboutNewEvent;
+    TextView nameNewEvent, locationNewEvent, dateNewEvent, aboutNewEvent;
     ImageView imageNewEvent;
     ListView linupEvent;
-    String nameEvent = null,locationEvent ,dateEvent,aboutEvent = null;
+    String nameEvent = null, locationEvent, dateEvent, aboutEvent = null;
     Button confirmNewEvent;
 
     public static CoordinatorLayout coordinatorLayout;
@@ -84,28 +84,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAttachFragment (Fragment fragment) {
+    public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         if (fragment instanceof DjProfileFragment) {
-            ((DjProfileFragment)fragment).fragChanger = this;
-            ((DjProfileFragment)fragment).dbUpdater = this;
-            ((DjProfileFragment)fragment).requestServer = this;
+            ((DjProfileFragment) fragment).fragChanger = this;
+            ((DjProfileFragment) fragment).dbUpdater = this;
+            ((DjProfileFragment) fragment).requestServer = this;
 
-        }else if (fragment instanceof UserProfileFragment){
-            ((UserProfileFragment)fragment).fragChanger = this;
-            ((UserProfileFragment)fragment).dbUpdater = this;
-            ((UserProfileFragment)fragment).requestServer = this;
+        } else if (fragment instanceof UserProfileFragment) {
+            ((UserProfileFragment) fragment).fragChanger = this;
+            ((UserProfileFragment) fragment).dbUpdater = this;
+            ((UserProfileFragment) fragment).requestServer = this;
 
-        }else if (fragment instanceof EventFragment){
-            ((EventFragment)fragment).fragChanger = this;
-            ((EventFragment)fragment).dbUpdater = this;
-            ((EventFragment)fragment).requestServer = this;
+        } else if (fragment instanceof EventFragment) {
+            ((EventFragment) fragment).fragChanger = this;
+            ((EventFragment) fragment).dbUpdater = this;
+            ((EventFragment) fragment).requestServer = this;
 
-        }else if (fragment instanceof LoginFragment){
-            ((LoginFragment)fragment).loginAuth = this;
-            ((LoginFragment)fragment).moveToFrag = this;
-        }else if (fragment instanceof SignUpFormFragment){
-            ((SignUpFormFragment)fragment).loginAuth = this;
+        } else if (fragment instanceof LoginFragment) {
+            ((LoginFragment) fragment).loginAuth = this;
+            ((LoginFragment) fragment).moveToFrag = this;
+        } else if (fragment instanceof SignUpFormFragment) {
+            ((SignUpFormFragment) fragment).loginAuth = this;
         }
 
     }
@@ -134,16 +134,16 @@ public class MainActivity extends AppCompatActivity
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Toast.makeText(MainActivity.this, "state changed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
 //                TextView userNameDrawerTV = headerView.findViewById(R.id.);
 //                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-                if (currentUser != null){ //user is logged in
+                if (currentUser != null) { //user is logged in
                     sharedPref.setSignedInStatus(true);
-                    Log.d("STATE LISTENER" , "Signed in");
+                    Log.d("STATE LISTENER", "Signed in");
                     //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
 //                    userType                   DrawerTV.setText("");
@@ -154,14 +154,16 @@ public class MainActivity extends AppCompatActivity
                                 Log.d("onAuthStateChanged", "success");
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
-                                    Log.d("onAuthStateChanged","user is a dj");
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS );
+                                    Log.d("onAuthStateChanged", "user is a dj");
+                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
                                 } else {
-                                    Log.d("onAuthStateChanged","user NOT a dj");
+                                    Log.d("onAuthStateChanged", "user NOT a dj");
                                     sharedPref.setIsDj(false);
                                     gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
-                            }else{Log.d("onAuthStateChanged", "failed connecting to DB");}
+                            } else {
+                                Log.d("onAuthStateChanged", "failed connecting to DB");
+                            }
                         }
                     });
 
@@ -171,12 +173,11 @@ public class MainActivity extends AppCompatActivity
 //                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(false);
 //                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(true);
 
-                }
-                else { //signed out
+                } else { //signed out
                     sharedPref.setSignedInStatus(false);
                     sharedPref.setMyUserId("");
                     Toast.makeText(MainActivity.this, "User is signed u=out!!", Toast.LENGTH_SHORT).show();
-                    Log.d("STATE LISTENER" , "User is signed u=out!!");
+                    Log.d("STATE LISTENER", "User is signed u=out!!");
 //                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
 //                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
 //                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
@@ -192,30 +193,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeFragmentDisplay(int displayFragment) {
-        Toast.makeText(this, ""+displayFragment , Toast.LENGTH_SHORT).show();
-        if(findViewById(R.id.fragment_container) != null) {
+        Toast.makeText(this, "" + displayFragment, Toast.LENGTH_SHORT).show();
+        if (findViewById(R.id.fragment_container) != null) {
 
             Toast.makeText(this, "fragmentcpntainer isnt null", Toast.LENGTH_SHORT).show();
-            if(savedInstanceState!=null) {
+            if (savedInstanceState != null) {
                 return;
             }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            switch(displayFragment){
-                case Consts.DJ_PROFILE_FRAG:
-                    fragmentTransaction.replace(R.id.fragment_container, new DjProfileFragment()); break;
-                case Consts.EVENT_FRAG:
-                    fragmentTransaction.replace(R.id.fragment_container, new EventFragment()); break;
-                case Consts.SIGNUP_FORM_FRAG:
-                    SignUpFormFragment signUpFormFragment = new SignUpFormFragment();
-                    fragmentTransaction.replace(R.id.fragment_container,signUpFormFragment );
-                    fragmentTransaction.addToBackStack(null); break;
+            switch (displayFragment) {
                 case Consts.LOGIN_SCREEN_FRAG:
                     LoginFragment loginFragment = new LoginFragment();
                     fragmentTransaction.replace(R.id.fragment_container, loginFragment);
-                    fragmentTransaction.addToBackStack(null); break;
+                    fragmentTransaction.addToBackStack(null);
+                    break;
+                case Consts.SIGNUP_FORM_FRAG:
+                    SignUpFormFragment signUpFormFragment = new SignUpFormFragment();
+                    fragmentTransaction.replace(R.id.fragment_container, signUpFormFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    break;
+                case Consts.DJ_PROFILE_FRAG:
+                    fragmentTransaction.replace(R.id.fragment_container, new DjProfileFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    break;
                 case Consts.USER_PROFILE_FRAG:
-                    fragmentTransaction.replace(R.id.fragment_container, new UserProfileFragment()); break;
-
+                    fragmentTransaction.replace(R.id.fragment_container, new UserProfileFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    break;
+                case Consts.EVENT_FRAG:
+                    fragmentTransaction.replace(R.id.fragment_container, new EventFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    break;
             }
 
             fragmentTransaction.commit();
@@ -237,7 +245,6 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-
 
 
     }
@@ -292,26 +299,30 @@ public class MainActivity extends AppCompatActivity
 
     private void statistic() {
     }
+
     private void show_Profile() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if(sharedPref.getIsDj()){
-            gotToFrag(Consts.DJ_PROFILE_FRAG,currentUser.getUid(),Consts.DB_DJS);
+        if (sharedPref.getIsDj()) {
+            gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
 
-        }else{
-            gotToFrag(Consts.USER_PROFILE_FRAG,currentUser.getUid(),Consts.DB_USERS);
+        } else {
+            gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
         }
     }
+
     private void edit_Profile() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         //gotToFrag(Consts.SIGNUP_FORM_FRAG,currentUser.getUid(),);
         //SignUpFromFra
     }
+
     private void show_next_event() {
     }
+
     private void create_New_event() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form,null);
+        View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form, null);
 
         nameNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_name);
         locationNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_location);
@@ -325,38 +336,50 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 try {
-                    nameEvent = String.valueOf(nameNewEvent.getText()); } catch (Exception e) { e.printStackTrace(); }
+                    nameEvent = String.valueOf(nameNewEvent.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 try {
-                    locationEvent = String.valueOf(locationNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+                    locationEvent = String.valueOf(locationNewEvent.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 try {
-                    dateEvent = String.valueOf(dateNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+                    dateEvent = String.valueOf(dateNewEvent.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 try {
-                    aboutEvent = String.valueOf(aboutNewEvent.getText()); }catch (Exception e) { e.printStackTrace(); }
+                    aboutEvent = String.valueOf(aboutNewEvent.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-               if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
-                   Toast.makeText(MainActivity.this, "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
-               }else {
+                if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
+                    Toast.makeText(MainActivity.this, "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
+                } else {
 
                     HashMap<String, Object> eventData = new HashMap();
 
                     eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
                     eventData.put(Consts.COLUMN_DATE, dateEvent);
                     eventData.put(Consts.COLUMN_LOCATION, locationEvent);
-                    eventData.put(Consts.COLUMN_ABOUT,aboutEvent );
+                    eventData.put(Consts.COLUMN_ABOUT, aboutEvent);
                     eventData.put(Consts.COLUMN_PIC_URL, "");
                     eventData.put(Consts.COLUMN_LINEUP_IDS, linupEvent);
-                  }
-
+                }
 
 
             }
         });
     }
+
 //TODO: create new event from view
 
     private void signOutUser() {
         firebaseAuth.signOut();
-        moveToFrag(Consts.LOGIN_SCREEN_FRAG);
+        gotToFrag(Consts.LOGIN_SCREEN_FRAG, null, null);
     }
 
     @Override
@@ -366,23 +389,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void gotToFrag(int moveToFragment, String docId, String collectionName) {
-        switch (moveToFragment){
-            case Consts.DJ_PROFILE_FRAG:
-                getSnapshotFromServer(docId,collectionName);
+        Toast.makeText(this, "i'm in goToFrag", Toast.LENGTH_SHORT).show();
+        changeFragmentDisplay(moveToFragment);
+        if(docId != null)
+            getSnapshotFromServer(docId, collectionName);
         }
-    }
+
+
 
     @Override
     public void goToSignUpFrag(int fragment) {
         changeFragmentDisplay(fragment);
 
-    }
-
-
-    public void moveToFrag(int moveToFragment) {
-        switch (moveToFragment){
-            case Consts.LOGIN_SCREEN_FRAG:
-        }
     }
 
     private void getSnapshotFromServer(String docId, String collectionName){

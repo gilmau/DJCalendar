@@ -1,16 +1,20 @@
 package com.gilortal.djcalendar.Fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Classes.DJUser;
@@ -37,9 +41,10 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     public UpdateToServer dbUpdater;
     private CustomSharePrefAdapter sharedPref;
     ImageView imageDjProf;
-    TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV, dateNextEventDjProf_TV, locationNextEventDjProf_TV, followerNumDjProf_TV, aboutDjProf_TV;
-    GridView genresDjProf_GV;
-    Button facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
+    TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV,
+            dateNextEventDjProf_TV, locationNextEventDjProf_TV, followersNumDjProf_TV, aboutDjProf_TV;
+    GridLayout genresDjProf_GV;
+    ImageView facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
     ArrayList<Events> nextEvents;
     public RequestDataFromServer requestServer;
 
@@ -69,7 +74,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         dateNextEventDjProf_TV = v.findViewById(R.id.date_next_event_tv_dj_frag);
         locationNextEventDjProf_TV = v.findViewById( R.id.location_next_event_tv_dj_frag);
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
-        followerNumDjProf_TV = v.findViewById(R.id.follow_ro_tv_dj_frag);
+        followersNumDjProf_TV = v.findViewById(R.id.follow_num_tv_dj_frag);
         aboutDjProf_TV = v.findViewById(R.id.about_dj_frag);
         genresDjProf_GV = v.findViewById(R.id.genres_gridlayout_dj_frag);
         facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
@@ -106,13 +111,13 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 
     private void displayDjProf(DJUser djUser) {
         //region fetch next events from DB and display first one
-        HashMap args = new HashMap();
+        HashMap<String,Object> args = new HashMap();
         args.put(Consts.ARG_DJ_ID,djUser.getId());
         requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
         //endregion
         nameNextEventDjProf_TV.setText(djUser.getName());
-        followerNumDjProf_TV.setText(djUser.getFollowing().size());
         aboutDjProf_TV.setText(djUser.getAbout());
+        followersNumDjProf_TV.setText(djUser.getNumberOfFollwers());
         for (String genre:djUser.getGenres()) {
             TextView genreTV = new TextView(getContext());
             genreTV.setText(genre);
@@ -121,9 +126,9 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             genreTV.setGravity(Gravity.CENTER);
             genresDjProf_GV.addView(genreTV);
         }
-        facebookContactDj_btn.setTag(0,djUser.getFacebook());
-        instagramContactDj_btn.setTag(0,djUser.getInstagram());
-        twitterContactDj_btn.setTag(0,djUser.getTwitter());
-        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
+//        facebookContactDj_btn.setTag(0,djUser.getFacebook());
+//        instagramContactDj_btn.setTag(0,djUser.getInstagram());
+//        twitterContactDj_btn.setTag(0,djUser.getTwitter());
+//        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
     }
 }

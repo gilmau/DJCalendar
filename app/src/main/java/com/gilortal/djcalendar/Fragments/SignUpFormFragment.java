@@ -41,6 +41,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     Button confirmBox;
     CheckBox electronicGenre, rockGenre, popGenre, reggaeGenre, hiphopGenre, israelGenre;
     List<String> checkedGenres = new ArrayList<>();
+    List<String> followersList, followingList;
 
     String name = null, email = null, password = null, confirmPassword = null;
     boolean isDJ = false;
@@ -140,11 +141,19 @@ confirmBox = v.findViewById(R.id.confirmBox);
                     userData.put(Consts.COLUMN_GENRES,checkedGenres );
                     userData.put(Consts.COLUMN_PIC_URL, "");
 
+
                     if (isDJ){
                         userData.put(Consts.COLUMN_ABOUT, aboutBox.getText().toString());
+                        followersList = new ArrayList<>();
+                        userData.put(Consts.COLUMN_FOLLOWERS_IDS, followersList);
                         loginAuth.signUpForm(userData, Consts.DB_DJS);
                     }
-                    else loginAuth.signUpForm(userData, Consts.DB_USERS);
+                    else {
+                        loginAuth.signUpForm(userData, Consts.DB_USERS);
+                        followingList = new ArrayList<>();
+                        userData.put(Consts.COLUMN_FOLLOWERS_IDS, followingList);
+                    }
+
 
 
                 }

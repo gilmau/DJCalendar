@@ -108,7 +108,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.USER_PROFILE_FRAG,args);
         //endregion
         nameUserProf_TV.setText(userProf.getName());
-        followNumUserProf_TV.setText(userProf.getFollowing().size());
+       // followNumUserProf_TV.setText(userProf.getFollowing().size());
         for (String genre : userProf.getGenres()) {
             TextView genreTV = new TextView(getContext());
             genreTV.setText(genre);
