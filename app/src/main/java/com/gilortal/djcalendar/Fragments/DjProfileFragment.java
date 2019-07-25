@@ -110,6 +110,10 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         }
     }
 
+
+
+
+
     private void displayDjProf(DJUser djUser) {
         //region fetch next events from DB and display first one
         HashMap<String,Object> args = new HashMap();

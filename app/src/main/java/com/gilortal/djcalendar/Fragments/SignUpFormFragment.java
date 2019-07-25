@@ -1,15 +1,22 @@
 package com.gilortal.djcalendar.Fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,9 +29,14 @@ import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +54,10 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     CheckBox electronicGenre, rockGenre, popGenre, reggaeGenre, hiphopGenre, israelGenre;
     List<String> checkedGenres = new ArrayList<>();
     List<String> followersList, followingList;
+    ImageView profilePic;
+    final static int GALLERY_PICK = 1;
+    final static int RESULT_OK = 1;
+
 
     String name = "", email = "", password = "", confirmPassword = "";
     boolean isDJ = false;
@@ -72,16 +88,14 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
         container.clearDisappearingChildren();
 
 
-
-
-
-confirmBox = v.findViewById(R.id.confirmBox);
+        confirmBox = v.findViewById(R.id.confirmBox);
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
         passwordText = v.findViewById(R.id.password_sign_up_form_ID);
         confirmPasswordText = v.findViewById(R.id.password_confirm_sign_up_form_ID);
         isDJCheckBox = v.findViewById(R.id.dj_or_not_button_ID);
         aboutBox = v.findViewById(R.id.about_text_id);
+        profilePic = v.findViewById(R.id.profile_picture_sign_up_id);
         electronicGenre = v.findViewById(R.id.checkedbox_electronic_id);
         rockGenre = v.findViewById(R.id.checkedbox_rock_id);
         popGenre = v.findViewById(R.id.checkedbox_pop_id);
@@ -107,6 +121,16 @@ confirmBox = v.findViewById(R.id.confirmBox);
                     aboutBox.setVisibility(View.VISIBLE);
                 else
                     aboutBox.setVisibility(View.GONE);
+            }
+        });
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GALLERY_PICK);
             }
         });
 
@@ -160,14 +184,20 @@ confirmBox = v.findViewById(R.id.confirmBox);
             }
         });
 
-
-
-
-
-
-
-        return v;
+       return v;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_PICK && resultCode == RESULT_OK && data!= null) {
+            Uri ImageUri = data.getData();
+
+        }
+
+    }
+
 
     @Override
     public void onClick(View v) {
