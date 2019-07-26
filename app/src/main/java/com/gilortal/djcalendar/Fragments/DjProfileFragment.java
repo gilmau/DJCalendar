@@ -141,7 +141,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             layoutParams.columnSpec = GridLayout.spec(c);
             layoutParams.rowSpec = GridLayout.spec(r);
             genreTV.setLayoutParams(layoutParams);
-           genresDjProf_GL.addView(genreTV);
+            genresDjProf_GL.addView(genreTV);
 
 
 
