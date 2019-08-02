@@ -16,6 +16,8 @@ public class CustomSharePrefAdapter {
     private static String IS_DJ = "IS_DJ";
     private static String IS_SIGNED_IN = "IS_SIGNED_IN";
     private static String FIRST_INITIALIZE = "FIRST_INITIALIZE";
+    private static String COLUMN_PIC_URL = "COLUMN_PIC_URL";
+
 
     public CustomSharePrefAdapter(Context context) { //constructor
         this.sharedPref = context.getSharedPreferences(PREFS_NAME,context.MODE_PRIVATE);
@@ -75,6 +77,13 @@ public class CustomSharePrefAdapter {
                 .remove(DISPLAY_USER_ID).remove(PREFS_NAME).remove(NEXT_EVENT_ID)
                 .remove(MY_USER_ID).putBoolean(IS_SIGNED_IN,false)
                 .apply();
+    }
+    public void putString(String key,String value){
+        sharedPref.edit().putString(key,value).apply();
+    }
+    public void setUserPathImage(String currentPath)
+    {
+        putString(COLUMN_PIC_URL,currentPath);
     }
 
     //endregion

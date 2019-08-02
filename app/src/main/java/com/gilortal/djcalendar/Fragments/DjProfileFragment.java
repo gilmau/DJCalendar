@@ -42,9 +42,10 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     public UpdateToServer dbUpdater;
     private CustomSharePrefAdapter sharedPref;
     ImageView imageDjProf;
-    TextView genresNextEventDjProf_TV,nameNextEventDjProf_TV,
+    TextView genresNextEventDjProf_TV,nameDjProf_TV,
             dateNextEventDjProf_TV, locationNextEventDjProf_TV, followersNumDjProf_TV, aboutDjProf_TV;
     GridLayout genresDjProf_GL;
+    Button followButton;
     ImageView facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
     ArrayList<Events> nextEvents;
     public RequestDataFromServer requestServer;
@@ -71,7 +72,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_dj_profile, container, false);
-        nameNextEventDjProf_TV = v.findViewById(R.id.name_tv_dj_frag);
+        nameDjProf_TV = v.findViewById(R.id.name_tv_dj_frag);
         dateNextEventDjProf_TV = v.findViewById(R.id.date_next_event_tv_dj_frag);
         locationNextEventDjProf_TV = v.findViewById( R.id.location_next_event_tv_dj_frag);
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
@@ -79,14 +80,35 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         aboutDjProf_TV = v.findViewById(R.id.about_dj_frag);
         genresDjProf_GL = v.findViewById(R.id.genres_gridlayout_dj_frag);
         genresDjProf_GL.removeAllViews();
+        followButton = v.findViewById(R.id.follow_button);
         facebookContactDj_btn = v.findViewById(R.id.facebook_btn_dj_frag);
         instagramContactDj_btn = v.findViewById(R.id.instagram_btn_dj_frag);
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
         spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
         imageDjProf = v.findViewById(R.id.thumbnail_iv_dj_frag);
-        return v;
-    }
 
+
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+        return v;
+
+
+    }
 
 
 
@@ -106,7 +128,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
                 if (nextEvents != null && nextEvents.size() > 0){
                     //display 1st to next event
                     //add rest of events to list of events
-                    nameNextEventDjProf_TV.setText(nextEvents.get(0).getName());
+                    nameDjProf_TV.setText(nextEvents.get(0).getName());
                     locationNextEventDjProf_TV.setText(nextEvents.get(0).getLocation());
                     genresNextEventDjProf_TV.setText(nextEvents.get(0).getGenres().toString());
                     dateNextEventDjProf_TV.setText(nextEvents.get(0).getDate());
@@ -124,10 +146,10 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         args.put(Consts.ARG_DJ_ID,djUser.getId());
         requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
         //endregion
-        nameNextEventDjProf_TV.setText(djUser.getName());
+        nameDjProf_TV.setText(djUser.getName());
         aboutDjProf_TV.setText(djUser.getAbout());
         followersNumDjProf_TV.setText(String.valueOf(djUser.getNumberOfFollwers()));
-        int rows = djUser.getGenres().size() / 3 ;
+        int rows = djUser.getGenres().size() / 1 ;
         for (int j = 0 , c = 0, r = 0 ; j < djUser.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
             TextView genreTV = new TextView(getContext());
             genreTV.setText(djUser.getGenres().get(j));
@@ -143,13 +165,8 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             genreTV.setLayoutParams(layoutParams);
             genresDjProf_GL.addView(genreTV);
 
-
-
         }
-//        facebookContactDj_btn.setTag(0,djUser.getFacebook());
-//        instagramContactDj_btn.setTag(0,djUser.getInstagram());
-//        twitterContactDj_btn.setTag(0,djUser.getTwitter());
-//        spotifyContactDj_btn.setTag(0,djUser.getSpotify());
+
     }
 
 

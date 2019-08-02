@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2E7D32</color>
-    <color name="colorPrimaryDark">#134117</color>
-    <color name="colorAccent">#FF8A65</color>
-    <color name="grayTextColor">#686868</color>
-    <color name="primaryTextView">#000000</color>
-    <color name="appbar_background">#C3E7FC</color>
-    <color name="team_avatar_background">#A4E8F5E9</color>
-    <color name="category_background">#90d0f0fa</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorHintText">#ECD6D9</color>
     <color name="lists_background">#0A8B8BA3</color>
-    <color name="yellowish">#B9FFF176</color>
-    <color name="gradient_start">#C6BBDEFB</color>
-    <color name="gradient_end">#64B5F6</color>
-    <color name="linear_center">#B4EAEBEC</color>
-    <color name="linear_start" >#F1F8E9</color>
-    <color name="linear_end" > #FFF </color>
-    <color name="linear_border" >#475347</color>
-    <color name="tranparent_back">#D7FFFFFF</color>
-    <color name="tranparent_back_view">#2CB3B3B3</color>
-    <color name="sandy_brown">#f4a460</color>
+    <color name="title_color">#E21D1D2B</color>
+
+    <!--colors for profile-->
+    <color name="profilePrimaryDark">#FF3B30</color>
+    <color name="profileAccentColor">#F7F7F7</color>
+    <color name="whiteTextColor">#fff</color>
+    <color name="profileBackground">#fff</color>
+    <color name="blackTextColor">#000</color>
+    <color name="profileEditTextColor">#707070</color>
+
 </resources>

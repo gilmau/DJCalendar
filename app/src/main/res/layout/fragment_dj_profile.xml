@@ -7,11 +7,9 @@
     android:orientation="vertical"
     >
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.UserProfileFragment">
 
     <ImageView
@@ -22,7 +20,7 @@
         android:layout_height="150dp"
         android:id="@+id/thumbnail_iv_dj_frag"
         android:src="@drawable/profile_ic_tab"
-        android:background="@color/appbar_background"
+        android:background="@color/lists_background"
         android:tag="default"/>
 
     <TextView
@@ -46,6 +44,23 @@
         android:text="Followers : "
         />
 
+
+    <Button
+        android:id="@+id/follow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:text="Follow"
+        android:textAlignment="center"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/about_title_ro_tv_dj_frag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="@+id/follow_ro_tv_dj_frag"
+        app:layout_constraintTop_toBottomOf="@+id/follow_ro_tv_dj_frag"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/follow_num_tv_dj_frag"
@@ -78,7 +93,7 @@
         android:gravity="center"
         >
 
-            <ImageView
+        <ImageView
             android:id="@+id/facebook_btn_dj_frag"
             style="@style/Profile_Contact_Buttons"
             android:src="@drawable/facebook"

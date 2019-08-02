@@ -49,6 +49,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -90,10 +91,11 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     List<String> followersList, followingList;
     ImageView profilePic;
     private Uri imageURI;
-    private DatabaseReference mDatabaseRef;
+    String keyImage;
+    private DatabaseReference mDatabaseRef, space;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
-    private ProgressBar mProgressBar;
+
     final static int GALLERY_PICK = 1;
     final static int RESULT_OK = 1;
 
@@ -127,6 +129,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
         container.clearDisappearingChildren();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Profile Pictures");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("DJ Profiles DB");
         confirmBox = v.findViewById(R.id.confirmBox);
         nameText = v.findViewById(R.id.name_sign_up_form_ID);
         emailText = v.findViewById(R.id.email_sign_up_form_ID);
@@ -190,10 +193,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                 }
                 else {
 
-                    if (mUploadTask != null && mUploadTask.isInProgress()) {
-                        Toast.makeText(getActivity().getBaseContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
-                    } else  uploadFile();
-
+                    uploadFile();
 
                     HashMap<String, Object> userData = new HashMap();
 
@@ -201,17 +201,17 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                     userData.put(Consts.COLUMN_EMAIL, email);
                     userData.put(Consts.COLUMN_PASSWORD, password);
                     userData.put(Consts.COLUMN_GENRES,checkedGenres );
-                    userData.put(Consts.COLUMN_PIC_URL, "");
+                    userData.put(Consts.COLUMN_PIC_URL, keyImage);
 
 
                     if (isDJ){
                         userData.put(Consts.COLUMN_ABOUT, aboutBox.getText().toString());
                         followersList = new ArrayList<>();
                         userData.put(Consts.COLUMN_FOLLOWERS_IDS, followersList);
-                        loginAuth.signUpForm(userData, Consts.DB_DJS);
+                        loginAuth.createNewUser(userData, Consts.DB_DJS);
                     }
                     else {
-                        loginAuth.signUpForm(userData, Consts.DB_USERS);
+                        loginAuth.createNewUser(userData, Consts.DB_USERS);
                         followingList = new ArrayList<>();
                         userData.put(Consts.COLUMN_FOLLOWERS_IDS, followingList);
                     }
@@ -241,6 +241,21 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
 
         if (requestCode == GALLERY_PICK && resultCode  == getActivity().RESULT_OK && data != null && data.getData() != null) {
             imageURI = data.getData();
+            StorageReference reference = mStorageRef.child("Profile Pictures");
+            reference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String photoStringLink = uri.toString();
+                           // spref.setUserPathImage(photoStringLink);
+                            Toast.makeText(getActivity().getBaseContext(), "Upload ...", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
             Toast.makeText(getActivity().getBaseContext(), imageURI.toString(), Toast.LENGTH_SHORT).show();
 
             Picasso.with(getActivity().getApplicationContext()).load(imageURI).into(profilePic);
@@ -267,8 +282,8 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                             Toast.makeText(getActivity().getBaseContext(), "Image Upload Success", Toast.LENGTH_SHORT).show();
                             Upload upload = new Upload("pic", taskSnapshot.getMetadata().getReference()
                                     .getDownloadUrl().toString());
-                            String uploadID = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadID).setValue(upload);
+                            keyImage = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(keyImage).setValue(upload);
                         }
 
                     })

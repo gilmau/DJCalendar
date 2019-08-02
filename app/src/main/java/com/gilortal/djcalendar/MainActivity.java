@@ -136,8 +136,6 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                // Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
-//                TextView userNameDrawerTV = headerView.findViewById(R.id.);
-//                TextView userTypeDrawerTV = headerView.findViewById(R.id.);
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
@@ -434,7 +432,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void signUpForm(final HashMap userData, final String collection) {
+    public void createNewUser(final HashMap userData, final String collection) {
         email = userData.get(Consts.COLUMN_EMAIL).toString();
         password = userData.get(Consts.COLUMN_PASSWORD).toString();
         userData.remove(Consts.COLUMN_EMAIL);

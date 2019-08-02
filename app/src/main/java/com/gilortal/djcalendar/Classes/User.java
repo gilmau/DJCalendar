@@ -8,19 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class User  {
-    private String id,name,picture_url,facebook,spotify,instagram,twitter;
+    private String id,name,picture_url;
+//    facebook,spotify,instagram,twitter;
     private List<String> events_id;
 
     Map<String,Object> data;
-    List<String> follwersList, genresList;
+    String about;
+    List<String> followingList, genresList;
 
 
     public User(DocumentSnapshot user) {
         id = user.getId();
-//      facebook = user.getString(Consts.COLUMN_FACEBOOK);
-//      instagram = user.getString(Consts.COLUMN_INSTAGRAM);
-//      twitter = user.getString(Consts.COLUMN_TWITTER);
-//      spotify = user.getString(Consts.COLUMN_SPOTIFY);
         data = user.getData();
         for(Map.Entry<String, Object> entry : data.entrySet())
         {
@@ -29,8 +27,10 @@ public class User  {
                     name = (String) entry.getValue(); break;
                 case Consts.COLUMN_PIC_URL:
                     picture_url = (String) entry.getValue(); break;
+                case Consts.COLUMN_ABOUT:
+                    about = (String) entry.getValue(); break;
                 case Consts.COLUMN_FOLLOWERS_IDS:
-                    follwersList = (List) entry.getValue(); break;
+                    followingList = (List) entry.getValue(); break;
                 case Consts.COLUMN_GENRES:
                     genresList = (List) entry.getValue(); break;
             }
@@ -67,37 +67,7 @@ public class User  {
         this.picture_url = picture_url;
     }
 
-    public String getFacebook() {
-        return facebook;
-    }
 
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
-
-    public String getSpotify() {
-        return spotify;
-    }
-
-    public void setSpotify(String spotify) {
-        this.spotify = spotify;
-    }
-
-    public String getInstagram() {
-        return instagram;
-    }
-
-    public void setInstagram(String instagram) {
-        this.instagram = instagram;
-    }
-
-    public String getTwitter() {
-        return twitter;
-    }
-
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
 
     public List<String> getEvents_id() {
         return events_id;
@@ -107,10 +77,21 @@ public class User  {
         this.events_id = events_id;
     }
 
-    public int getNumberOfFollwers() {
-        return follwersList.size();
+    public String getAbout() {
+        return about;
     }
 
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public int getNumberOfFollwers() {
+        return followingList.size();
+    }
+
+    public List getFollowingList() {
+        return followingList;
+    }
 
     public List<String> getGenres() {
         return genresList;

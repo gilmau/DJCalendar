@@ -1,5 +1,7 @@
 package com.gilortal.djcalendar;
 
+import android.support.annotation.NonNull;
+
 public class Upload {
     private String mName;
     private String mImageUrl;
@@ -8,7 +10,7 @@ public class Upload {
         //empty constructor needed
     }
 
-    public Upload(String name, String imageUrl) {
+    public Upload(@NonNull String name, String imageUrl) {
         if (name.trim().equals("")) {
             name = "No Name";
         }

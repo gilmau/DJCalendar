@@ -32,10 +32,10 @@ public class LoginFragment extends Fragment implements SendServerResponeToFrags 
 
     String email = null;
     String password = null;
-    TextInputEditText emailText;
-    TextInputEditText passwordText;
-    ImageButton signInButton;
-    ImageButton signUpButton;
+    TextView emailText;
+    TextView passwordText;
+    Button signInButton;
+    Button signUpButton;
     public LoginAuth loginAuth;;
     public MoveToFrag moveToFrag;
 
@@ -65,13 +65,13 @@ public class LoginFragment extends Fragment implements SendServerResponeToFrags 
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
 
-        emailText = view.findViewById(R.id.email_layout);
+        emailText = view.findViewById(R.id.email_login_fragment);
 
-        passwordText = view.findViewById(R.id.password_layout);
+        passwordText = view.findViewById(R.id.password_login_fragment);
 
 
-        signInButton = view.findViewById(R.id.sign_in_btn);
-        signUpButton = view.findViewById(R.id.sign_up_btn);
+        signInButton = view.findViewById(R.id.signin_button_login_fragment);
+        signUpButton = view.findViewById(R.id.signup_button_login_fragment);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
