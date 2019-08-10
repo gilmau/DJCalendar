@@ -8,21 +8,30 @@ import java.util.List;
 import java.util.Map;
 
 public class DJUser  {
-    private String id,name,picture_url,facebook,spotify,instagram,twitter;
+    private String id;
+    private String name;
+    private String picture_url;
+    private String about;
     private List<String> events_id;
-
+    private String facebook,spotify,instagram,twitter;
     Map<String,Object> data;
-    String about;
+
     List<String> follwersList, genresList;
 
 
+    public DJUser() {
+
+    }
+
     public DJUser(DocumentSnapshot user) {
         id = user.getId();
-//      facebook = user.getString(Consts.COLUMN_FACEBOOK);
-//      instagram = user.getString(Consts.COLUMN_INSTAGRAM);
-//      twitter = user.getString(Consts.COLUMN_TWITTER);
-//      spotify = user.getString(Consts.COLUMN_SPOTIFY);
         data = user.getData();
+        /*
+        facebook = user.getString(Consts.COLUMN_FACEBOOK);
+        instagram = user.getString(Consts.COLUMN_INSTAGRAM);
+        twitter = user.getString(Consts.COLUMN_TWITTER);
+        spotify = user.getString(Consts.COLUMN_SPOTIFY);
+        */
         for(Map.Entry<String, Object> entry : data.entrySet())
         {
             switch(entry.getKey()) {
@@ -36,13 +45,12 @@ public class DJUser  {
                     follwersList = (List) entry.getValue(); break;
                 case Consts.COLUMN_GENRES:
                     genresList = (List) entry.getValue(); break;
+
             }
 
         }
 
     }
-
-//endregion
 
     //region getters and setters
 

@@ -91,10 +91,12 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     List<String> followersList, followingList;
     ImageView profilePic;
     private Uri imageURI;
-    String keyImage;
+    String imageFBStrogeUri;
     private DatabaseReference mDatabaseRef, space;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
+
+
 
     final static int GALLERY_PICK = 1;
     final static int RESULT_OK = 1;
@@ -193,15 +195,13 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                 }
                 else {
 
-                    uploadFile();
-
                     HashMap<String, Object> userData = new HashMap();
 
                     userData.put(Consts.COLUMN_NAME, name);
                     userData.put(Consts.COLUMN_EMAIL, email);
                     userData.put(Consts.COLUMN_PASSWORD, password);
                     userData.put(Consts.COLUMN_GENRES,checkedGenres );
-                    userData.put(Consts.COLUMN_PIC_URL, keyImage);
+                    userData.put(Consts.COLUMN_PIC_URL, imageFBStrogeUri);
 
 
                     if (isDJ){
@@ -215,9 +215,6 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                         followingList = new ArrayList<>();
                         userData.put(Consts.COLUMN_FOLLOWERS_IDS, followingList);
                     }
-
-
-
                 }
             }
         });
@@ -241,24 +238,10 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
 
         if (requestCode == GALLERY_PICK && resultCode  == getActivity().RESULT_OK && data != null && data.getData() != null) {
             imageURI = data.getData();
-            StorageReference reference = mStorageRef.child("Profile Pictures");
-            reference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String photoStringLink = uri.toString();
-                           // spref.setUserPathImage(photoStringLink);
-                            Toast.makeText(getActivity().getBaseContext(), "Upload ...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
-            Toast.makeText(getActivity().getBaseContext(), imageURI.toString(), Toast.LENGTH_SHORT).show();
+            StorageReference reference = mStorageRef;
 
             Picasso.with(getActivity().getApplicationContext()).load(imageURI).into(profilePic);
+            uploadFile();
         }
     }
 
@@ -280,10 +263,12 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             Toast.makeText(getActivity().getBaseContext(), "Image Upload Success", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload("pic", taskSnapshot.getMetadata().getReference()
-                                    .getDownloadUrl().toString());
-                            keyImage = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(keyImage).setValue(upload);
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    imageFBStrogeUri = uri.toString();
+                                }
+                            });
                         }
 
                     })

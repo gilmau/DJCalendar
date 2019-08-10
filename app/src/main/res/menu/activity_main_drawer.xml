@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Profile" />
         <item
+            android:id="@+id/nav_dj_list"
+            android:icon="@drawable/ic_djlist"
+            android:title="Find A DJ" />
+        <item
             android:id="@+id/nav_edit_profile"
             android:icon="@drawable/ic_menu_manage"
             android:title="Edit Profile " />

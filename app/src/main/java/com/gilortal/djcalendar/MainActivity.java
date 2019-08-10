@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Fragments.DjListFragment;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
 import com.gilortal.djcalendar.Fragments.LoginFragment;
@@ -221,6 +222,10 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.replace(R.id.fragment_container, new EventFragment());
                     fragmentTransaction.addToBackStack(null);
                     break;
+                case Consts.DJ_LIST_FRAG:
+                    fragmentTransaction.replace(R.id.fragment_container, new DjListFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    break;
             }
 
             fragmentTransaction.commit();
@@ -273,6 +278,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             show_Profile();
 
+        } else if (id == R.id.nav_dj_list) {
+            changeFragmentDisplay(Consts.DJ_LIST_FRAG);
+
         } else if (id == R.id.nav_edit_profile) {
             edit_Profile();
 
@@ -287,11 +295,19 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             signOutUser();
+            changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void dj_list() {
+
+
+
+
     }
 
     private void statistic() {
@@ -376,7 +392,6 @@ public class MainActivity extends AppCompatActivity
 
     private void signOutUser() {
         firebaseAuth.signOut();
-        gotToFrag(Consts.LOGIN_SCREEN_FRAG, null, null);
     }
 
     @Override

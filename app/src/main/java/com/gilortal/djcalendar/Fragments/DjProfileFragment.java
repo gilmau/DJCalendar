@@ -2,6 +2,7 @@ package com.gilortal.djcalendar.Fragments;
 
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,11 +102,6 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 
 
 
-
-
-
-
-
         return v;
 
 
@@ -148,6 +145,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         //endregion
         nameDjProf_TV.setText(djUser.getName());
         aboutDjProf_TV.setText(djUser.getAbout());
+        Picasso.with(getActivity()).load(djUser.getPicture_url()).into(imageDjProf);
         followersNumDjProf_TV.setText(String.valueOf(djUser.getNumberOfFollwers()));
         int rows = djUser.getGenres().size() / 1 ;
         for (int j = 0 , c = 0, r = 0 ; j < djUser.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
