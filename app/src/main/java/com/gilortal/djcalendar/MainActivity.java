@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
 import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Fragments.CreateNewEvent;
 import com.gilortal.djcalendar.Fragments.DjListFragment;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
 import com.gilortal.djcalendar.Fragments.EventFragment;
@@ -45,6 +46,7 @@ import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -107,6 +109,9 @@ public class MainActivity extends AppCompatActivity
             ((LoginFragment) fragment).moveToFrag = this;
         } else if (fragment instanceof SignUpFormFragment) {
             ((SignUpFormFragment) fragment).loginAuth = this;
+        }
+        else if (fragment instanceof CreateNewEvent) {
+            ((CreateNewEvent) fragment).loginAuth = this;
         }
 
     }
@@ -226,6 +231,10 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.replace(R.id.fragment_container, new DjListFragment());
                     fragmentTransaction.addToBackStack(null);
                     break;
+                case Consts.CREATE_NEW_EVENT:
+                    fragmentTransaction.replace(R.id.fragment_container, new CreateNewEvent());
+                    fragmentTransaction.addToBackStack(null);
+                    break;
             }
 
             fragmentTransaction.commit();
@@ -288,7 +297,7 @@ public class MainActivity extends AppCompatActivity
             show_next_event();
 
         } else if (id == R.id.nav_create_new_event) {
-            create_New_event();
+            changeFragmentDisplay(Consts.CREATE_NEW_EVENT);
 
         } else if (id == R.id.nav_about) {
 
@@ -303,12 +312,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void dj_list() {
-
-
-
-
-    }
 
     private void statistic() {
     }
@@ -331,64 +334,6 @@ public class MainActivity extends AppCompatActivity
 
     private void show_next_event() {
     }
-
-    private void create_New_event() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form, null);
-
-        nameNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_name);
-        locationNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_location);
-        dateNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_date);
-        aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
-        imageNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_image);
-        linupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
-        confirmNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_confirmbtn);
-
-        confirmNewEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    nameEvent = String.valueOf(nameNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    locationEvent = String.valueOf(locationNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dateEvent = String.valueOf(dateNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    aboutEvent = String.valueOf(aboutNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
-                    Toast.makeText(MainActivity.this, "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
-                } else {
-
-                    HashMap<String, Object> eventData = new HashMap();
-
-                    eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
-                    eventData.put(Consts.COLUMN_DATE, dateEvent);
-                    eventData.put(Consts.COLUMN_LOCATION, locationEvent);
-                    eventData.put(Consts.COLUMN_ABOUT, aboutEvent);
-                    eventData.put(Consts.COLUMN_PIC_URL, "");
-                    eventData.put(Consts.COLUMN_LINEUP_IDS, linupEvent);
-                }
-
-
-            }
-        });
-    }
-
-//TODO: create new event from view
 
     private void signOutUser() {
         firebaseAuth.signOut();
@@ -471,6 +416,26 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    }
+
+
+    @Override
+    public void NewEventForm(final HashMap eventData, final String collection) {
+        nameEvent = eventData.get(Consts.COLUMN_NAME_EVENT).toString();
+        db.collection(Consts.DB_EVENTS).add(eventData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+                    db.collection(collection).document().set(eventData);
+                    Toast.makeText(MainActivity.this, " The Event save  Successfully ", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "The Event save failed ", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
     }
 
     @Override
