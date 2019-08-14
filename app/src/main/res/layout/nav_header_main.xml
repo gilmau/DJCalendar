@@ -25,11 +25,11 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Please Log in"
-        android:id="@+id/login_tv"
+        android:id="@+id/header_nav_login_tv"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/user_login_tv"
+        android:id="@+id/header_nav_user_login_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="We are waiting for you" />

@@ -157,8 +157,8 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                // Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
-                final TextView loginTV = headerView.findViewById(R.id.login_tv);
-                final TextView userLoginTV = headerView.findViewById(R.id.user_login_tv);
+                final TextView loginTV = headerView.findViewById(R.id.header_nav_login_tv);
+                final TextView userLoginTV = headerView.findViewById(R.id.header_nav_user_login_tv);
                 final ImageView profileImage = headerView.findViewById(R.id.nav__header_image);
 
                 Log.d("STATE LISTENER", "new user sign up - listening");
@@ -377,64 +377,6 @@ public class MainActivity extends AppCompatActivity
 
     private void show_next_event() {
     }
-
-    private void create_New_event() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogNewEventFormView = getLayoutInflater().inflate(R.layout.new_event_form, null);
-
-        nameNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_name);
-        locationNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_location);
-        dateNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_date);
-        aboutNewEvent = dialogNewEventFormView.findViewById(R.id.about_new_event);
-        imageNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_image);
-        linupEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_lineup_list);
-        confirmNewEvent = dialogNewEventFormView.findViewById(R.id.event_new_form_confirmbtn);
-
-        confirmNewEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    nameEvent = String.valueOf(nameNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    locationEvent = String.valueOf(locationNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dateEvent = String.valueOf(dateNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    aboutEvent = String.valueOf(aboutNewEvent.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (nameEvent == null || aboutEvent == null || locationEvent == null || dateEvent == null) {
-                    Toast.makeText(MainActivity.this, "Please Insert All Mandatory fields", Toast.LENGTH_LONG).show();
-                } else {
-
-                    HashMap<String, Object> eventData = new HashMap();
-
-                    eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
-                    eventData.put(Consts.COLUMN_DATE, dateEvent);
-                    eventData.put(Consts.COLUMN_LOCATION, locationEvent);
-                    eventData.put(Consts.COLUMN_ABOUT, aboutEvent);
-                    eventData.put(Consts.COLUMN_PIC_URL, "");
-                    eventData.put(Consts.COLUMN_LINEUP_IDS, linupEvent);
-                }
-
-
-            }
-        });
-    }
-
-//TODO: create new event from view
 
     private void signOutUser() {
         Toast.makeText(this, "Bye bye " , Toast.LENGTH_SHORT).show();
