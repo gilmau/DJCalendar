@@ -17,7 +17,8 @@
             android:id="@+id/title_sign_up_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="  Event Form"
+            android:fontFamily="cursive"
+            android:text="Event Form"
             android:layout_marginTop="15dp"
             android:textAlignment="center"
             android:textColor="@color/blackTextColor"
@@ -33,22 +34,19 @@
             android:layout_marginTop="20dp"
             android:background="@color/lists_background">
 
-                <android.support.design.widget.TextInputLayout
+
+
+                <EditText
+                    android:id="@+id/event_new_form_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorEnabled="true"
-                    style="@style/Login_Dialog_TextLayout">
+                    android:hint="Name Event "
+                    android:inputType="textPersonName"
+                    android:maxLines="4"
+                    android:textColor="@color/whiteTextColor"
+                    android:textColorHint="@color/blackTextColor"
+                    android:textSize="18dp"/>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/event_new_form_name"
-                        android:hint="Name Event"
-                        android:textColorHint="@color/blackTextColor"
-                        android:textColor="@color/blackTextColor"
-                        android:inputType="textPersonName" />
-
-                </android.support.design.widget.TextInputLayout>
 
 
             <LinearLayout
@@ -64,18 +62,11 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="5dp"
                     />
-                <TextView
-                    android:id="@+id/event_new_form_location"
+                <fragment android:id="@+id/autocomplete_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:textSize="20sp"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp"
-                    android:textColorHint="@color/blackTextColor"
-                    android:textColor="@color/blackTextColor"
-                    android:text="Location event"/>
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/date_event_new_form"
@@ -96,7 +87,7 @@
                 android:text="Date"
                 android:textColorHint="@color/blackTextColor"
                 android:textColor="@color/blackTextColor"
-                android:textSize="20dp"
+                android:textSize="18sp"
                 android:gravity="left"
                 android:layout_weight="1"/>
             </LinearLayout>
@@ -106,22 +97,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="About"
-                android:textColorHint="@color/blackTextColor"
-                android:textColor="@color/blackTextColor"
                 android:inputType="textPersonName"
                 android:maxLines="4"
-                android:textSize="24sp"/>
-
-            <TextView
-                android:id="@+id/event_new_form_picture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:textColor="@color/whiteTextColor"
                 android:textColorHint="@color/blackTextColor"
-                android:textColor="@color/blackTextColor"
-                android:text="Add Picture Event"
-                android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
+
             <ImageView
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,23 +110,27 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:id="@+id/event_new_form_image"
-                android:src="@drawable/add_image_event"
-                android:background="@color/colorPrimaryDark"
+                android:src="@drawable/ic_menu_camera"
+                android:background="@color/cardview_shadow_end_color"
                 android:layout_gravity="center"
                 android:tag="default"/>
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:padding="5dp"
+                android:background="@color/whiteTextColor"
                 android:id="@+id/event_new_form_lineup_list"
                 android:numColumns="4"
                 android:columnWidth="20dp"
                 />
         </LinearLayout>
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:id ="@+id/event_new_form_confirmbtn"
-            android:text="Confirm"/>
+            android:text="Confirm"
+            android:background="@drawable/confirm_botton"/>
     </LinearLayout>
 </ScrollView>

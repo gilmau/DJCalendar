@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gilortal.djcalendar.Classes.DJUser;
@@ -20,6 +21,7 @@ import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
     public RequestDataFromServer requestServer;
 
     TextView nameEvent,dateEvent,locationEvent,attendingNumEvent,aboutEvent;
+    ImageView imageEvent;
     Button songRequestBtn;
     GridView lineup_Event;
     public EventFragment() {
@@ -64,6 +67,7 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
         aboutEvent = v.findViewById(R.id.about_tv_event_frag);
         songRequestBtn = v.findViewById(R.id.song_request_btn_event_frag);
         lineup_Event = v.findViewById(R.id.lineup_grid_view_event_frag);
+        imageEvent = v.findViewById(R.id.image_event);
         return v;
     }
 
@@ -85,6 +89,7 @@ public class EventFragment extends Fragment implements SendServerResponeToFrags 
         args.put(Consts.COLUMN_LINEUP_IDS,event.getLineup_ids());
         requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.USER_PROFILE_FRAG,args);
         //endregion
+        Picasso.with(getActivity()).load(event.getPicture()).into(imageEvent);
         nameEvent.setText(event.getName());
         dateEvent.setText(event.getDate());
         locationEvent.setText(event.getLocation());

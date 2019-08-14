@@ -140,7 +140,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
         isDJCheckBox = v.findViewById(R.id.dj_or_not_button_ID);
         aboutBox = v.findViewById(R.id.about_text_id);
         profilePic = v.findViewById(R.id.profile_pic);
-        addPicButton = v.findViewById(R.id.add_pic_button);
+        //addPicButton = v.findViewById(R.id.add_pic_button);
         electronicGenre = v.findViewById(R.id.checkedbox_electronic_id);
         rockGenre = v.findViewById(R.id.checkedbox_rock_id);
         popGenre = v.findViewById(R.id.checkedbox_pop_id);
@@ -166,7 +166,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        addPicButton.setOnClickListener(new View.OnClickListener() {
+        profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();

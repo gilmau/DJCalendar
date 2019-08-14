@@ -6,39 +6,40 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_statistic"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_trending_up_black"
             android:title="Statistic" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Profile" />
+            android:icon="@drawable/profile_ic_tab"
+            android:title="profile" />
         <item
             android:id="@+id/nav_dj_list"
-            android:icon="@drawable/ic_djlist"
+            android:icon="@drawable/ic_search_black"
             android:title="Find A DJ" />
         <item
-            android:id="@+id/nav_edit_profile"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Edit Profile " />
+            android:id="@+id/nav_reset_password"
+            android:icon="@drawable/key"
+            android:title="Reset password"
+            />
         <item
             android:id="@+id/nav_next_event"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_event_available"
             android:title="Next Event" />
         <item
             android:id="@+id/nav_create_new_event"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_event_note"
             android:title="Create New Event " />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="General">
         <menu>
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_info"
                 android:title="About" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/signout"
                 android:title="Log Out" />
         </menu>
     </item>

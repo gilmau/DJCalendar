@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
@@ -22,29 +23,48 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gilortal.djcalendar.Adapters.DJAdapter;
 import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
+import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.android.volley.VolleyLog.TAG;
+
 public class CreateNewEvent  extends Fragment implements View.OnClickListener, SendServerResponeToFrags {
 
-    TextView nameNewEvent,locationNewEvent,dateNewEvent,aboutNewEvent;
+    public MoveToFrag moveToFrag;
+    TextView nameNewEvent, locationNewEvent,dateNewEvent,aboutNewEvent;
      ;
     ImageView imageNewEvent;
     ListView linupEvent ;
@@ -60,6 +80,9 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
     private Uri imageURI;
     String imageFBStrogeUri;
     String dbDate;
+
+    PlacesClient placesClient;
+
 
 
 
@@ -94,13 +117,12 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
         mStorageRef = FirebaseStorage.getInstance().getReference("Event Pictures");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Events Profile DB");
         nameNewEvent = v.findViewById(R.id.event_new_form_name);
-        locationNewEvent = v.findViewById(R.id.event_new_form_location);
+        //locationNewEvent = v.findViewById(R.id.event_new_form_location);
         dateNewEvent = v.findViewById(R.id.event_new_form_date);
         aboutNewEvent = v.findViewById(R.id.about_new_event);
         imageNewEvent = v.findViewById(R.id.event_new_form_image);
         linupEvent = v.findViewById(R.id.event_new_form_lineup_list);
         confirmNewEvent = v.findViewById(R.id.event_new_form_confirmbtn);
-
 
 
 
@@ -111,8 +133,6 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
             }
         });
-
-
         dateNewEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,8 +140,36 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
             }
         });
+        String apiKey  = "AIzaSyDMjJa22vJvyyBMFgi4hD9gHan6me7XMzU";
+
+        if(!Places.isInitialized()){
+            Places.initialize(getActivity().getApplicationContext(),apiKey);
+        }
+
+        placesClient = Places.createClient(getActivity());
+
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+        getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                //CreateNewEvent.super.onActivityResult(requestCode, resultCode, data);
+               // final LatLng latLng  = place.getLatLng();
+                Log.i("TAG", "Place: " + place.getName() + ", " + place.getId());
+                locationEvent = place.getName();
+               // Log.i("PlacesApi","onPlaceSelected: "+latLng.latitude+"\n"+latLng.longitude);
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.i(TAG, "An error occurred: " + status);
 
 
+            }
+        });
 
 
 
@@ -154,15 +202,15 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
                 } else {
                     dbDate = dateNewEvent.getText().toString();
 
+
                     HashMap<String, Object> eventData = new HashMap();
 
                     eventData.put(Consts.COLUMN_NAME_EVENT, nameEvent);
                     eventData.put(Consts.COLUMN_DATE,dbDate );
-                    eventData.put(Consts.COLUMN_LOCATION, "");
+                    eventData.put(Consts.COLUMN_LOCATION, locationEvent);
                     eventData.put(Consts.COLUMN_ABOUT, aboutEvent);
                     eventData.put(Consts.COLUMN_PIC_URL, imageFBStrogeUri);
                     eventData.put(Consts.COLUMN_LINEUP_IDS, "");
-
                     loginAuth.NewEventForm(eventData, Consts.DB_EVENTS);
                 }
 
@@ -172,6 +220,10 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
         });
         return v;
     }
+
+
+
+
 
 
     private void showDatePicker() {
@@ -201,6 +253,8 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
                     + "-" + String.valueOf(year));
         }
     };
+
+
 
 
 

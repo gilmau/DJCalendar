@@ -8,6 +8,8 @@ import android.os.Bundle;
 //import android.support.annotation.NonNull;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -28,7 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.CustomSharePrefAdapter;
+import com.gilortal.djcalendar.Classes.DJUser;
 import com.gilortal.djcalendar.Classes.Events;
+import com.gilortal.djcalendar.Classes.User;
 import com.gilortal.djcalendar.Fragments.CreateNewEvent;
 import com.gilortal.djcalendar.Fragments.DjListFragment;
 import com.gilortal.djcalendar.Fragments.DjProfileFragment;
@@ -51,6 +55,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,11 +70,13 @@ public class MainActivity extends AppCompatActivity
     String email;
     String password;
     Bundle savedInstanceState;
+    private AlertDialog alertDialog;
     TextView nameNewEvent, locationNewEvent, dateNewEvent, aboutNewEvent;
     ImageView imageNewEvent;
     ListView linupEvent;
     String nameEvent = null, locationEvent, dateEvent, aboutEvent = null;
     Button confirmNewEvent;
+    TextView emailtext;
 
     public static CoordinatorLayout coordinatorLayout;
 
@@ -112,6 +119,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if (fragment instanceof CreateNewEvent) {
             ((CreateNewEvent) fragment).loginAuth = this;
+            //((CreateNewEvent) fragment).moveToFrag = this;
+
         }
 
     }
@@ -136,21 +145,27 @@ public class MainActivity extends AppCompatActivity
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View v = getLayoutInflater().inflate(R.layout.reset_password,null);
+        emailtext = v.findViewById(R.id.email_rest_password);
+
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                // Toast.makeText(MainActivity.this, "new user sign up - listening", Toast.LENGTH_SHORT).show();
                 View headerView = navigationView.getHeaderView(0); //title of drawer
+                final TextView loginTV = headerView.findViewById(R.id.login_tv);
+                final TextView userLoginTV = headerView.findViewById(R.id.user_login_tv);
+                final ImageView profileImage = headerView.findViewById(R.id.nav__header_image);
+
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
                 if (currentUser != null) { //user is logged in
                     sharedPref.setSignedInStatus(true);
                     Log.d("STATE LISTENER", "Signed in");
-                    //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
-//                    userType                   DrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(Task<DocumentSnapshot> task) {
@@ -159,10 +174,26 @@ public class MainActivity extends AppCompatActivity
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
                                     Log.d("onAuthStateChanged", "user is a dj");
+                                    DJUser djUser= new DJUser();
+                                    navigationView.getMenu().findItem(R.id.nav_create_new_event).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_statistic).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_next_event).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_reset_password).setVisible(true);
+                                    loginTV.setText("Welcome!!!");
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
+
                                 } else {
                                     Log.d("onAuthStateChanged", "user NOT a dj");
                                     sharedPref.setIsDj(false);
+                                    navigationView.getMenu().findItem(R.id.nav_statistic).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_next_event).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_dj_list).setVisible(true);
+                                    navigationView.getMenu().findItem(R.id.nav_reset_password).setVisible(true);
+                                    loginTV.setText("Welcome!!!");
+//                                    User user= new User();
+//                                    Picasso.with(MainActivity.this).load(djUser.getPicture_url()).into(profileImage);
                                     gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
                             } else {
@@ -172,22 +203,10 @@ public class MainActivity extends AppCompatActivity
                     });
 
 
-//                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(false);
-//                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(false);
-//                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(false);
-//                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(true);
-
                 } else { //signed out
                     sharedPref.setSignedInStatus(false);
                     sharedPref.setMyUserId("");
 
-
-//                    userNameDrawerTV.setText(getResources().getString(R.string.login_please));
-//                    userTypeDrawerTV.setText(getResources().getString(R.string.wait_for_you));
-//                    navigationView.getMenu().findItem(R.id.sign_in).setVisible(true);
-//                    navigationView.getMenu().findItem(R.id.sign_up).setVisible(true);
-//                    navigationView.getMenu().findItem(R.id.reset_password).setVisible(true);
-//                    navigationView.getMenu().findItem(R.id.sign_out).setVisible(false);
                 }
 
             }
@@ -236,7 +255,6 @@ public class MainActivity extends AppCompatActivity
                     fragmentTransaction.addToBackStack(null);
                     break;
             }
-
             fragmentTransaction.commit();
         }
     }
@@ -279,7 +297,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogSignView = getLayoutInflater().inflate(R.layout.reset_password,null);
         int id = item.getItemId();
+
 
         if (id == R.id.nav_statistic) {
             statistic();
@@ -290,8 +311,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_dj_list) {
             changeFragmentDisplay(Consts.DJ_LIST_FRAG);
 
-        } else if (id == R.id.nav_edit_profile) {
-            edit_Profile();
+        } else if (id == R.id.nav_reset_password) {
+            builder.setView(dialogSignView);
+            alertDialog = builder.create();
+            resetPassword();
+            alertDialog.show();
 
         } else if (id == R.id.nav_next_event) {
             show_next_event();
@@ -326,16 +350,34 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void edit_Profile() {
+    private void resetPassword() {
+
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        //gotToFrag(Consts.SIGNUP_FORM_FRAG,currentUser.getUid(),);
-        //SignUpFromFra
+        final String email  = currentUser.getEmail();
+        emailtext.setText(email);
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(MainActivity.this, "Check your email "+ email +" account to restore your user and sign in again", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                String message = task.getException().getMessage();
+                                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+        });
+        alertDialog.dismiss();
     }
+
+
+
 
     private void show_next_event() {
     }
 
     private void signOutUser() {
+        Toast.makeText(this, "Bye bye " , Toast.LENGTH_SHORT).show();
         firebaseAuth.signOut();
     }
 
@@ -422,13 +464,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void NewEventForm(final HashMap eventData, final String collection) {
         nameEvent = eventData.get(Consts.COLUMN_NAME_EVENT).toString();
-        db.collection(Consts.DB_EVENTS).add(eventData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        db.collection(collection).add(eventData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()) {
-                    db.collection(collection).document().set(eventData);
+                    FirebaseUser eventid = firebaseAuth.getCurrentUser();
                     Toast.makeText(MainActivity.this, " The Event save  Successfully ", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(MainActivity.this, "The Event save failed ", Toast.LENGTH_SHORT).show();
                 }
