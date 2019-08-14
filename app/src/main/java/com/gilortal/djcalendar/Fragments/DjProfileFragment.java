@@ -28,6 +28,7 @@ import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +41,7 @@ import java.util.HashMap;
  */
 public class DjProfileFragment extends Fragment implements SendServerResponeToFrags {
 
+    public MainActivity mainActivity;
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
     private CustomSharePrefAdapter sharedPref;
@@ -50,6 +52,9 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     Button followButton;
     ImageView facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
     ArrayList<Events> nextEvents;
+    ArrayList<String> followers;
+    FirebaseUser currentUser;
+    int NumbersOfFollowers;
     public RequestDataFromServer requestServer;
 
 
@@ -88,6 +93,13 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
         spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
         imageDjProf = v.findViewById(R.id.thumbnail_iv_dj_frag);
+//        mainActivity = (MainActivity) getActivity();
+//
+//        if(mainActivity.sharedPref.IsSignedIn() && !mainActivity.sharedPref.getIsDj()) {
+//
+//
+//
+//        }
 
 
 
@@ -147,6 +159,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         aboutDjProf_TV.setText(djUser.getAbout());
         Picasso.with(getActivity()).load(djUser.getPicture_url()).into(imageDjProf);
         followersNumDjProf_TV.setText(String.valueOf(djUser.getNumberOfFollwers()));
+
         int rows = djUser.getGenres().size() / 1 ;
         for (int j = 0 , c = 0, r = 0 ; j < djUser.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
             TextView genreTV = new TextView(getContext());

@@ -96,8 +96,6 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
 
-
-
     final static int GALLERY_PICK = 1;
     final static int RESULT_OK = 1;
 
@@ -170,7 +168,6 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 openFileChooser();
-
             }
         });
 
@@ -211,9 +208,9 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                         loginAuth.createNewUser(userData, Consts.DB_DJS);
                     }
                     else {
-                        loginAuth.createNewUser(userData, Consts.DB_USERS);
                         followingList = new ArrayList<>();
                         userData.put(Consts.COLUMN_FOLLOWERS_IDS, followingList);
+                        loginAuth.createNewUser(userData, Consts.DB_USERS);
                     }
                 }
             }

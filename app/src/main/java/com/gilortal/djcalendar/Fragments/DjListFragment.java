@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.gilortal.djcalendar.Adapters.DJAdapter;
 import com.gilortal.djcalendar.Classes.DJUser;
 import com.gilortal.djcalendar.Consts;
+import com.gilortal.djcalendar.Interfaces.MoveToFrag;
 import com.gilortal.djcalendar.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,22 +42,22 @@ import java.util.List;
  */
 public class DjListFragment extends Fragment {
 
-    private Handler mHandler = new Handler();
+//    private Handler mHandler = new Handler();
     ListView listView;
     FirebaseDatabase database;
     DatabaseReference ref;
-
+    public MoveToFrag moveToFrag;
     DJAdapter adapter;
     FirebaseFirestore db;
     List<String> DJnames = new ArrayList<>();
     List<String> imagesUri = new ArrayList<>();
+    List<String> keyDJ = new ArrayList<>();
 
 
 
     public DjListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,9 +70,6 @@ public class DjListFragment extends Fragment {
         listView = view.findViewById(R.id.dj_list_view);
         db = FirebaseFirestore.getInstance();
 
-
-
-
         db.collection(Consts.DB_DJS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -80,21 +79,32 @@ public class DjListFragment extends Fragment {
                                 doc.get(Consts.COLUMN_PIC_URL));
                         DJnames.add((String)doc.get(Consts.COLUMN_NAME));
                         imagesUri.add((String)doc.get(Consts.COLUMN_PIC_URL));
+                        keyDJ.add(doc.getId());
                     }
+
+                    adapter = new DJAdapter(getActivity().getBaseContext(), DJnames, imagesUri);
+                    listView.setAdapter(adapter);
+
                 }
             }
         });
 
-        mHandler.postDelayed(mAdapterRunnable, 2000);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("TEST KEYID", keyDJ.get(position));
+                moveToFrag.gotToFrag(Consts.DJ_PROFILE_FRAG, keyDJ.get(position), Consts.DB_DJS);
+            }
+        });
 
         return view;
     }
 
-    private Runnable mAdapterRunnable = new Runnable() {
-        @Override
-        public void run() {
-            adapter = new DJAdapter(getActivity().getBaseContext(), DJnames, imagesUri);
-            listView.setAdapter(adapter);
-        }
-    };
+    @Override
+    public void onResume() {
+        super.onResume();
+        DJnames.clear();
+        keyDJ.clear();
+        imagesUri.clear();
+    }
 }

@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
     FirebaseFirestore db;
     public SendServerResponeToFrags serverToFragsListener;
-    CustomSharePrefAdapter sharedPref;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    public CustomSharePrefAdapter sharedPref;
+    FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
     String email;
     String password;
@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity
             ((LoginFragment) fragment).moveToFrag = this;
         } else if (fragment instanceof SignUpFormFragment) {
             ((SignUpFormFragment) fragment).loginAuth = this;
+        } else if(fragment instanceof  DjListFragment) {
+            ((DjListFragment)fragment).moveToFrag=this;
         }
 
     }
@@ -154,6 +156,7 @@ public class MainActivity extends AppCompatActivity
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
                                     Log.d("onAuthStateChanged", "user is a dj");
+                                    navigationView.getMenu().findItem(R.id.nav_dj_list).setVisible(false);
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
                                 } else {
                                     Log.d("onAuthStateChanged", "user NOT a dj");
@@ -301,13 +304,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void dj_list() {
-
-
-
-
     }
 
     private void statistic() {
