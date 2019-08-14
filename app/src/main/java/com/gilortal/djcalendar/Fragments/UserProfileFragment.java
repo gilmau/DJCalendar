@@ -22,6 +22,7 @@ import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
         genresUserProf_TV = v.findViewById(R.id.genre_next_event_tv_user_frag);
         followingNumUserProf_TV = v.findViewById(R.id.follow_num_tv_user_frag);
         genresUserProf_GL = v.findViewById(R.id.genres_gridview_user_frag);
-        genresUserProf_GL.removeAllViews();
+        //genresUserProf_GL.removeAllViews();
         facebookContactDj_btn = v.findViewById(R.id.facebook_btn_user_frag);
         instagramContactDj_btn = v.findViewById(R.id.instagram_btn_user_frag);
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_user_frag);
@@ -79,72 +80,6 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
 
 
-
-//    // TODO: Rename parameter arguments, choose names that match
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    public MoveToFrag fragChanger;
-//    public UpdateToServer dbUpdater;
-//    ArrayList<Events> nextEvents,suggestedEvents;
-//    TextView nameUserProf_TV,followNumUserProf_TV,
-//            nameNextEventUserProf_TV,dateNextEventUserProf_TV,locationNextEventUserProf_TV,genreNextEventUserProf_TV;
-//    ListView suggestedEventListViewUserProf_LV;
-//    GridLayout genresUserProf_GL;
-//    Button facebookContactUser_Btn,instagramContactUser_btn,twitterContactUser_btn,spotifyContactUser_btn;
-//    public RequestDataFromServer requestServer;
-//
-//    public UserProfileFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        ((MainActivity)getActivity()).serverToFragsListener = this;
-//
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        ((MainActivity)getActivity()).serverToFragsListener = null;
-//
-//    }
-//
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View v =  inflater.inflate(R.layout.fragment_user_profile, container, false);
-//
-//        nameUserProf_TV = v.findViewById(R.id.name_tv_user_frag);
-//        followNumUserProf_TV = v.findViewById(R.id.follow_num_tv_user_frag);
-//        genresUserProf_GL = v.findViewById(R.id.genres_gridview_prof_frag);
-//        nameNextEventUserProf_TV = v.findViewById(R.id.name_next_event_tv_prof_frag);
-//        dateNextEventUserProf_TV = v.findViewById(R.id.date_next_event_tv_prof_frag);
-//        locationNextEventUserProf_TV = v.findViewById(R.id.location_next_event_tv_prof_frag);
-//        genreNextEventUserProf_TV = v.findViewById(R.id.genre_next_event_tv_prof_frag);
-//        suggestedEventListViewUserProf_LV = v.findViewById(R.id.suggested_event_list_view_title_prof_frag);
-////        facebookContactUser_Btn = v.findViewById(R.id.facebook_btn_prof_frag);
-////        instagramContactUser_btn = v.findViewById(R.id.instagram_btn_prof_frag);
-////        twitterContactUser_btn = v.findViewById(R.id.twitter_btn_prof_frag);
-////        spotifyContactUser_btn = v.findViewById(R.id.spotify_btn_prof_frag);
-//return v;
-//    }
-
-
-
-
-
-
-
-
     @Override
     public void broadcastSnapShot(DocumentSnapshot document) {
         User userProf = new User(document);
@@ -152,31 +87,31 @@ public class UserProfileFragment extends Fragment implements SendServerResponeTo
 
     }
     private void displayUserProf(User user) {
-        //region fetch next events from DB and display first one
-        HashMap<String,Object> args = new HashMap();
-        args.put(Consts.ARG_DJ_ID,user.getId());
-        requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
-        //endregion
-        nameUserProf_TV.setText(user.getName());
-
-        followingNumUserProf_TV.setText(String.valueOf(user.getNumberOfFollwers()));
-        int rows = user.getGenres().size() / 3 ;
-        for (int j = 0 , c = 0, r = 0 ; j < user.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
-            TextView genreTV = new TextView(getContext());
-            genreTV.setText(user.getGenres().get(j));
-            GridLayout.LayoutParams layoutParams  = new GridLayout.LayoutParams();
-            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.rightMargin = 5;
-            layoutParams.leftMargin = 5;
-            layoutParams.setGravity(Gravity.CENTER);
-
-            layoutParams.columnSpec = GridLayout.spec(c);
-            layoutParams.rowSpec = GridLayout.spec(r);
-            genreTV.setLayoutParams(layoutParams);
-            genresUserProf_GL.addView(genreTV);
-
-        }
+//        //region fetch next events from DB and display first one
+//        HashMap<String,Object> args = new HashMap();
+//        args.put(Consts.ARG_DJ_ID,user.getId());
+//        requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
+//        //endregion
+//        nameUserProf_TV.setText(user.getName());
+//        Picasso.with(getActivity()).load(user.getPicture_url()).into(imageUserProf);
+//        followingNumUserProf_TV.setText(String.valueOf(user.getNumberOfFollwers()));
+//        int rows = user.getGenres().size() / 3 ;
+//        for (int j = 0 , c = 0, r = 0 ; j < user.getGenres().size() ; j++, c++ /*String genre: djUser.getGenres()*/) {
+//            TextView genreTV = new TextView(getContext());
+//            genreTV.setText(user.getGenres().get(j));
+//            GridLayout.LayoutParams layoutParams  = new GridLayout.LayoutParams();
+//            layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+//            layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+//            layoutParams.rightMargin = 5;
+//            layoutParams.leftMargin = 5;
+//            layoutParams.setGravity(Gravity.CENTER);
+//
+//            layoutParams.columnSpec = GridLayout.spec(c);
+//            layoutParams.rowSpec = GridLayout.spec(r);
+//            genreTV.setLayoutParams(layoutParams);
+//            genresUserProf_GL.addView(genreTV);
+//
+//        }
 
     }
 

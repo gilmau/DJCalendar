@@ -9,6 +9,7 @@ public class Consts {
     public static final int USER_PROFILE_FRAG = 3;
     public static final int EVENT_FRAG = 4;
     public static final int DJ_LIST_FRAG = 5;
+    public static final int CREATE_NEW_EVENT = 6;
 
     /*****ARGS FOR HASH******/
     public static final String ARG_DJ_ID = "ARG_DJ_ID";

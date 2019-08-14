@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.UserProfileFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@color/colorPrimary"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -13,8 +19,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/thumbnail_iv_user_frag"
-        android:src="@drawable/add_profile_pic"
-        android:background="@color/profileAccentColor"
+        android:src="@drawable/profile_ic_tab"
+        android:background="@color/lists_background"
         android:tag="default"/>
 
     <TextView
@@ -84,6 +90,7 @@
 
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/textView2"
         style="@style/Profile_TextView"
@@ -93,7 +100,8 @@
         android:layout_column="4"
         android:text="Genres : "
         tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="218dp" />
+        tools:layout_editor_absoluteY="218dp"
+        tools:ignore="MissingConstraints" />
 
     <GridLayout
         android:id="@+id/genres_gridview_user_frag"
