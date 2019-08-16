@@ -11,12 +11,16 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gilortal.djcalendar.Adapters.DJAdapter;
+import com.gilortal.djcalendar.Adapters.lineupDJAdapters;
 import com.gilortal.djcalendar.Consts;
 import com.gilortal.djcalendar.Interfaces.LoginAuth;
 import com.gilortal.djcalendar.Interfaces.MoveToFrag;
@@ -59,6 +64,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.media.CamcorderProfile.get;
 import static com.android.volley.VolleyLog.TAG;
 
 public class CreateNewEvent  extends Fragment implements View.OnClickListener, SendServerResponeToFrags {
@@ -66,15 +72,20 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
     public MoveToFrag moveToFrag;
     TextView nameNewEvent, locationNewEvent,dateNewEvent,aboutNewEvent;
      ;
+     TextView namelineupdj;
     ImageView imageNewEvent;
-    ListView linupEvent ;
+    Button addLinupDj ;
     Button confirmNewEvent;
+    Button linup_confButton;
     DatePickerDialog dialog;
+    CheckBox checkBox;
+    private AlertDialog alertDialog;
     String nameEvent ="",locationEvent = "",dateEvent = "",aboutEvent = "";
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     public LoginAuth loginAuth;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    Button goTOEventDisplay;
 
     final static int GALLERY_PICK = 1;
     private Uri imageURI;
@@ -82,6 +93,18 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
     String dbDate;
 
     PlacesClient placesClient;
+
+    ListView listView;
+    lineupDJAdapters adapter;
+    FirebaseFirestore db;
+    List<String> DJnames = new ArrayList<>();
+    List<String> imagesUri = new ArrayList<>();
+    List<String> checkbox = new ArrayList<>();
+    List<String> lineupDjEvent = new ArrayList<>();
+    List<String> keyDJ = new ArrayList<>();
+
+
+
 
 
 
@@ -92,6 +115,12 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
     public CreateNewEvent() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loginAuth.newEventInProcess();
     }
 
     @Override
@@ -108,7 +137,7 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.new_event_form, container, false);
 
@@ -121,8 +150,15 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
         dateNewEvent = v.findViewById(R.id.event_new_form_date);
         aboutNewEvent = v.findViewById(R.id.about_new_event);
         imageNewEvent = v.findViewById(R.id.event_new_form_image);
-        linupEvent = v.findViewById(R.id.event_new_form_lineup_list);
+        addLinupDj = v.findViewById(R.id.add_linup_dj);
         confirmNewEvent = v.findViewById(R.id.event_new_form_confirmbtn);
+        linup_confButton = v.findViewById(R.id.confirmBox_linupeEvent);
+
+
+
+
+
+
 
 
 
@@ -133,6 +169,75 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
             }
         });
+
+        addLinupDj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogSignView = getLayoutInflater().inflate(R.layout.lineup_dj_event,null);
+                Button confirmLineupEvent  = dialogSignView.findViewById(R.id.confirmBox_linupeEvent);
+                final CheckBox nameDj = dialogSignView.findViewById(R.id.checkedbox_dj_Name);
+                listView = dialogSignView.findViewById(R.id.dj_list_lineup_view);
+                db = FirebaseFirestore.getInstance();
+
+                db.collection(Consts.DB_DJS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for(QueryDocumentSnapshot doc : task.getResult()) {
+                                Log.i("TAG", doc.getId().toString() + " " + doc.get(Consts.COLUMN_NAME) + " " +
+                                        doc.get(Consts.COLUMN_PIC_URL));
+                                DJnames.add((String)doc.get(Consts.COLUMN_NAME));
+                                imagesUri.add((String)doc.get(Consts.COLUMN_PIC_URL));
+                                keyDJ.add(doc.getId());
+                            }
+
+                            adapter = new lineupDJAdapters(getActivity().getBaseContext(), DJnames, imagesUri);
+                            listView.setAdapter(adapter);
+
+
+                        }
+                    }
+                });
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setCancelable(true);
+                builder.setView(dialogSignView);
+                alertDialog = builder.create();
+
+
+
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                         checkBox= view.findViewById(R.id.checkedbox_dj_Name);
+                        namelineupdj = view.findViewById(R.id.dj_name_djlist_lineup);
+                        Log.i("TEST KEYID", keyDJ.get(position));
+                        Toast.makeText(getActivity(), keyDJ.get(position), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), nameDj.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Log.i("TAG",nameDj.getText().toString());
+                        lineupDjEvent.add(nameDj.getText().toString());
+
+
+                    }
+
+                });
+                confirmLineupEvent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "im here ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "dj:"+lineupDjEvent.size(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+
+
+
         dateNewEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +251,7 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
             Places.initialize(getActivity().getApplicationContext(),apiKey);
         }
 
-        placesClient = Places.createClient(getActivity());
+       // placesClient = Places.createClient(getActivity());
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
         getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -181,16 +286,6 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                try {
-//                    locationEvent = String.valueOf(locationNewEvent.getText());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    dateEvent = String.valueOf(dateNewEvent.getText());
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
                 try {
                     aboutEvent = String.valueOf(aboutNewEvent.getText());
                 } catch (Exception e) {
@@ -210,7 +305,7 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
                     eventData.put(Consts.COLUMN_LOCATION, locationEvent);
                     eventData.put(Consts.COLUMN_ABOUT, aboutEvent);
                     eventData.put(Consts.COLUMN_PIC_URL, imageFBStrogeUri);
-                    eventData.put(Consts.COLUMN_LINEUP_IDS, "");
+                    eventData.put(Consts.COLUMN_LINEUP_IDS, lineupDjEvent);
                     loginAuth.NewEventForm(eventData, Consts.DB_EVENTS);
                 }
 
@@ -339,4 +434,5 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
     public void broadcastQueryResult(ArrayList queryResult, int requestCode) {
 
     }
+
 }

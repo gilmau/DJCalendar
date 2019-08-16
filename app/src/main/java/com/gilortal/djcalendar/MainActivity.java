@@ -61,7 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
+        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer
+{
     FirebaseFirestore db;
     public SendServerResponeToFrags serverToFragsListener;
     public CustomSharePrefAdapter sharedPref;
@@ -71,14 +72,12 @@ public class MainActivity extends AppCompatActivity
     String password;
     Bundle savedInstanceState;
     private AlertDialog alertDialog;
-    TextView nameNewEvent, locationNewEvent, dateNewEvent, aboutNewEvent;
-    ImageView imageNewEvent;
-    ListView linupEvent;
+    boolean IScreateNewEvent = false;
     String nameEvent = null, locationEvent, dateEvent, aboutEvent = null;
     Button confirmNewEvent;
     TextView emailtext;
-
-    public static CoordinatorLayout coordinatorLayout;
+    String eventID;
+    boolean newEventInProcess = false;
 
     @Override
     protected void onStart() {
@@ -110,6 +109,8 @@ public class MainActivity extends AppCompatActivity
             ((EventFragment) fragment).fragChanger = this;
             ((EventFragment) fragment).dbUpdater = this;
             ((EventFragment) fragment).requestServer = this;
+            ((EventFragment) fragment).loginAuth = this;
+
 
         } else if (fragment instanceof LoginFragment) {
             ((LoginFragment) fragment).loginAuth = this;
@@ -121,7 +122,6 @@ public class MainActivity extends AppCompatActivity
         }
         else if (fragment instanceof CreateNewEvent) {
             ((CreateNewEvent) fragment).loginAuth = this;
-            //((CreateNewEvent) fragment).moveToFrag = this;
 
         }
 
@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -164,12 +168,10 @@ public class MainActivity extends AppCompatActivity
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-                if (currentUser != null) { //user is logged in
+                if (currentUser != null && !newEventInProcess) { //user is logged in
                     sharedPref.setSignedInStatus(true);
                     Log.d("STATE LISTENER", "Signed in");
-                    //     userNameDrawerTV.setText(currentUser.getDisplayName());
                     sharedPref.setMyUserId(currentUser.getUid());
-//                    userType                   DrawerTV.setText("");
                     db.collection(Consts.DB_DJS).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(Task<DocumentSnapshot> task) {
@@ -178,17 +180,23 @@ public class MainActivity extends AppCompatActivity
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
                                     Log.d("onAuthStateChanged", "user is a dj");
-
-                                    DJUser djUser= new DJUser();
-
                                     navigationView.getMenu().findItem(R.id.nav_statistic).setVisible(false);
                                     navigationView.getMenu().findItem(R.id.nav_dj_list).setVisible(false);
                                     loginTV.setText("Welcome!!!");
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
+                                    if (!IScreateNewEvent) {
+                                        gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
+                                    }
+
+                                    else {
+                                        IScreateNewEvent = false;
+                                        gotToFrag(Consts.EVENT_FRAG, eventID, Consts.DB_EVENTS);
+
+                                    }
+
                                 } else {
                                     Log.d("onAuthStateChanged", "user NOT a dj");
                                     sharedPref.setIsDj(false);
-                                    gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
+                                    //gotToFrag(Consts.USER_PROFILE_FRAG, currentUser.getUid(), Consts.DB_USERS);
                                 }
                             } else {
                                 Log.d("onAuthStateChanged", "failed connecting to DB");
@@ -308,6 +316,7 @@ public class MainActivity extends AppCompatActivity
         View dialogSignView = getLayoutInflater().inflate(R.layout.reset_password,null);
         int id = item.getItemId();
 
+
         if (id == R.id.nav_statistic) {
             statistic();
 
@@ -342,6 +351,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
     private void statistic() {
     }
 
@@ -375,12 +385,16 @@ public class MainActivity extends AppCompatActivity
         alertDialog.dismiss();
     }
 
+
+
+
     private void show_next_event() {
     }
 
     private void signOutUser() {
         Toast.makeText(this, "Bye bye " , Toast.LENGTH_SHORT).show();
         firebaseAuth.signOut();
+        changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
     }
 
     @Override
@@ -400,6 +414,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void goToSignUpFrag(int fragment) {
+        changeFragmentDisplay(fragment);
+
+    }
+
+    @Override
+    public void goToEventFrag(int fragment) {
         changeFragmentDisplay(fragment);
 
     }
@@ -465,13 +485,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void NewEventForm(final HashMap eventData, final String collection) {
+        newEventInProcess = false;
+        IScreateNewEvent = true;
         nameEvent = eventData.get(Consts.COLUMN_NAME_EVENT).toString();
         db.collection(collection).add(eventData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()) {
-                    FirebaseUser eventid = firebaseAuth.getCurrentUser();
                     Toast.makeText(MainActivity.this, " The Event save  Successfully ", Toast.LENGTH_SHORT).show();
+                    eventID = task.getResult().getId();
+                   // changeFragmentDisplay(Consts.EVENT_FRAG);
+                    gotToFrag(Consts.EVENT_FRAG,eventID,Consts.DB_EVENTS);
+
+
                 } else {
                     Toast.makeText(MainActivity.this, "The Event save failed ", Toast.LENGTH_SHORT).show();
                 }
@@ -479,6 +505,11 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    public void newEventInProcess() {
+        newEventInProcess = true;
     }
 
     @Override
@@ -490,38 +521,38 @@ public class MainActivity extends AppCompatActivity
             case Consts.REQ_LINEUP_DJ_INFO:
                 //get name , id , picture | args : lineup ids []
                 break;
-            case Consts.REQ_EVENTS_LIST_QUERY:
-                //get Events[] | args :  events id
-                final ArrayList<Events> eventsList = new ArrayList<>();
-                String fromColumn = "";
-                String fromHash= "";
-                if (fromFragment == Consts.DJ_PROFILE_FRAG) { //requsting events that dj is in their lineup:
-                    fromHash = Consts.ARG_DJ_ID;
-                    fromColumn = Consts.COLUMN_LINEUP_IDS;
-                }else if (fromFragment == Consts.USER_PROFILE_FRAG){ //find events userId is in attending column
-                    fromHash = Consts.ARG_USER_ID;
-                    fromColumn = Consts.COLUMN_ATTENDING_IDS;
-                }
-                if (!(fromColumn.isEmpty() || fromHash.isEmpty()))
-                    db.collection(Consts.DB_EVENTS)
-                            .whereArrayContains(fromColumn, args.get(fromHash))
-                            .orderBy(Consts.COLUMN_DATE) //order by date milliseconds
-                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot doc : task.getResult()) {
-                                    Log.d("EVENT QUERY", doc.getId() + " == >" + doc.getData());
-                                    eventsList.add(new Events(doc));
-                                }
-                                serverToFragsListener.broadcastQueryResult(eventsList, requestCode);
-                            }
-                        }
-                    });
-
-
-
-                break;
+//            case Consts.REQ_EVENTS_LIST_QUERY:
+//                //get Events[] | args :  events id
+//                final ArrayList<Events> eventsList = new ArrayList<>();
+//                String fromColumn = "";
+//                String fromHash= "";
+//                if (fromFragment == Consts.DJ_PROFILE_FRAG) { //requsting events that dj is in their lineup:
+//                    fromHash = Consts.ARG_DJ_ID;
+//                    fromColumn = Consts.COLUMN_LINEUP_IDS;
+//                }else if (fromFragment == Consts.USER_PROFILE_FRAG){ //find events userId is in attending column
+//                    fromHash = Consts.ARG_USER_ID;
+//                    fromColumn = Consts.COLUMN_ATTENDING_IDS;
+//                }
+//                if (!(fromColumn.isEmpty() || fromHash.isEmpty()))
+//                    db.collection(Consts.DB_EVENTS)
+//                            .whereArrayContains(fromColumn, args.get(fromHash))
+//                            .orderBy(Consts.COLUMN_DATE) //order by date milliseconds
+//                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot doc : task.getResult()) {
+//                                    Log.d("EVENT QUERY", doc.getId() + " == >" + doc.getData());
+//                                    eventsList.add(new Events(doc));
+//                                }
+//                                serverToFragsListener.broadcastQueryResult(eventsList, requestCode);
+//                            }
+//                        }
+//                    });
+//
+//
+//
+//                break;
             case Consts.REQ_ATTENDERS_INFO:
                 //get name, id, picture | attenders []
                 break;

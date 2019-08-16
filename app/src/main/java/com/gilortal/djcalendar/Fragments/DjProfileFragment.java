@@ -167,10 +167,9 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             GridLayout.LayoutParams layoutParams  = new GridLayout.LayoutParams();
             layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
             layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.rightMargin = 5;
-            layoutParams.leftMargin = 5;
+            layoutParams.rightMargin = 10;
+            layoutParams.leftMargin = 10;
             layoutParams.setGravity(Gravity.CENTER);
-
             layoutParams.columnSpec = GridLayout.spec(c);
             layoutParams.rowSpec = GridLayout.spec(r);
             genreTV.setLayoutParams(layoutParams);

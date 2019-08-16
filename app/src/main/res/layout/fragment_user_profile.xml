@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/color_shape"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -94,10 +94,10 @@
     <TextView
         android:id="@+id/textView2"
         style="@style/Profile_TextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="4"
+        android:background="@drawable/title_shape"
         android:text="Genres : "
         tools:layout_editor_absoluteX="135dp"
         tools:layout_editor_absoluteY="218dp"
@@ -120,6 +120,8 @@
         app:layout_constraintTop_toBottomOf="@id/genres_gridview_user_frag"
         android:gravity="center"
         android:text="Next Event Attending"
+        android:background="@drawable/title_shape"
+
         android:id="@+id/next_event_tv_ro_title_prof_frag"/>
 
     <android.support.constraint.ConstraintLayout
@@ -176,6 +178,7 @@
         app:layout_constraintTop_toBottomOf="@id/next_event_layout_prof_frag"
         android:gravity="center"
         android:text="Suggested Events"
+        android:background="@drawable/title_shape"
         android:id="@+id/suggested_event_tv_ro_title_prof_frag"/>
 
     <ListView
