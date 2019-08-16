@@ -124,7 +124,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
                     userFollowing.add(djKey);
 
                     db.collection((Consts.DB_DJS)).document(djKey).
-                            update(Consts.COLUMN_FOLLOWERS_IDS, sharedPref.getMyUserId());
+                            update(Consts.COLUMN_FOLLOWERS_IDS, followers);
 
                     db.collection(Consts.DB_USERS).document(sharedPref.getMyUserId()).
                             update(Consts.COLUMN_FOLLOWING_IDS, userFollowing);
