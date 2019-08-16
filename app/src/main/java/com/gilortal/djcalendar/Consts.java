@@ -52,6 +52,8 @@ public class Consts {
     public static final int REQ_FOLLOWERS_INFO = 3;
     public static final int REQ_ATTENDERS_INFO = 4;
     public static final int REQ_NEXT_EVENT = 5;
+    public static final int REQ_FOLLOWING_INFO = 6;
+
 
 
 

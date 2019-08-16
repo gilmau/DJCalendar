@@ -122,6 +122,10 @@ public class DJUser  {
         return about;
     }
 
+    public List getFollowersList() {
+        return follwersList;
+    }
+
     public void setAbout(String about) {
         this.about = about;
     }

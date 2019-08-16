@@ -1,189 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.UserProfileFragment">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:background="@color/colorPrimary"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="10dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/thumbnail_iv_user_frag"
-        android:src="@drawable/profile_ic_tab"
-        android:background="@color/lists_background"
-        android:tag="default"/>
-
-    <TextView
-        android:id="@+id/name_tv_user_frag"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/thumbnail_iv_user_frag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/thumbnail_iv_user_frag"
-        style="@style/Profile_TextView"
-        android:text="Name family"
-        />
-
-    <TextView
-        android:id="@+id/follow_ro_tv_user_frag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/thumbnail_iv_user_frag"
-        app:layout_constraintTop_toBottomOf="@id/name_tv_user_frag"
-        style="@style/Profile_TextView"
-        android:text="Following : "
-        />
-
-    <TextView
-        android:id="@+id/follow_num_tv_user_frag"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/follow_ro_tv_user_frag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_tv_user_frag"
-        style="@style/Profile_TextView"
-        android:text="0"
-        android:gravity="center"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/contact_buttons_lin_user_frag"
-        app:layout_constraintTop_toBottomOf="@id/thumbnail_iv_user_frag"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:gravity="center"
-        >
-
-        <ImageView
-            android:id="@+id/facebook_btn_user_frag"
-            style="@style/Profile_Contact_Buttons"
-            android:src="@drawable/facebook"
-
-            />
-        <ImageView
-            android:id="@+id/instagram_btn_user_frag"
-            style="@style/Profile_Contact_Buttons"
-            android:src="@drawable/instagram"
-            />
-        <ImageView
-            android:id="@+id/twitter_btn_user_frag"
-            style="@style/Profile_Contact_Buttons"
-            android:src="@drawable/twitter"
-            />
-        <ImageView
-            android:id="@+id/spotify_btn_user_frag"
-            style="@style/Profile_Contact_Buttons"
-            android:src="@drawable/spotify"
-            />
-
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/Profile_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="4"
-        android:text="Genres : "
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="218dp"
-        tools:ignore="MissingConstraints" />
-
-    <GridLayout
-        android:id="@+id/genres_gridlayout_user_frag"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:columnCount="3"
-        android:columnOrderPreserved="false"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:layout_editor_absoluteX="-64dp">
-    </GridLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Profile_TextView"
-        app:layout_constraintTop_toBottomOf="@id/genres_gridview_user_frag"
-        android:gravity="center"
-        android:text="Next Event Attending"
-        android:id="@+id/next_event_tv_ro_title_prof_frag"/>
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintTop_toBottomOf="@id/next_event_tv_ro_title_prof_frag"
-        android:id="@+id/next_event_layout_prof_frag"
-        >
+        android:layout_height="match_parent"
+        tools:context=".Fragments.UserProfileFragment">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="@color/colorPrimary"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/thumbnail_iv_user_frag"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@color/lists_background"
+            android:src="@drawable/profile_ic_tab"
+            android:tag="default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/name_tv_user_frag"
+            style="@style/Profile_TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Profile_TextView"
-            android:id="@+id/name_next_event_tv_user_frag"
-            android:text="Event Name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/date_next_event_tv_user_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Profile_TextView"
-            android:text="10 PM, Jul 27th"
+            android:text="Name family"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/name_next_event_tv_user_frag"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintStart_toEndOf="@id/thumbnail_iv_user_frag"
+            app:layout_constraintTop_toTopOf="@id/thumbnail_iv_user_frag" />
+
         <TextView
-            android:id="@+id/location_next_event_tv_user_frag"
+            android:id="@+id/follow_ro_tv_user_frag"
+            style="@style/Profile_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Profile_TextView"
-            android:text="Location very long"
-            android:maxLength="20"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_next_event_tv_user_frag"
-            />
+            android:text="Followers : "
+            app:layout_constraintStart_toEndOf="@id/thumbnail_iv_user_frag"
+            app:layout_constraintTop_toBottomOf="@id/name_tv_user_frag" />
+
+
         <TextView
-            android:id="@+id/genre_next_event_tv_user_frag"
+            android:id="@+id/follow_num_tv_user_frag"
+            style="@style/Profile_TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Profile_TextView"
-            android:text="Genres"
-            app:layout_constraintStart_toEndOf="@id/location_next_event_tv_user_frag"
-            app:layout_constraintTop_toBottomOf="@id/date_next_event_tv_user_frag"
+            android:gravity="center"
+            android:text="0"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toEndOf="@id/follow_ro_tv_user_frag"
+            app:layout_constraintTop_toBottomOf="@id/name_tv_user_frag" />
+
+        <!--<Button-->
+        <!--android:layout_width="138dp"-->
+        <!--android:layout_height="39dp"-->
+        <!--android:text="Follow"-->
+        <!--tools:layout_editor_absoluteX="170dp"-->
+        <!--tools:layout_editor_absoluteY="114dp" />-->
+
+
+        <LinearLayout
+            android:id="@+id/contact_buttons_lin_user_frag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail_iv_user_frag">
+
+            <ImageView
+                android:id="@+id/facebook_btn_user_frag"
+                style="@style/Profile_Contact_Buttons"
+                android:src="@drawable/facebook"
+
+                />
+
+            <ImageView
+                android:id="@+id/instagram_btn_user_frag"
+                style="@style/Profile_Contact_Buttons"
+                android:src="@drawable/instagram" />
+
+            <ImageView
+                android:id="@+id/twitter_btn_user_frag"
+                style="@style/Profile_Contact_Buttons"
+                android:src="@drawable/twitter" />
+
+            <ImageView
+                android:id="@+id/spotify_btn_user_frag"
+                style="@style/Profile_Contact_Buttons"
+                android:src="@drawable/spotify" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/genres_title"
+            style="@style/Profile_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="76dp"
+            android:text="Genres: "
+            app:layout_constraintBottom_toTopOf="@+id/genres_gridlayout_user_frag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.513"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contact_buttons_lin_user_frag" />
+
+        <GridLayout
+            android:id="@+id/genres_gridlayout_user_frag"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:columnCount="3"
+            app:layout_constraintTop_toBottomOf="@+id/genres_title"
+            android:columnOrderPreserved="false"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="299dp">
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/next_event_tv_ro_title_user_frag"
+            style="@style/Profile_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:gravity="center"
+            android:text="Next Event Attending"
+            app:layout_constraintTop_toBottomOf="@id/genres_gridlayout_user_frag"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/next_event_layout_user_frag"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@id/next_event_tv_ro_title_user_frag">
+
+            <TextView
+                android:id="@+id/name_next_event_tv_user_frag"
+                style="@style/Profile_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Event Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/date_next_event_tv_user_frag"
+                style="@style/Profile_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 PM, Jul 27th"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/name_next_event_tv_user_frag"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/location_next_event_tv_user_frag"
+                style="@style/Profile_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:text="Location very long"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_next_event_tv_user_frag" />
+
+            <TextView
+                android:id="@+id/genre_next_event_tv_user_frag"
+                style="@style/Profile_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Genres"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/location_next_event_tv_user_frag"
+                app:layout_constraintTop_toBottomOf="@id/date_next_event_tv_user_frag" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
     </android.support.constraint.ConstraintLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Profile_TextView"
-        app:layout_constraintTop_toBottomOf="@id/next_event_layout_prof_frag"
-        android:gravity="center"
-        android:text="Suggested Events"
-        android:id="@+id/suggested_event_tv_ro_title_prof_frag"/>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/suggested_event_tv_ro_title_prof_frag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/suggested_event_list_view_title_prof_frag"/>
-
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

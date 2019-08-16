@@ -59,6 +59,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     String nameEvent = null, locationEvent, dateEvent, aboutEvent = null;
     Button confirmNewEvent;
     TextView emailtext;
+    public String currentUserKey;
 
     public static CoordinatorLayout coordinatorLayout;
 
@@ -163,6 +165,8 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                currentUserKey = currentUser.getUid();
+                Toast.makeText(MainActivity.this, currentUserKey, Toast.LENGTH_LONG).show();
 
                 if (currentUser != null) { //user is logged in
                     sharedPref.setSignedInStatus(true);
@@ -483,6 +487,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void queryFromServer(final int requestCode, int fromFragment, HashMap args) {
         switch(requestCode){
+            case Consts.REQ_FOLLOWING_INFO:
+                List<String> followingList = new ArrayList<>();
+                break;
             case Consts.REQ_FOLLOWERS_INFO:
                 //get name, id, picture  | args : followers []
                 break;
@@ -517,8 +524,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         }
                     });
-
-
 
                 break;
             case Consts.REQ_ATTENDERS_INFO:
