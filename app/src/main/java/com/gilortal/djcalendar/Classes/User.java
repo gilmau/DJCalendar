@@ -29,10 +29,11 @@ public class User  {
                     picture_url = (String) entry.getValue(); break;
                 case Consts.COLUMN_ABOUT:
                     about = (String) entry.getValue(); break;
-                case Consts.COLUMN_FOLLOWERS_IDS:
+                case Consts.COLUMN_FOLLOWING_IDS:
                     followingList = (List) entry.getValue(); break;
                 case Consts.COLUMN_GENRES:
                     genresList = (List) entry.getValue(); break;
+
             }
 
         }

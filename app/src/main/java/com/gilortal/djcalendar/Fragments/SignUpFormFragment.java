@@ -85,7 +85,6 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
     CheckBox isDJCheckBox;
     EditText aboutBox;
     Button confirmBox;
-    Button addPicButton;
     CheckBox electronicGenre, rockGenre, popGenre, reggaeGenre, hiphopGenre, israelGenre;
     List<String> checkedGenres = new ArrayList<>();
     List<String> followersList, followingList;
@@ -209,7 +208,7 @@ public class SignUpFormFragment extends Fragment implements View.OnClickListener
                     }
                     else {
                         followingList = new ArrayList<>();
-                        userData.put(Consts.COLUMN_FOLLOWERS_IDS, followingList);
+                        userData.put(Consts.COLUMN_FOLLOWING_IDS, followingList);
                         loginAuth.createNewUser(userData, Consts.DB_USERS);
                     }
                 }

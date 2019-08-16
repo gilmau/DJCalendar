@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity
 
                                     navigationView.getMenu().findItem(R.id.nav_statistic).setVisible(false);
                                     navigationView.getMenu().findItem(R.id.nav_dj_list).setVisible(false);
-                                    loginTV.setText("Welcome!!!");
                                     gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
                                 } else {
                                     Log.d("onAuthStateChanged", "user NOT a dj");
@@ -425,7 +424,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()){
-
+                            Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_LONG).show();
                         }
                         else {
                             Toast.makeText(MainActivity.this, "E-Mail or Password Incorrect", Toast.LENGTH_LONG).show();

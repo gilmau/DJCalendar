@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_tv_user_frag"
         style="@style/Profile_TextView"
-        android:text="19663"
+        android:text="0"
         android:gravity="center"
         />
     <LinearLayout
@@ -104,7 +104,7 @@
         tools:ignore="MissingConstraints" />
 
     <GridLayout
-        android:id="@+id/genres_gridview_user_frag"
+        android:id="@+id/genres_gridlayout_user_frag"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"

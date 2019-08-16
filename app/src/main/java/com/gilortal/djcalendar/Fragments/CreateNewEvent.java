@@ -65,7 +65,6 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
 
     public MoveToFrag moveToFrag;
     TextView nameNewEvent, locationNewEvent,dateNewEvent,aboutNewEvent;
-     ;
     ImageView imageNewEvent;
     ListView linupEvent ;
     Button confirmNewEvent;
@@ -142,11 +141,8 @@ public class CreateNewEvent  extends Fragment implements View.OnClickListener, S
         });
         String apiKey  = "AIzaSyDMjJa22vJvyyBMFgi4hD9gHan6me7XMzU";
 
-        if(!Places.isInitialized()){
-            Places.initialize(getActivity().getApplicationContext(),apiKey);
-        }
 
-        placesClient = Places.createClient(getActivity());
+
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
         getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);

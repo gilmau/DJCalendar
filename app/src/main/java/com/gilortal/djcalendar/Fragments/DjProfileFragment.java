@@ -28,23 +28,29 @@ import com.gilortal.djcalendar.Interfaces.SendServerResponeToFrags;
 import com.gilortal.djcalendar.Interfaces.UpdateToServer;
 import com.gilortal.djcalendar.MainActivity;
 import com.gilortal.djcalendar.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DjProfileFragment extends Fragment implements SendServerResponeToFrags {
 
-    public MainActivity mainActivity;
+    FirebaseFirestore db;
+    DocumentReference documentReference;
     public MoveToFrag fragChanger;
     public UpdateToServer dbUpdater;
     private CustomSharePrefAdapter sharedPref;
+    public SendServerResponeToFrags serverResponeToFrags;
     ImageView imageDjProf;
     TextView genresNextEventDjProf_TV,nameDjProf_TV,
             dateNextEventDjProf_TV, locationNextEventDjProf_TV, followersNumDjProf_TV, aboutDjProf_TV;
@@ -53,9 +59,11 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
     ImageView facebookContactDj_btn,instagramContactDj_btn, twitterContactDj_btn,spotifyContactDj_btn;
     ArrayList<Events> nextEvents;
     ArrayList<String> followers;
+    ArrayList<String> userFollowing;
     FirebaseUser currentUser;
-    int NumbersOfFollowers;
+    String djKey;
     public RequestDataFromServer requestServer;
+    HashMap<String,Object> args = new HashMap();
 
 
     public DjProfileFragment() {
@@ -80,6 +88,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_dj_profile, container, false);
         nameDjProf_TV = v.findViewById(R.id.name_tv_dj_frag);
+        sharedPref = new CustomSharePrefAdapter(getActivity().getBaseContext());
         dateNextEventDjProf_TV = v.findViewById(R.id.date_next_event_tv_dj_frag);
         locationNextEventDjProf_TV = v.findViewById( R.id.location_next_event_tv_dj_frag);
         genresNextEventDjProf_TV = v.findViewById(R.id.genre_next_event_tv_dj_frag);
@@ -93,6 +102,9 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         twitterContactDj_btn = v.findViewById(R.id.twitter_btn_dj_frag);
         spotifyContactDj_btn = v.findViewById(R.id.spotify_btn_dj_frag);
         imageDjProf = v.findViewById(R.id.thumbnail_iv_dj_frag);
+        documentReference = db.collection(Consts.DB_USERS).document(sharedPref.getMyUserId());
+
+
 //        mainActivity = (MainActivity) getActivity();
 //
 //        if(mainActivity.sharedPref.IsSignedIn() && !mainActivity.sharedPref.getIsDj()) {
@@ -106,8 +118,16 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    djKey = String.valueOf(args.get(Consts.ARG_DJ_ID));
+                    followers.add(sharedPref.getMyUserId());
+                    followersNumDjProf_TV.setText(String.valueOf(followers.size()));
+                    userFollowing.add(djKey);
 
+                    db.collection((Consts.DB_DJS)).document(djKey).
+                            update(Consts.COLUMN_FOLLOWERS_IDS, sharedPref.getMyUserId());
 
+                    db.collection(Consts.DB_USERS).document(sharedPref.getMyUserId()).
+                            update(Consts.COLUMN_FOLLOWING_IDS, userFollowing);
 
             }
         });
@@ -118,6 +138,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
 
 
     }
+
 
 
 
@@ -145,13 +166,22 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
         }
     }
 
+    private void getFollowingOfUser() {
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userFollowing = (ArrayList) documentSnapshot.get(Consts.COLUMN_FOLLOWERS_IDS);
 
+            }
+        });
+
+    }
 
 
 
     private void displayDjProf(DJUser djUser) {
         //region fetch next events from DB and display first one
-        HashMap<String,Object> args = new HashMap();
+       // HashMap<String,Object> args = new HashMap();
         args.put(Consts.ARG_DJ_ID,djUser.getId());
         requestServer.queryFromServer(Consts.REQ_EVENTS_LIST_QUERY,Consts.DJ_PROFILE_FRAG,args);
         //endregion
@@ -175,6 +205,18 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
             layoutParams.rowSpec = GridLayout.spec(r);
             genreTV.setLayoutParams(layoutParams);
             genresDjProf_GL.addView(genreTV);
+
+            if(sharedPref.IsSignedIn() && !sharedPref.getIsDj()) {
+                userFollowing = new ArrayList<>();
+                getFollowingOfUser();
+                if(userFollowing.contains(djUser.getId())) {
+                    followButton.setClickable(false);
+                }
+
+
+
+
+            }
 
         }
 
