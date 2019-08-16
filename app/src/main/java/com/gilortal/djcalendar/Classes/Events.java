@@ -6,58 +6,65 @@ import com.gilortal.djcalendar.Consts;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Events {
 
     private String name, id, location, date, about, picture;
     private ArrayList<String> attending_ids, lineup_ids,genres;
-
-    //region functions
-    //TODO: toHash
-
-    //endregion
+    Map<String,Object> data;
 
 
     //region constructors
 
-
-    public Events(String name, String id, String location, String date, String about, String picture, ArrayList<String> attending_ids, ArrayList<String> lineup_ids, ArrayList<String> genres) {
-        this.name = name;
-        this.id = id;
-        this.location = location;
-        this.date = date;
-        this.about = about;
-        this.picture = picture;
-        this.attending_ids = attending_ids;
-        this.lineup_ids = lineup_ids;
-        this.genres = genres;
-    }
-
     public Events(DocumentSnapshot event) {
-//        name,id,location,date,about,picture; //strings
-//        attending_ids,lineup_ids; //array lists
-        try {id = event.getId(); }catch (Exception e) { e.printStackTrace(); }
-        try {name = event.getString(Consts.COLUMN_NAME);
-        }catch (Exception e) { e.printStackTrace();name = "No Name"; }
-        try {location = event.getString(Consts.COLUMN_LOCATION); }
-        catch (Exception e) { e.printStackTrace();location = "No Location"; }
-        try {date = event.getString(Consts.COLUMN_DATE); }
-        catch (Exception e) { e.printStackTrace();date = "No Date"; }
-        try {about = event.getString(Consts.COLUMN_ABOUT);
-        }catch (Exception e) {e.printStackTrace();about = "No About"; }
-        try { picture = event.getString(Consts.COLUMN_PIC_URL);
-        }catch (Exception e) {e.printStackTrace();picture = "No Picture"; }
-        try {attending_ids = (ArrayList<String>) event.get(Consts.COLUMN_ATTENDING_IDS);
-        }catch (Exception e) {e.printStackTrace();attending_ids = new ArrayList<>(); }
-        try {lineup_ids = (ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);
-        }catch (Exception e) {e.printStackTrace();lineup_ids = new ArrayList<>(); }
-        try {genres = (ArrayList<String>)event.get(Consts.COLUMN_GENRES);}
-        catch (Exception e){e.printStackTrace();genres = new ArrayList<>();}
+        id = event.getId();
+        data = event.getData();
+        for(Map.Entry<String, Object> entry : data.entrySet())
+        {
+            switch(entry.getKey()) {
+                case Consts.COLUMN_NAME:
+                    name = (String) entry.getValue(); break;
+                case Consts.COLUMN_PIC_URL:
+                    picture = (String) entry.getValue(); break;
+                case Consts.COLUMN_ABOUT:
+                    about = (String) entry.getValue(); break;
+                case Consts.COLUMN_DATE:
+                    date = (String) entry.getValue(); break;
+                case Consts.COLUMN_LOCATION:
+                    location = (String) entry.getValue(); break;
 
+            }
 
+        }
 
-//        TODO: construct from snapshot
     }
+//    public Events(DocumentSnapshot event) {
+////        name,id,location,date,about,picture; //strings
+////        attending_ids,lineup_ids; //array lists
+//        try {id = event.getId(); }catch (Exception e) { e.printStackTrace(); }
+//        try {name = event.getString(Consts.COLUMN_NAME);
+//        }catch (Exception e) { e.printStackTrace();name = "No Name"; }
+//        try {location = event.getString(Consts.COLUMN_LOCATION); }
+//        catch (Exception e) { e.printStackTrace();location = "No Location"; }
+//        try {date = event.getString(Consts.COLUMN_DATE); }
+//        catch (Exception e) { e.printStackTrace();date = "No Date"; }
+//        try {about = event.getString(Consts.COLUMN_ABOUT);
+//        }catch (Exception e) {e.printStackTrace();about = "No About"; }
+//        try { picture = event.getString(Consts.COLUMN_PIC_URL);
+//        }catch (Exception e) {e.printStackTrace();picture = "No Picture"; }
+////        try {attending_ids = (ArrayList<String>) event.get(Consts.COLUMN_ATTENDING_IDS);
+////        }catch (Exception e) {e.printStackTrace();attending_ids = new ArrayList<>(); }
+////        try {lineup_ids = (ArrayList<String>) event.get(Consts.COLUMN_LINEUP_IDS);
+////        }catch (Exception e) {e.printStackTrace();lineup_ids = new ArrayList<>(); }
+////        try {genres = (ArrayList<String>)event.get(Consts.COLUMN_GENRES);}
+////        catch (Exception e){e.printStackTrace();genres = new ArrayList<>();}
+//
+//
+//
+////        TODO: construct from snapshot
+//    }
 
 //endregion
 

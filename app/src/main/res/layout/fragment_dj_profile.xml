@@ -11,11 +11,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.UserProfileFragment">
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:background="@color/colorPrimary"
-        tools:ignore="MissingConstraints" />
+        android:layout_width="414dp"
+        android:layout_height="204dp"
+        android:background="@drawable/color_shape"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-3dp" />
 
     <ImageView
         app:layout_constraintTop_toTopOf="parent"
@@ -58,12 +60,12 @@
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:text="Follow"
+        android:textColor="@color/whiteTextColor"
         android:textAlignment="center"
-        android:textSize="8sp"
+        android:background="@drawable/follow_button_shape"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/about_title_ro_tv_dj_frag"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="@+id/follow_ro_tv_dj_frag"
         app:layout_constraintTop_toBottomOf="@+id/follow_ro_tv_dj_frag"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -128,7 +130,7 @@
         android:layout_height="wrap_content"
         style="@style/Profile_TextView"
         android:text="About "
-        />
+        android:background="@drawable/title_shape"/>
     <TextView
     android:hint="Say somthing about yourself...
     \njust a few lines\ntell them what you offer
@@ -136,6 +138,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:lines="4"
+        android:backgroundTint="@color/blackTextColor"
     android:maxLines="4"
     android:id="@+id/about_dj_frag"
     style="@style/Profile_TextView"
@@ -144,13 +147,15 @@
 
     <TextView
         android:id="@+id/genres_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         style="@style/Profile_TextView"
         android:text="Genres: "
+        android:background="@drawable/title_shape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/about_dj_frag" />
@@ -159,9 +164,10 @@
         android:id="@+id/genres_gridlayout_dj_frag"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:columnCount="3"
         android:columnOrderPreserved="false"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/genres_title"
         tools:layout_editor_absoluteX="0dp">
 
@@ -173,6 +179,7 @@
         app:layout_constraintTop_toBottomOf="@id/genres_gridlayout_dj_frag"
         android:gravity="center"
         android:text="Next Event Attending"
+        android:background="@drawable/title_shape"
         android:id="@+id/next_event_tv_ro_title_dj_frag"/>
 
     <android.support.constraint.ConstraintLayout

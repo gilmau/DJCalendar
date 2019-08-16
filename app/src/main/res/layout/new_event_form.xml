@@ -114,15 +114,14 @@
                 android:background="@color/cardview_shadow_end_color"
                 android:layout_gravity="center"
                 android:tag="default"/>
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:padding="5dp"
-                android:background="@color/whiteTextColor"
-                android:id="@+id/event_new_form_lineup_list"
-                android:numColumns="4"
-                android:columnWidth="20dp"
-                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:id ="@+id/add_linup_dj"
+                android:text="add dj "
+                android:background="@drawable/signin_button"/>
         </LinearLayout>
         <Button
             android:layout_width="wrap_content"
@@ -132,5 +131,6 @@
             android:id ="@+id/event_new_form_confirmbtn"
             android:text="Confirm"
             android:background="@drawable/confirm_botton"/>
+
     </LinearLayout>
 </ScrollView>

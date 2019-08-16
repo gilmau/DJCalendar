@@ -62,7 +62,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer {
+        implements NavigationView.OnNavigationItemSelectedListener,  UpdateToServer, MoveToFrag, LoginAuth, RequestDataFromServer
+{
     FirebaseFirestore db;
     public SendServerResponeToFrags serverToFragsListener;
     public CustomSharePrefAdapter sharedPref;
@@ -72,15 +73,12 @@ public class MainActivity extends AppCompatActivity
     String password;
     Bundle savedInstanceState;
     private AlertDialog alertDialog;
-    TextView nameNewEvent, locationNewEvent, dateNewEvent, aboutNewEvent;
-    ImageView imageNewEvent;
-    ListView linupEvent;
+    boolean IScreateNewEvent = false;
     String nameEvent = null, locationEvent, dateEvent, aboutEvent = null;
     Button confirmNewEvent;
     TextView emailtext;
-    public String currentUserKey;
-
-    public static CoordinatorLayout coordinatorLayout;
+    String eventID;
+    boolean newEventInProcess = false;
 
     @Override
     protected void onStart() {
@@ -112,6 +110,7 @@ public class MainActivity extends AppCompatActivity
             ((EventFragment) fragment).fragChanger = this;
             ((EventFragment) fragment).dbUpdater = this;
             ((EventFragment) fragment).requestServer = this;
+
 
         } else if (fragment instanceof LoginFragment) {
             ((LoginFragment) fragment).loginAuth = this;
@@ -154,6 +153,10 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -165,10 +168,8 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d("STATE LISTENER", "new user sign up - listening");
                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                currentUserKey = currentUser.getUid();
-                Toast.makeText(MainActivity.this, currentUserKey, Toast.LENGTH_LONG).show();
 
-                if (currentUser != null) { //user is logged in
+                if (currentUser != null && !newEventInProcess) { //user is logged in
                     sharedPref.setSignedInStatus(true);
                     Log.d("STATE LISTENER", "Signed in");
                     //     userNameDrawerTV.setText(currentUser.getDisplayName());
@@ -182,12 +183,19 @@ public class MainActivity extends AppCompatActivity
                                 if (task.getResult().exists()) {
                                     sharedPref.setIsDj(true);
                                     Log.d("onAuthStateChanged", "user is a dj");
-
-                                    DJUser djUser= new DJUser();
-
                                     navigationView.getMenu().findItem(R.id.nav_statistic).setVisible(false);
                                     navigationView.getMenu().findItem(R.id.nav_dj_list).setVisible(false);
-                                    gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
+                                    loginTV.setText("Welcome!!!");
+                                    if (!IScreateNewEvent) {
+                                        gotToFrag(Consts.DJ_PROFILE_FRAG, currentUser.getUid(), Consts.DB_DJS);
+                                    }
+
+                                    else {
+                                        IScreateNewEvent = false;
+                                        gotToFrag(Consts.EVENT_FRAG, eventID, Consts.DB_EVENTS);
+
+                                    }
+
                                 } else {
                                     Log.d("onAuthStateChanged", "user NOT a dj");
                                     sharedPref.setIsDj(false);
@@ -345,6 +353,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
     private void statistic() {
     }
 
@@ -378,12 +387,16 @@ public class MainActivity extends AppCompatActivity
         alertDialog.dismiss();
     }
 
+
+
+
     private void show_next_event() {
     }
 
     private void signOutUser() {
         Toast.makeText(this, "Bye bye " , Toast.LENGTH_SHORT).show();
         firebaseAuth.signOut();
+        changeFragmentDisplay(Consts.LOGIN_SCREEN_FRAG);
     }
 
     @Override
@@ -468,13 +481,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void NewEventForm(final HashMap eventData, final String collection) {
+        newEventInProcess = false;
+        IScreateNewEvent = true;
         nameEvent = eventData.get(Consts.COLUMN_NAME_EVENT).toString();
         db.collection(collection).add(eventData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()) {
-                    FirebaseUser eventid = firebaseAuth.getCurrentUser();
                     Toast.makeText(MainActivity.this, " The Event save  Successfully ", Toast.LENGTH_SHORT).show();
+                    eventID = task.getResult().getId();
+                   // changeFragmentDisplay(Consts.EVENT_FRAG);
+                    gotToFrag(Consts.EVENT_FRAG,eventID,Consts.DB_EVENTS);
+
+
                 } else {
                     Toast.makeText(MainActivity.this, "The Event save failed ", Toast.LENGTH_SHORT).show();
                 }
@@ -485,11 +504,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void newEventInProcess() {
+        newEventInProcess = true;
+    }
+
+    @Override
     public void queryFromServer(final int requestCode, int fromFragment, HashMap args) {
         switch(requestCode){
-            case Consts.REQ_FOLLOWING_INFO:
-                List<String> followingList = new ArrayList<>();
-                break;
             case Consts.REQ_FOLLOWERS_INFO:
                 //get name, id, picture  | args : followers []
                 break;

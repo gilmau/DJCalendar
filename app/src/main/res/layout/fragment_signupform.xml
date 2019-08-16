@@ -219,7 +219,7 @@
             android:layout_gravity="center"
             android:text="Confirm"
             android:background="@drawable/confirm_botton"
-            android:id="@+id/confirmBox"
+            android:id="@+id/confirmBox_linupeEvent"
             android:textAlignment="center"
             android:textSize="10dp"/>
 

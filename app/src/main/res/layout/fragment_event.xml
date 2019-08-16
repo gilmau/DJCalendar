@@ -9,31 +9,46 @@
     <ImageView
         android:id="@+id/image_event"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="120dp"
 android:src="@drawable/event_background_cover"
         android:scaleType="centerCrop"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
-            android:layout_weight="9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:lines="3"
-            style="@style/Profile_TextView"
-            android:text="Event Name"
             android:id="@+id/name_event_frag"
-            />
+            style="@style/Profile_TextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:lines="3"
+            android:text="Event Name" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/date_lin_event_frag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_menu_date"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/event_new_form_date"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Jul\n24"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:maxLines="1"
+            android:textSize="24sp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:text="Jul-24" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/location_lin_event_frag"
@@ -91,6 +106,7 @@ android:src="@drawable/event_background_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="4"
+        android:maxLines="4"
         style="@style/Profile_TextView"
         android:hint="About the event\ndescribe the karahana
 \ntease the attenders\ntell'em how fun its gonna be!"
@@ -104,12 +120,19 @@ android:src="@drawable/event_background_cover"
         android:columnWidth="20dp"
         />
 
-    <Button
-        android:layout_margin="10dp"
-        android:id="@+id/song_request_btn_event_frag"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="song Request"/>
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/song_request_btn_event_frag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/signin_button"
+            android:text="song Request" />
+    </LinearLayout>
 
 
 </LinearLayout>
