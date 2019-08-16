@@ -226,7 +226,7 @@ public class DjProfileFragment extends Fragment implements SendServerResponeToFr
                                         followButton.setClickable(false);
                                     }
                                 }
-                                else if (!mainActivity.currentUserKey.equals(null)) {
+                                else if (!sharedPref.getMyUserId().equals(null)) {
                                     followButton.setVisibility(View.GONE);
                                 }
                         }
